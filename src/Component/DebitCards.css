@@ -1,0 +1,461 @@
+/* RESET ONLY FOR THIS PAGE */
+.debit-main * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* Main background */
+.debit-main {
+  background: #245aa6;
+  min-height: 100vh;
+  position: relative;
+  transition: filter 0.4s ease, transform 0.4s ease;
+}
+
+.debit-main.blur-background {
+  filter: blur(5px);
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Page container */
+.debit-page {
+  max-width: 420px;
+  margin: auto;
+  padding-bottom: 40px;
+  transition: filter 0.4s ease;
+}
+
+/* Header */
+.debit-header {
+  padding: 16px;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.debit-logo {
+  width: 230px;
+  margin-top: 30px;
+    margin-bottom: -15px;
+    margin-left: -20px;
+}
+
+.debit-menu {
+  font-size: 24px;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.1);
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+.debit-menu:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+}
+
+/* Title */
+.debit-title {
+  text-align: center;
+  color: #fff;
+  margin: 10px 0 20px;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+/* Cards wrapper (MOBILE DEFAULT) */
+.debit-cards-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 0 16px;
+}
+
+/* Card box */
+.debit-card-box {
+  background: linear-gradient(135deg, #66c7f4, #4b88e6);
+  border-radius: 24px;
+  padding: 20px;
+  color: #fff;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  transition: all 0.3s ease;
+}
+
+.debit-card-box:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+}
+
+.debit-card-title {
+  text-align: center;
+  margin-bottom: 16px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* Visa Card */
+.debit-visa-card {
+  height: 160px;
+  border-radius: 16px;
+  padding: 16px;
+  overflow: hidden;
+  position: relative; /* 🔥 REQUIRED */
+}
+
+/* ================= CARD IMAGE LAYERS ================= */
+
+.debit-card-image {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 1;
+}
+
+/* Dark overlay for text visibility */
+.debit-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.15),
+    rgba(0, 0, 0, 0.35)
+  );
+  z-index: 2;
+}
+
+/* Ensure card content stays above image */
+.debit-visa-card > *:not(.debit-card-image):not(.debit-card-overlay) {
+  position: relative;
+  z-index: 3;
+}
+
+
+
+.debit-card-logo {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  width: 55px;
+}
+
+.debit-chip {
+  position: absolute;
+  top: 55px;
+  left: 16px;
+  width: 42px;
+  height: 30px;
+  background: linear-gradient(135deg, #f6d365, #fda085);
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.debit-visa-text {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  font-weight: bold;
+  font-size: 24px;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+.debit-card-number {
+  position: absolute;
+  bottom: 48px;
+  left: 16px;
+  font-size: 18px;
+  letter-spacing: 2px;
+  font-weight: 500;
+  font-family: 'Courier New', monospace;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+}
+
+.debit-card-footer {
+  position: absolute;
+  bottom: 14px;
+  left: 16px;
+  right: 16px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+}
+
+.debit-price {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 10px;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+}
+
+.debit-limit {
+  text-align: center;
+  margin-bottom: 16px;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.debit-features {
+  list-style: none;
+  margin-bottom: 16px;
+  padding-left: 10px;
+}
+
+.debit-features li {
+  margin: 6px 0;
+  font-size: 14px;
+}
+
+.debit-apply-link {
+  text-decoration: none;
+  display: block;
+}
+
+.debit-apply-btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 25px;
+  border: none;
+  background: #d7f1ff;
+  color: #000;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.debit-apply-btn:hover {
+  background: #bfe7ff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.25);
+}
+
+/* THEMES */
+.debit-merchant { background: linear-gradient(135deg, #32c5ff, #b620e0); }
+.debit-classic { background: linear-gradient(135deg, #43cea2, #185a9d); }
+.debit-prime { background: linear-gradient(135deg, #141e30, #243b55); }
+.debit-platinum { background: linear-gradient(135deg, #11998e, #38ef7d); }
+.debit-elite { background: linear-gradient(135deg, #a73737, #7a2828); }
+
+/* ==================== SIDEBAR STYLES ==================== */
+
+/* Sidebar Overlay */
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s ease;
+  backdrop-filter: blur(3px);
+}
+
+.sidebar-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Sidebar */
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: -300px;
+  width: 300px;
+  height: 100%;
+  background: linear-gradient(135deg, #245aa6, #2bbcff);
+  box-shadow: -5px 0 25px rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+  transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.sidebar.active {
+  right: 0;
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 25px 20px;
+  background: rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.sidebar-logo {
+  width: 140px;
+  height: auto;
+}
+
+.close-sidebar {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 32px;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.close-sidebar:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: rotate(90deg);
+}
+
+.sidebar-menu {
+  padding: 20px 0;
+  flex: 1;
+}
+
+.sidebar-item {
+  display: block;
+  padding: 18px 25px;
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 500;
+  border-left: 4px solid transparent;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  margin: 5px 0;
+}
+
+.sidebar-item:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-left: 4px solid #2bbcff;
+  padding-left: 30px;
+  transform: translateX(5px);
+}
+
+.sidebar-item a {
+  color: white;
+  text-decoration: none;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* SMALL MOBILE */
+@media (max-width: 360px) {
+  .debit-card-number {
+    font-size: 15px;
+  }
+  
+  .debit-page {
+    padding: 0 10px;
+  }
+  
+  .debit-menu {
+    width: 40px;
+    height: 40px;
+    font-size: 22px;
+  }
+  
+  .sidebar {
+    width: 280px;
+    right: -280px;
+  }
+}
+
+/* ===================== */
+/* DESKTOP VIEW ONLY */
+/* ===================== */
+@media (min-width: 1024px) {
+  .debit-page {
+    max-width: 1200px;
+    padding: 0 20px;
+  }
+
+  .debit-cards-wrapper {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    padding: 0;
+  }
+
+  /* Make last two cards centered in second row */
+  .debit-card-box:nth-child(4) {
+    grid-column: 1 / span 1;
+  }
+
+  .debit-card-box:nth-child(5) {
+    grid-column: 2 / span 1;
+  }
+  
+  .debit-header {
+    padding: 20px 0;
+  }
+  
+  .debit-logo {
+    width: 200px;
+  }
+  
+  .debit-menu {
+    width: 50px;
+    height: 50px;
+    font-size: 26px;
+  }
+  
+  .debit-title {
+    font-size: 28px;
+    margin: 20px 0 30px;
+  }
+}
+
+/* Tablet View */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .debit-page {
+    max-width: 700px;
+  }
+
+  .debit-cards-wrapper {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+  }
+}
+
+/* Mobile Landscape */
+@media (max-height: 600px) and (orientation: landscape) {
+  .debit-visa-card {
+    height: 140px;
+  }
+  
+  .debit-card-number {
+    bottom: 40px;
+    font-size: 16px;
+  }
+  
+  .debit-card-footer {
+    bottom: 10px;
+  }
+  
+  .sidebar-menu {
+    padding: 10px 0;
+  }
+  
+  .sidebar-item {
+    padding: 12px 20px;
+  }
+}

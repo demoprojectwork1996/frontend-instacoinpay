@@ -1,0 +1,274 @@
+import React, { useState, useEffect } from "react";
+import "./VerificationCode.css";
+import coin from "../assets/Cam2.png";
+import logo from "../assets/logo.png";
+import axios from "axios";
+import { useNavigate, useLocation } from "react-router-dom";
+
+const VerificationCode = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const [otp, setOtp] = useState(["", "", "", "", "", ""]);
+  const [popup, setPopup] = useState({
+    show: false,
+    message: "",
+    success: false,
+  });
+  const [email, setEmail] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Get email from location state (passed from registration)
+  useEffect(() => {
+    if (location.state?.email) {
+      setEmail(location.state.email);
+      localStorage.setItem("verificationEmail", location.state.email);
+    } else {
+      const savedEmail = localStorage.getItem("verificationEmail");
+      if (savedEmail) {
+        setEmail(savedEmail);
+      }
+    }
+  }, [location]);
+
+  const handleChange = (value, index) => {
+    if (!/^[0-9]?$/.test(value)) return;
+
+    const newOtp = [...otp];
+    newOtp[index] = value;
+    setOtp(newOtp);
+
+    // Auto focus next input
+    if (value && index < 5) {
+      document.getElementById(`otp-${index + 1}`).focus();
+    }
+
+    // Auto focus previous input on backspace
+    if (!value && index > 0) {
+      document.getElementById(`otp-${index - 1}`).focus();
+    }
+  };
+
+  const handleKeyDown = (e, index) => {
+    if (e.key === "Backspace" && !otp[index] && index > 0) {
+      document.getElementById(`otp-${index - 1}`).focus();
+    }
+  };
+
+  const handlePaste = (e) => {
+    e.preventDefault();
+    const pastedData = e.clipboardData.getData("text").trim();
+    
+    if (/^\d{6}$/.test(pastedData)) {
+      const otpArray = pastedData.split("").slice(0, 6);
+      setOtp(otpArray);
+      setTimeout(() => {
+        document.getElementById(`otp-5`).focus();
+      }, 0);
+    }
+  };
+
+  const handleSubmit = async () => {
+    const otpCode = otp.join("");
+
+    if (otpCode.length !== 6) {
+      setPopup({
+        show: true,
+        message: "Please enter complete 6-digit code",
+        success: false,
+      });
+      return;
+    }
+
+    if (!email) {
+      setPopup({
+        show: true,
+        message: "Email not found. Please register again.",
+        success: false,
+      });
+      setTimeout(() => {
+        navigate("/register");
+      }, 2000);
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      const res = await axios.post(
+        "https://backend-instacoinpay-1.onrender.com/api/auth/verify-email",
+        {
+          email: email,
+          verificationCode: otpCode,
+        }
+      );
+
+      setPopup({
+        show: true,
+        message: res.data.message || "Email verified successfully!",
+        success: true,
+      });
+
+      // Clear stored email
+      localStorage.removeItem("verificationEmail");
+
+      // Redirect after success
+      setTimeout(() => {
+        navigate("/login", { 
+          state: { 
+            token: res.data.token,
+            user: res.data.data
+          }
+        });
+      }, 2000);
+    } catch (error) {
+      setPopup({
+        show: true,
+        message:
+          error.response?.data?.error || 
+          error.response?.data?.message || 
+          "Invalid or expired verification code",
+        success: false,
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleResendCode = async () => {
+    if (!email) {
+      setPopup({
+        show: true,
+        message: "Email not found",
+        success: false,
+      });
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      await axios.post("https://backend-instacoinpay-1.onrender.com/api/auth/resend-verification", {
+        email: email,
+      });
+
+      setPopup({
+        show: true,
+        message: "New verification code sent to your email",
+        success: true,
+      });
+    } catch (error) {
+      setPopup({
+        show: true,
+        message:
+          error.response?.data?.error ||
+          "Failed to resend verification code",
+        success: false,
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <div className="verify-container">
+      <div className="verify-card">
+        {/* Logo */}
+        <div className="verify-logo">
+          <img src={logo} alt="logo" />
+        </div>
+
+        {/* Coin Image */}
+        <div className="coin-wrapper">
+          <img src={coin} alt="bitcoin" />
+        </div>
+
+        <h2 className="verify-title">Verification Code</h2>
+        <p className="verify-text">
+          We have sent the verification code <br />
+          to your email address
+        </p>
+        
+        {/* Email display */}
+        {email && (
+          <p className="verify-email">
+            <strong>Email:</strong> {email}
+          </p>
+        )}
+
+        {/* OTP Inputs */}
+        <div 
+          className="otp-boxes" 
+          onPaste={handlePaste}
+        >
+          {otp.map((digit, index) => (
+            <input
+              key={index}
+              id={`otp-${index}`}
+              type="text"
+              inputMode="numeric"
+              pattern="[0-9]*"
+              maxLength="1"
+              value={digit}
+              onChange={(e) => handleChange(e.target.value, index)}
+              onKeyDown={(e) => handleKeyDown(e, index)}
+              autoFocus={index === 0}
+              disabled={isLoading}
+            />
+          ))}
+        </div>
+
+        <button 
+          className="submit-btn" 
+          onClick={handleSubmit}
+          disabled={isLoading || otp.join("").length !== 6}
+        >
+          {isLoading ? "Verifying..." : "Submit"}
+        </button>
+
+        <p className="resend-text">
+          Didn't receive code?{" "}
+          <button 
+            className="resend-btn" 
+            onClick={handleResendCode}
+            disabled={isLoading}
+          >
+            Resend Code
+          </button>
+        </p>
+      </div>
+
+      {/* ANIMATED POPUP */}
+      {popup.show && (
+        <div className="verify-popup-overlay">
+          <div className="verify-popup-card">
+            <div className={`verify-icon-box ${popup.success ? "success" : "error"}`}>
+              <svg viewBox="0 0 100 100" className="verify-icon">
+                <circle cx="50" cy="50" r="45" className="verify-circle" />
+                <path
+                  className="verify-path"
+                  d={
+                    popup.success
+                      ? "M30 52 L45 65 L70 38" // checkmark
+                      : "M35 35 L65 65 M65 35 L35 65" // X mark
+                  }
+                />
+              </svg>
+            </div>
+
+            <p className="verify-popup-text">{popup.message}</p>
+
+            <button
+              className="verify-ok-btn"
+              onClick={() => setPopup({ ...popup, show: false })}
+              disabled={isLoading}
+            >
+              OK
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default VerificationCode;

@@ -1,0 +1,174 @@
+/* SCOPED RESET */
+.twc-page * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* Page */
+.twc-page {
+  min-height: 100vh;
+  background: #245aa6;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Logo */
+.twc-logo {
+  width: 100%;
+  display: flex;
+  justify-content: left;
+}
+
+.twc-logo img {
+  height: 100px;
+  margin-bottom: -50px;
+}
+
+/* Card */
+.twc-card {
+  background: #cfeefa;
+  width: 75%;
+  border-radius: 16px;
+  padding: 30px;
+  margin-top: 20px;
+}
+
+/* Header */
+.twc-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+.walletConnect{
+  margin-bottom: -90px;
+margin-left: 315px;
+margin-top: -10px;
+}
+
+.twc-connect-text {
+  font-size: 30px;
+  letter-spacing: 1px;
+  color: #2E78C9;
+  margin-right: -20px;
+}
+
+.twc-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 20px;
+  color: #2c6fcf;
+}
+
+.twc-shield {
+  background: #fff;
+  border-radius: 50%;
+  padding: 6px 10px;
+}
+
+/* Labels */
+.twc-label-email {
+  font-size: 14px;
+  margin: 12px 0 6px;
+  display: block;
+  color: rgb(19, 122, 232);
+}
+
+/* Input */
+.twc-input {
+  width: 100%;
+  padding: 14px;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+}
+
+/* Info */
+.twc-info-text {
+  font-size: 12px;
+  margin-bottom: 12px;
+  color: black;
+}
+
+/* Phrase Box */
+.twc-phrase-box {
+  background: #9ec7f3;
+  padding: 20px;
+  border-radius: 12px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.twc-word-input {
+  padding: 10px;
+  border-radius: 4px;
+  border: none;
+  outline: none;
+  font-size: 13px;
+}
+
+/* Button */
+.twc-connect-btn {
+  margin-top: 20px;
+  width: 100%;
+  padding: 14px;
+  border-radius: 30px;
+  border: none;
+  background: #2f7dd3;
+  color: #fff;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+/* Note */
+.twc-note {
+  margin-top: 10px;
+  font-size: 22px;
+  color:black;
+  text-align: center;
+}
+
+/* ============================= */
+/* RESPONSIVE DESIGN */
+/* ============================= */
+
+@media (max-width: 1024px) {
+  .twc-card {
+    width: 90%;
+  }
+}
+
+@media (max-width: 768px) {
+  .twc-header {
+    flex-direction: column;
+  }
+
+  .twc-phrase-box {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .twc-card {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .twc-phrase-box {
+    grid-template-columns: 1fr;
+  }
+
+  .twc-connect-text {
+    font-size: 22px;
+  }
+
+  .twc-title {
+    font-size: 18px;
+  }
+}

@@ -1,0 +1,303 @@
+/* VerificationCode.css */
+
+.verify-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #24559E 0%);
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.verify-card {
+  background: linear-gradient(135deg, #24559E 0%);
+  border-radius: 20px;
+  padding: 40px;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+   border: 2px solid #ffffff;
+}
+
+.verify-logo {
+  margin-bottom: 30px;
+}
+
+.verify-logo img {
+  height: 170px;
+  margin-bottom: -50px;
+  width: auto;
+}
+.coin-wrapper {
+  margin: 20px auto;
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: float 3s ease-in-out infinite;
+}
+
+.coin-wrapper img {
+  width: 170%;
+  height: 200%;
+  object-fit: contain;
+}
+
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.verify-title {
+  color: #ffffff;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.verify-text {
+  color: #ffffff;
+  font-size: 16px;
+  line-height: 1.5;
+  margin-bottom: 30px;
+}
+
+.verify-email {
+  background: #f8f9fa;
+  padding: 12px 20px;
+  border-radius: 10px;
+  margin-bottom: 30px;
+  color: #555;
+  font-size: 14px;
+  border: 1px solid #e9ecef;
+}
+
+.verify-email strong {
+  color: #333;
+}
+
+.otp-boxes {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 40px;
+}
+
+.otp-boxes input {
+  width: 55px;
+  height: 55px;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 700;
+  color: #333;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.otp-boxes input:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  transform: translateY(-2px);
+}
+
+.otp-boxes input:disabled {
+  background-color: #f8f9fa;
+  cursor: not-allowed;
+}
+
+.submit-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 16px 40px;
+  font-size: 18px;
+  font-weight: 600;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  margin-bottom: 25px;
+}
+
+.submit-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+}
+
+.submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.resend-text {
+  color: black;
+  font-size: 15px;
+  background: white;
+  margin: 0;
+  padding: 8px 14px;      /* needed for visible curve */
+  border-radius: 12px;   /* curve corners */
+  display: inline-block; /* keeps curve tight to content */
+}
+
+
+.resend-btn {
+  background: none;
+  border: none;
+  color: #3e0efe;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0 5px;
+  font-size: 15px;
+  transition: all 0.3s ease;
+}
+
+
+.resend-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* LOGIN STYLE POPUP */
+.verify-popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  animation: overlayFadeIn 0.3s ease forwards;
+}
+
+.verify-popup-card {
+  width: 320px;
+  background: #f4f6f8;
+  padding: 28px 25px;
+  border-radius: 14px;
+  text-align: center;
+  animation: popupIn 0.3s ease;
+}
+
+.verify-icon-box {
+  width: 90px;
+  height: 90px;
+  margin: 0 auto 12px;
+}
+
+.verify-icon {
+  width: 90px;
+  height: 90px;
+}
+
+.verify-circle {
+  fill: none;
+  stroke-width: 6;
+  stroke-dasharray: 283;
+  stroke-dashoffset: 283;
+  animation: drawCircle 0.6s ease forwards;
+}
+
+.verify-path {
+  fill: none;
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-dasharray: 120;
+  stroke-dashoffset: 120;
+  animation: drawPath 0.4s ease forwards;
+  animation-delay: 0.6s;
+}
+
+.verify-icon-box.success .verify-circle,
+.verify-icon-box.success .verify-path {
+  stroke: #2ecc71;
+}
+
+.verify-icon-box.error .verify-circle,
+.verify-icon-box.error .verify-path {
+  stroke: #e74c3c;
+}
+
+.verify-popup-text {
+  font-size: 16px;
+  color: #333;
+  margin: 14px 0 18px;
+}
+
+.verify-ok-btn {
+  padding: 10px 28px;
+  border-radius: 6px;
+  border: none;
+  background: #2d2f34;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.verify-ok-btn:hover {
+  background: #000;
+}
+
+@keyframes overlayFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes popupIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes drawCircle {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes drawPath {
+  to { stroke-dashoffset: 0; }
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .verify-card {
+    padding: 30px 20px;
+  }
+  
+  .otp-boxes {
+    gap: 8px;
+  }
+  
+  .otp-boxes input {
+    width: 45px;
+    height: 45px;
+    font-size: 20px;
+  }
+  
+  .verify-title {
+    font-size: 24px;
+  }
+  
+  .verify-text {
+    font-size: 14px;
+  }
+  
+  .submit-btn {
+    padding: 14px;
+    font-size: 16px;
+  }
+  
+  .coin-wrapper {
+    width: 100px;
+    height: 100px;
+  }
+}

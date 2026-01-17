@@ -1,0 +1,139 @@
+/* Page */
+.report-page {
+  min-height: 100vh;
+  background: #275aa8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Header */
+.report-header {
+  width: 100%;
+  max-width: 900px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.report-logo {
+  position: absolute;
+  left: 0;
+  width: 200px;
+}
+
+.report-header h1 {
+  color: #fff;
+  font-size: 28px;
+  letter-spacing: 1px;
+}
+
+/* Card */
+.report-card {
+  width: 100%;
+  max-width: 850px;
+  background: #cfeef9;
+  border-radius: 20px;
+  padding: 30px;
+  box-sizing: border-box;
+}
+
+.report-card label {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.report-card input,
+.report-card textarea {
+  width: 100%;
+  padding: 14px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  margin-bottom: 18px;
+  font-size: 14px;
+}
+
+.report-card textarea {
+  min-height: 120px;
+  resize: none;
+}
+
+/* File */
+.file-box input {
+  background: #fff;
+  padding: 10px;
+  border-radius: 6px;
+  width: 100%;
+}
+
+/* Submit Button */
+.report-submit-btn {
+  width: 100%;
+  max-width: 850px;
+  margin-top: 35px;
+  padding: 16px;
+  font-size: 22px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  background: linear-gradient(to right, #35c3ff, #1d5dff);
+  color: #000;
+  font-weight: 500;
+
+}
+
+/* ========================= */
+/* 📱 Mobile Responsive */
+/* ========================= */
+@media (max-width: 768px) {
+  .report-header h1 {
+    font-size: 22px;
+  }
+
+  .report-logo {
+    width: 120px;
+    margin-bottom: -20px;
+  }
+
+  .report-card {
+    padding: 20px;
+  }
+
+  .submit-btn {
+    font-size: 18px;
+    padding: 14px;
+  }
+}
+
+/* ========================= */
+/* 📱 Small Devices */
+/* ========================= */
+@media (max-width: 480px) {
+  .report-header {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .report-logo {
+    position: static;
+  }
+
+  .report-header h1 {
+    font-size: 20px;
+  }
+
+  .report-card {
+    border-radius: 16px;
+  }
+
+  .submit-btn {
+    border-radius: 8px;
+  }
+}

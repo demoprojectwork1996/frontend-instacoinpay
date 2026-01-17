@@ -1,0 +1,138 @@
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* Wrapper */
+.currency-wrapper {
+  min-height: 100vh;
+  background: #255aa8; /* same login background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+/* Main Card – Glass Effect */
+.currency-card {
+  width: 100%;
+  max-width: 420px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1.5px solid rgba(255, 255, 255, 0.6);
+  border-radius: 22px;
+  padding: 30px 22px;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+}
+
+/* Title */
+.currency-title {
+  color: #ffffff;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 22px;
+}
+
+/* Currency List */
+.currency-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Currency Item */
+.currency-item {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 18px;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border: 1.5px solid #ccecf7; /* login input color */
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+/* Hover Effect */
+.currency-item:hover {
+  transform: scale(1.03);
+  border-color: #255aa8;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+}
+
+/* Icon */
+.currency-item img {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+}
+
+/* Text */
+.currency-item span {
+  font-size: 16px;
+  font-weight: 600;
+  color: #111;
+}
+
+/* ================= RESPONSIVE ================= */
+
+/* Tablets */
+@media (max-width: 768px) {
+  .currency-title {
+    font-size: 18px;
+  }
+
+  .currency-item {
+    padding: 12px 14px;
+  }
+
+  .currency-item img {
+    width: 38px;
+    height: 38px;
+  }
+
+  .currency-item span {
+    font-size: 15px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .currency-card {
+    max-width: 100%;
+    padding: 26px 18px;
+  }
+
+  .currency-title {
+    font-size: 17px;
+  }
+
+  .currency-item {
+    padding: 12px;
+    border-radius: 16px;
+  }
+
+  .currency-item img {
+    width: 34px;
+    height: 34px;
+  }
+
+  .currency-item span {
+    font-size: 14px;
+  }
+}
+
+/* Small Phones */
+@media (max-width: 360px) {
+  .currency-title {
+    font-size: 16px;
+  }
+
+  .currency-item span {
+    font-size: 13px;
+  }
+}

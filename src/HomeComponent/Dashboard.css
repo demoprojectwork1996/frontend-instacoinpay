@@ -1,0 +1,1287 @@
+* {
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.dashboard {
+  min-height: 100vh;
+  background: #245aa6;
+  padding: 20px 50px;
+  color: #fff;
+  padding-left: 120px;
+  padding-right: 120px;
+  position: relative;
+  overflow-x: hidden;
+  transition: filter 0.4s ease, transform 0.4s ease;
+}
+
+.dashboard.blur-background {
+  filter: blur(5px);
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.header img {
+  width: 180px;
+  height: auto;
+  margin-top: 30px;
+  margin-bottom: -30px;
+}
+
+.menu {
+  font-size: 28px;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.1);
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 30px;
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+.menu:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+}
+
+.dash-logo {
+  width: 130px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 2;
+}
+
+/* Sidebar Styles */
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s ease;
+  backdrop-filter: blur(3px);
+}
+
+.sidebar-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: -300px;
+  width: 300px;
+  height: 100%;
+  background: linear-gradient(135deg, #245aa6, #2bbcff);
+  box-shadow: -5px 0 25px rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+  transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.sidebar.active {
+  right: 0;
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 25px 20px;
+  background: rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.sidebar-logo {
+  width: 140px;
+  height: auto;
+}
+
+.close-sidebar {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 32px;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.close-sidebar:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: rotate(90deg);
+}
+
+.sidebar-menu {
+  padding: 20px 0;
+  flex: 1;
+}
+
+.sidebar-item {
+  display: block;
+  padding: 18px 25px;
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 500;
+  border-left: 4px solid transparent;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  margin: 5px 0;
+}
+
+.sidebar-item:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-left: 4px solid #2bbcff;
+  padding-left: 30px;
+  transform: translateX(5px);
+}
+
+.sidebar-item a {
+  color: white;
+  text-decoration: none;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Top section */
+.top-section {
+  display: flex;
+  gap: 50px;
+  margin-top: 10px;
+}
+
+.balance-card {
+  width: 600px;          /* ✅ SAME AS VISA */
+  height: 350px;         /* ✅ SAME AS VISA */
+  background: #8fd4ec;
+  border-radius: 26px;   /* match visa radius */
+  padding: 30px;
+  color: #000;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.45),
+              inset 0 1px 0 rgba(255, 255, 255, 0.4);
+
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  margin-top: 32px;
+}
+
+
+.balance-card:hover {
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25), 
+              0 8px 15px rgba(0, 0, 0, 0.2),
+              inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  transform: translateY(-3px);
+}
+
+.balance-card .connect {
+  position: absolute;
+  right: 20px;
+  top: 15px;
+  background: #b8ebff;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #245aa6;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
+
+.balance-card .connect:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.balance-card p {
+  margin-top: 10px;
+  color: #333;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.balance-card h2 {
+  margin: 10px 0 20px;
+  font-size: 36px;
+  font-weight: 700;
+  color: #000;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: auto;
+}
+
+.actions div {
+  background: #b8ebff;
+  width: 65px;
+  height: 65px;
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15),
+              inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.actions div:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2),
+              inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.actions div span {
+  font-size: 12px;
+  margin-top: 6px;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Visa Container */
+.visa-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Visa Card */
+.visa-card {
+  flex: 1 1;
+  background: linear-gradient(135deg, #2bbcff, #8e3aa7);
+  border-radius: 22px;
+  padding: 25px;
+  color: #fff;
+  min-height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3),
+              0 8px 20px rgba(0, 0, 0, 0.25),
+              inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  transition: all 0.3s ease;
+  margin-left: 0px;
+}
+
+.visa-card:hover {
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35),
+              0 12px 25px rgba(0, 0, 0, 0.3),
+              inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  filter: brightness(1.03);
+}
+
+
+
+.visa-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+  background-size: 20px 20px;
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+.visa-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.03) 50%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Visa Top Row */
+.visa-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  position: relative;
+  z-index: 1;
+  margin-top: 30px;
+}
+
+.chip-img img {
+  width: 45px;
+  height: auto;
+  filter: brightness(1.2);
+  margin-top: 20px;
+}
+
+/* Visa Right Section */
+.visa-right-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+}
+
+.visa-inactive {
+  color: #ff6b6b;
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 5px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.visa-text {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Card Number */
+.card-number {
+  font-size: 22px;
+  letter-spacing: 3px;
+  margin: 20px 0;
+  font-weight: 500;
+  font-family: 'Courier New', monospace;
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  word-spacing: 10px;
+  margin-right: 80px;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+  margin-top: -20px;
+}
+
+/* Bottom Section */
+.visa-bottom {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  z-index: 1;
+  margin-top: -30px;
+}
+
+.dashboard-dashboard-label {
+  font-size: 11px;
+  opacity: 0.8;
+  display: block;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.value {
+  font-size: 16px;
+  font-weight: 600;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Right align expiry */
+.expiry {
+  text-align: right;
+}
+
+/* Assets */
+.assets-title {
+  margin: 40px 0 20px;
+  font-size: 22px;
+  font-weight: 600;
+  color: #fff;
+  padding-bottom: 10px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.assets {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+}
+
+.asset-card {
+  background: #fff;
+  color: #000;
+  border-radius: 16px;
+  padding: 18px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15),
+              0 4px 10px rgba(0, 0, 0, 0.1),
+              inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.asset-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #245aa6, #2bbcff);
+  opacity: 0.8;
+}
+
+.asset-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2),
+              0 8px 15px rgba(0, 0, 0, 0.15),
+              inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+.asset-card img {
+  width: 45px;
+  height: 45px;
+  border-radius: 10px;
+  object-fit: cover;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+.asset-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.asset-info strong {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.asset-info span {
+  font-size: 13px;
+  color: #666;
+  font-weight: 500;
+}
+
+.asset-price {
+  text-align: right;
+  margin-right: 200px;
+}
+
+.asset-price strong {
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.asset-price span {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.asset-balance {
+  font-weight: 700;
+  font-size: 16px;
+  color: #245aa6;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.green {
+  color: #00c853;
+}
+
+.red {
+  color: #ff3b30;
+}
+
+/* ================= RESPONSIVE DESIGN ================= */
+
+/* Tablets and small desktops */
+@media (max-width: 1024px) {
+  .dashboard {
+    padding: 18px 40px;
+  }
+  
+  .header img {
+    width: 160px;
+  }
+  
+  .balance-card h2 {
+    font-size: 32px;
+  }
+  
+  .actions div {
+    width: 60px;
+    height: 60px;
+    font-size: 22px;
+  }
+  
+  .card-number {
+    font-size: 20px;
+    word-spacing: 8px;
+  }
+  
+  .sidebar {
+    width: 280px;
+    right: -280px;
+  }
+}
+
+/* Tablets in portrait mode */
+@media (max-width: 900px) {
+  .top-section {
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .balance-card, .visa-container {
+    width: 100%;
+  }
+  
+  .balance-card {
+    min-height: 220px;
+  }
+  
+  .visa-card {
+    min-height: 220px;
+  }
+  
+  .assets {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .dash-logo {
+    width: 110px;
+    top: 20px;
+    left: 20px;
+  }
+}
+
+/* Large mobile phones */
+@media (max-width: 768px) {
+  .dashboard {
+    padding: 16px 30px;
+  }
+  
+  .header {
+    margin-bottom: 15px;
+  }
+  
+  .header img {
+    width: 140px;
+  }
+  
+  .menu {
+    width: 40px;
+    height: 40px;
+    font-size: 24px;
+  }
+  
+  .balance-card {
+    padding: 18px;
+    min-height: 200px;
+  }
+  
+  .balance-card .connect {
+    padding: 6px 14px;
+    font-size: 12px;
+  }
+  
+  .balance-card p {
+    font-size: 15px;
+  }
+  
+  .balance-card h2 {
+    font-size: 28px;
+    margin: 8px 0 16px;
+  }
+  
+  .actions {
+    margin-top: 10px;
+  }
+  
+  .actions div {
+    width: 55px;
+    height: 55px;
+    font-size: 20px;
+    border-radius: 12px;
+  }
+  
+  .actions div span {
+    font-size: 11px;
+    margin-top: 5px;
+  }
+  
+  .visa-card {
+    padding: 20px;
+    min-height: 200px;
+    border-radius: 20px;
+  }
+  
+  .dash-logo {
+    width: 100px;
+    top: 18px;
+    left: 18px;
+  }
+  
+  .chip-img img {
+    width: 40px;
+  }
+  
+  .visa-inactive {
+    font-size: 13px;
+  }
+  
+  .visa-text {
+    font-size: 22px;
+  }
+  
+  .card-number {
+    font-size: 18px;
+    letter-spacing: 2.5px;
+    margin: 15px 0;
+    word-spacing: 8px;
+  }
+  
+  .dashboard-label {
+    font-size: 10px;
+  }
+  
+  .value {
+    font-size: 14px;
+  }
+  
+  .assets-title {
+    margin: 30px 0 15px;
+    font-size: 20px;
+  }
+  
+  .assets {
+    gap: 14px;
+  }
+  
+  .asset-card {
+    padding: 16px;
+    border-radius: 14px;
+  }
+  
+  .asset-card img {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .asset-info strong {
+    font-size: 15px;
+  }
+  
+  .asset-info span {
+    font-size: 12px;
+  }
+  
+  .asset-price {
+    margin-right: 15px;
+  }
+  
+  .asset-price strong {
+    font-size: 15px;
+  }
+  
+  .asset-price span {
+    font-size: 12px;
+  }
+  
+  .asset-balance {
+    font-size: 15px;
+  }
+  
+  .sidebar {
+    width: 260px;
+    right: -260px;
+  }
+}
+
+/* Medium mobile phones */
+@media (max-width: 600px) {
+  .dashboard {
+    padding: 14px 20px;
+  }
+  
+  .assets {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .asset-card {
+    padding: 15px;
+  }
+  
+  .asset-info strong {
+    font-size: 14px;
+  }
+  
+  .asset-price strong {
+    font-size: 14px;
+  }
+  
+  .asset-balance {
+    font-size: 14px;
+  }
+  
+  .card-number {
+    font-size: 16px;
+    letter-spacing: 2px;
+    word-spacing: 6px;
+  }
+  
+  .dash-logo {
+    width: 90px;
+    top: 15px;
+    left: 15px;
+  }
+  
+  .sidebar {
+    width: 250px;
+    right: -250px;
+  }
+  
+  .sidebar-item {
+    padding: 16px 20px;
+    font-size: 15px;
+  }
+}
+
+/* Small mobile phones */
+@media (max-width: 480px) {
+  .dashboard {
+    padding: 14px 15px;
+  }
+  
+  .header img {
+    width: 120px;
+  }
+  
+  .menu {
+    width: 36px;
+    height: 36px;
+    font-size: 22px;
+  }
+  
+  .balance-card {
+    padding: 16px;
+    min-height: 180px;
+    border-radius: 16px;
+  }
+  
+  .balance-card .connect {
+    font-size: 11px;
+    padding: 5px 12px;
+    right: 16px;
+    top: 12px;
+  }
+  
+  .balance-card p {
+    font-size: 14px;
+    margin-top: 8px;
+  }
+  
+  .balance-card h2 {
+    font-size: 24px;
+    margin: 6px 0 12px;
+  }
+  
+  .actions {
+    margin-top: 8px;
+  }
+  
+  .actions div {
+    width: 50px;
+    height: 50px;
+    font-size: 18px;
+    border-radius: 10px;
+  }
+  
+  .actions div span {
+    font-size: 10px;
+    margin-top: 4px;
+  }
+  
+  .visa-card {
+    padding: 18px;
+    min-height: 180px;
+    border-radius: 18px;
+  }
+  
+  .dash-logo {
+    width: 80px;
+    top: 15px;
+    left: 15px;
+  }
+  
+  .chip-img img {
+    width: 35px;
+  }
+  
+  .visa-inactive {
+    font-size: 12px;
+    margin-top: -30px;
+  }
+  
+  .visa-text {
+    font-size: 20px;
+    margin-top: -10px;
+  }
+  
+  .card-number {
+    font-size: 15px;
+    letter-spacing: 2px;
+    margin: 10px 0;
+    word-spacing: 5px;
+    margin-top: -40px;
+  }
+  
+  .visa-top {
+    margin-top: 25px;
+  }
+  
+  .dashboard-label {
+    font-size: 9px;
+  }
+  
+  .value {
+    font-size: 13px;
+  }
+  
+  .assets-title {
+    margin: 25px 0 12px;
+    font-size: 18px;
+  }
+  
+  .assets {
+    gap: 10px;
+  }
+  
+  .asset-card {
+    padding: 14px;
+    border-radius: 12px;
+    gap: 12px;
+  }
+  
+  .asset-card img {
+    width: 35px;
+    height: 35px;
+  }
+  
+  .asset-info strong {
+    font-size: 13px;
+  }
+  
+  .asset-info span {
+    font-size: 11px;
+  }
+  
+  .asset-price {
+    margin-right: 60px;
+  }
+  
+  .asset-price strong {
+    font-size: 13px;
+  }
+  
+  .asset-price span {
+    font-size: 11px;
+  }
+  
+  .asset-balance {
+    font-size: 13px;
+  }
+  
+  .sidebar {
+    width: 240px;
+  }
+  
+  .sidebar-header {
+    padding: 20px 15px;
+  }
+  
+  .sidebar-logo {
+    width: 120px;
+  }
+  
+  .sidebar-item {
+    padding: 14px 18px;
+    font-size: 14px;
+  }
+}
+
+/* Very small mobile phones */
+@media (max-width: 375px) {
+  .dashboard {
+    padding: 12px 10px;
+  }
+  
+  .header img {
+    width: 110px;
+  }
+  
+  .menu {
+    width: 34px;
+    height: 34px;
+    font-size: 20px;
+  }
+  
+  .balance-card {
+    padding: 14px;
+    min-height: 170px;
+  }
+  
+  .balance-card .connect {
+    font-size: 10px;
+    padding: 4px 10px;
+  }
+  
+  .balance-card h2 {
+    font-size: 22px;
+  }
+  
+  .actions div {
+    width: 45px;
+    height: 45px;
+    font-size: 16px;
+  }
+  
+  .actions div span {
+    font-size: 9px;
+  }
+  
+  .visa-card {
+    padding: 16px;
+    min-height: 170px;
+  }
+  
+  .dash-logo {
+    width: 70px;
+    top: 12px;
+    left: 12px;
+  }
+  
+  .chip-img img {
+    width: 32px;
+  }
+  
+  .visa-inactive {
+    font-size: 11px;
+  }
+  
+  .visa-text {
+    font-size: 18px;
+  }
+  
+  .card-number {
+    font-size: 14px;
+    letter-spacing: 1.5px;
+    margin: 8px 0;
+    word-spacing: 4px;
+    margin-top: -40px;
+  }
+  
+  .visa-top {
+    margin-top: 20px;
+  }
+  
+  .dashboard-label {
+    font-size: 8px;
+  }
+  
+  .value {
+    font-size: 12px;
+  }
+  
+  .assets-title {
+    font-size: 16px;
+    margin: 20px 0 10px;
+  }
+  
+  .asset-card {
+    padding: 12px;
+    gap: 10px;
+  }
+  
+  .asset-card img {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .asset-info strong {
+    font-size: 12px;
+  }
+  
+  .asset-price strong {
+    font-size: 12px;
+  }
+  
+  .asset-balance {
+    font-size: 12px;
+  }
+  
+  .sidebar {
+    width: 220px;
+  }
+  
+  .sidebar-item {
+    padding: 12px 16px;
+    font-size: 13px;
+  }
+}
+
+/* Landscape mode for mobile */
+@media (max-height: 600px) and (orientation: landscape) {
+  .dashboard {
+    padding: 10px 15px;
+  }
+  
+  .balance-card {
+    min-height: 160px;
+    padding: 12px;
+  }
+  
+  .visa-card {
+    min-height: 160px;
+    padding: 15px;
+  }
+  
+  .card-number {
+    margin: 10px 0;
+    font-size: 14px;
+  }
+  
+  .assets-title {
+    margin: 15px 0 10px;
+  }
+  
+  .visa-top {
+    margin-top: 15px;
+  }
+  
+  .sidebar-menu {
+    padding: 10px 0;
+  }
+  
+  .sidebar-item {
+    padding: 12px 20px;
+  }
+}
+
+/* ===== VISA FLIP ===== */
+.visa-container {
+  perspective: 1200px;
+}
+
+.visa-flip {
+  position: relative;
+  width: 100%;
+  height: 260px; /* 👈 FIXED HEIGHT = NO GLITCH */
+  transform-style: preserve-3d;
+  transition: transform 0.75s cubic-bezier(0.22, 0.61, 0.36, 1);
+  cursor: pointer;
+  will-change: transform;
+}
+
+
+.visa-flip.flipped {
+  transform: rotateY(180deg);
+}
+
+.visa-front,
+.visa-back {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+
+.visa-back {
+  transform: rotateY(180deg);
+}
+
+/* Shadow adjustment during flip */
+.visa-flip.flipped .visa-front {
+  box-shadow: none;
+}
+
+.visa-flip.flipped .visa-back {
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+}
+
+
+/* ===== VISA BACK (IMAGE MATCHED DESIGN) ===== */
+
+.visa-back {
+  background: linear-gradient(135deg, #2bbcff, #8e3aa7);
+  color: #fff;
+  padding: 20px;
+}
+
+/* Top text strip */
+.visa-support {
+  font-size: 11px;
+  text-align: center;
+  padding: 6px 8px;
+  background: rgba(0,0,0,0.25);
+  border-radius: 6px;
+  margin-bottom: 12px;
+}
+
+/* Black magnetic strip */
+.magnetic-strip {
+  height: 46px;
+  background: linear-gradient(
+    90deg,
+    #000,
+    #222,
+    #000
+  );
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+
+
+.visa-status {
+  position: absolute;
+  top: 70px;
+  right: 280px;
+  z-index: 5;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 1px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+.visa-active {
+  background: linear-gradient(135deg, #38ef7d, #11998e);
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  color: #fff;
+}
+
+.visa-inactive {
+  background: linear-gradient(135deg, #ff416c, #ff4b2b);
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  color: #fff;
+}
+
+.visa-pending {
+  background: linear-gradient(135deg, #f6d365, #fda085);
+  color: #ffffff;
+}
+/* Thin red strip under magnetic strip */
+
+
+/* Signature + CVV row */
+.signature-cvv-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+/* Signature strip */
+.signature-strip {
+  flex: 1;
+  height: 36px;
+  background: repeating-linear-gradient(
+    0deg,
+    #f5f5f5,
+    #f5f5f5 3px,
+    #dcdcdc 3px,
+    #dcdcdc 6px
+  );
+  border-radius: 4px;
+}
+
+/* CVV */
+.cvv-box {
+  width: 55px;
+  height: 36px;
+  /* background: #fff; */
+  color: #000;
+  font-weight: 700;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  letter-spacing: 1px;
+}
+
+/* Disclaimer */
+.visa-disclaimer {
+  font-size: 10px;
+  line-height: 1.5;
+  opacity: 0.85;
+}
+
+.visa-back .brand-strip {
+  height: 8px;
+  background: linear-gradient(
+    90deg,
+    #2bbcff,
+    #6a7bff,
+    #8e3aa7
+  );
+  border-radius: 4px;
+  margin-bottom: 16px;
+  box-shadow: inset 0 1px 2px rgba(255,255,255,0.35);
+}

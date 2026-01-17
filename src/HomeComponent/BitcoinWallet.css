@@ -1,0 +1,174 @@
+* {
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+/* Page */
+.bw-wrapper {
+  min-height: 100vh;
+  background: #2559a6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+/* Card */
+.bw-card {
+  width: 100%;
+  max-width: 420px;
+  background: #2559a6;
+  border-radius: 22px;
+  padding: 24px;
+  border: 2px solid rgba(255,255,255,0.35);
+  color: #fff;
+}
+
+/* Header */
+.bw-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.bw-back {
+  font-size: 22px;
+  cursor: pointer;
+}
+.btc-amount {
+  color: black;
+  display: block;
+  text-align: center;
+  margin-right: 30px;
+  font-weight: 500;
+}
+
+
+.bw-coin {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bw-coin img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
+/* Balance */
+.bw-balance {
+  text-align: center;
+  margin: 22px 0;
+}
+
+.bw-balance h1 {
+  font-size: 30px;
+}
+
+.bw-price {
+  color: #cfefff;
+  font-size: 14px;
+}
+
+.bw-change.red { color: #ffb3b3; }
+.bw-change.green { color: #9cffb7; }
+
+/* Chart */
+.bw-chart {
+  background: rgba(255,255,255,0.15);
+  border-radius: 14px;
+  padding: 10px;
+}
+
+.bw-chart svg {
+  width: 100%;
+  height: 120px;
+}
+
+/* Tabs */
+.bw-tabs {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  margin: 12px 0;
+  color: #cfefff;
+}
+
+.bw-tabs .active {
+  color: #fff;
+  font-weight: bold;
+}
+
+/* Actions */
+.bw-actions {
+  display: flex;
+  justify-content: space-around;
+  margin: 18px 0;
+}
+
+.bw-action {
+  text-align: center;
+  cursor: pointer;
+}
+
+.bw-action-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  background: #cfefff;
+  color: #2559a6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+/* Transactions */
+.bw-tx {
+  background: rgba(255,255,255,0.15);
+  border-radius: 14px;
+  padding: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.bw-tx-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.bw-tx-icon {
+  width: 32px;
+  height: 32px;
+  background: #cfefff;
+  color: #2559a6;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.bw-tx-left span {
+  font-size: 12px;
+  color: #d9ecff;
+}
+
+.bw-tx-amount.sent { color: #ffb3b3; }
+.bw-tx-amount.received { color: #9cffb7; }
+.bw-tx-amount.pending { color: #ffe08a; }
+
+/* Responsive */
+@media (max-width: 480px) {
+  .bw-card {
+    padding: 20px;
+  }
+
+  .bw-balance h1 {
+    font-size: 26px;
+  }
+}

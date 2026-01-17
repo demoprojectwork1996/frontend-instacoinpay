@@ -1,0 +1,205 @@
+/* AdminAccountCreate.css */
+
+.page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.container {
+  max-width: 800px;
+  margin: 40px auto;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07);
+  overflow: hidden;
+  padding: 40px;
+}
+
+.container h2 {
+  color: #2d3748;
+  margin-bottom: 30px;
+  font-size: 28px;
+  text-align: center;
+  font-weight: 600;
+  position: relative;
+  padding-bottom: 15px;
+}
+
+.container h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 4px;
+  background: linear-gradient(to right, #4f46e5, #7c3aed);
+  border-radius: 2px;
+}
+
+/* Toggle buttons */
+.toggle {
+  display: flex;
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 6px;
+  margin-bottom: 30px;
+  border: 1px solid #e2e8f0;
+}
+
+.btn, .btnAccount {
+  flex: 1;
+  padding: 14px;
+  border: none;
+  background: transparent;
+  font-size: 16px;
+  font-weight: 600;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  outline: none;
+}
+
+.btn:hover {
+  background: #edf2f7;
+  color: #4f46e5;
+}
+
+.btnAccount.active {
+  background: linear-gradient(to right, #4f46e5, #7c3aed);
+  color: white;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+}
+
+/* Form box */
+.box {
+  background: #f8fafc;
+  border-radius: 16px;
+  padding: 30px;
+  border: 1px solid #e2e8f0;
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.box input {
+  width: 100%;
+  padding: 16px 20px;
+  margin-bottom: 20px;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  background: white;
+  color: #2d3748;
+  box-sizing: border-box;
+}
+
+.box input:focus {
+  outline: none;
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+}
+
+.box input::placeholder {
+  color: #94a3b8;
+}
+
+.box input[type="file"] {
+  padding: 14px;
+  background: white;
+  border: 2px dashed #cbd5e1;
+  cursor: pointer;
+  text-align: center;
+  color: #64748b;
+}
+
+.box input[type="file"]:hover {
+  border-color: #94a3b8;
+}
+
+.box p {
+  text-align: center;
+  color: #475569;
+  margin: 15px 0 25px;
+  font-size: 15px;
+}
+
+/* Buttons */
+.box button {
+  width: 100%;
+  padding: 18px;
+  background: linear-gradient(to right, #4f46e5, #7c3aed);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+  letter-spacing: 0.5px;
+}
+
+.box button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(79, 70, 229, 0.3);
+}
+
+.box button:active {
+  transform: translateY(0);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .container {
+    padding: 25px;
+    margin: 20px;
+  }
+  
+  .container h2 {
+    font-size: 24px;
+  }
+  
+  .toggle {
+    flex-direction: column;
+  }
+  
+  .btn, .btnAccount {
+    margin-bottom: 5px;
+  }
+  
+  .box {
+    padding: 20px;
+  }
+  
+  .box input {
+    padding: 14px 16px;
+    font-size: 15px;
+  }
+  
+  .box button {
+    padding: 16px;
+    font-size: 16px;
+  }
+}
+
+/* Success/Error message styling for alerts */
+::placeholder {
+  color: #a0aec0;
+}
+
+/* Password field specific styling */
+.box input[type="password"] {
+  letter-spacing: 2px;
+}
+
+.box input[type="password"]::placeholder {
+  letter-spacing: normal;
+}

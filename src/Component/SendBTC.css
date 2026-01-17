@@ -1,0 +1,268 @@
+/* Page */
+.btc-send-page {
+  min-height: 100vh;
+  background: #245aa6;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Logo */
+.btc-send-logo {
+  max-width: 200px;
+  margin-bottom: 10px;
+}
+
+.btc-send-logo img {
+  width: 100%;
+}
+
+/* Card */
+.btc-send-card {
+  background: #cfeefa;
+  width: 100%;
+  max-width: 500px;
+  border-radius: 18px;
+  padding: 20px;
+}
+
+/* Title */
+.btc-title {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: black;
+}
+
+/* Form */
+.btc-form-group {
+  margin-bottom: 18px;
+  position: relative;
+}
+
+.btc-form-group label {
+  font-size: 14px;
+  margin-bottom: 6px;
+  display: block;
+  color: black;
+}
+
+.btc-form-group input {
+  width: 100%;
+  padding: 14px;
+  border-radius: 6px;
+  border: none;
+  font-size: 16px;
+}
+
+/* Dropdown */
+.btc-dropdown {
+  background: #fff;
+  padding: 14px;
+  border-radius: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.btc-selected {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btc-selected img {
+  width: 24px;
+  height: 24px;
+}
+/* Dropdown Menu */
+.btc-dropdown-menu {
+  position: absolute;
+  width: 100%;
+  background: #ffffff;
+  margin-top: 6px;
+  border-radius: 10px;
+  max-height: 280px;
+  overflow-y: auto;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+  z-index: 100;
+}
+
+/* Dropdown Item */
+.btc-dropdown-item {
+  padding: 12px 14px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.btc-dropdown-item:hover {
+  background: #eaf6ff;
+}
+
+/* Coin Row */
+.btc-coin-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* Coin Icon */
+.btc-coin-left img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+/* Coin Text */
+.btc-coin-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.btc-coin-text strong {
+  font-size: 14px;
+  color: #000;
+}
+
+.btc-coin-text small {
+  font-size: 12px;
+  color: #666;
+}
+
+.arrow {
+  transition: transform 0.3s ease;
+}
+
+.arrow.rotate {
+  transform: rotate(180deg);
+}
+
+.btc-dropdown-menu {
+  background: #fff;
+  margin-top: 6px;
+  border-radius: 8px;
+  max-height: 250px;
+  overflow-y: auto;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+}
+
+.btc-dropdown-item {
+  padding: 12px;
+  cursor: pointer;
+}
+
+.btc-dropdown-item:hover {
+  background: #f0f8ff;
+}
+
+.btc-coin-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.btc-coin-left img {
+  width: 26px;
+  height: 26px;
+}
+
+/* Amount */
+.btc-amount-box {
+  display: flex;
+  background: #fff;
+  border-radius: 6px;
+}
+
+.btc-amount-box input {
+  flex: 1;
+  border: none;
+  padding: 14px;
+}
+
+.btc-amount-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 12px;
+}
+
+.btc-max {
+  color: #f5a623;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Available */
+.btc-available {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  margin-bottom: 12px;
+  color: black;
+}
+
+/* Info */
+.btc-info {
+  font-size: 12px;
+  border-top: 1px solid #9cc6e6;
+  padding-top: 10px;
+  margin-bottom: 12px;
+  color: black;
+}
+
+/* Bottom */
+.btc-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  border-top: 1px solid #9cc6e6;
+  padding-top: 12px;
+}
+
+.btc-receive strong {
+  font-size: 16px;
+  color: black;
+}
+
+.btc-receive p {
+  font-size: 14px;
+  color: black;
+}
+
+.btc-receive small {
+  font-size: 12px;
+  color: black;
+}
+
+.btc-withdraw-btn {
+  width: 100%;
+  padding: 16px;
+  border-radius: 8px;
+  border: none;
+  background: linear-gradient(to right, #35d1ff, #1b6cff);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-left: 400px;
+}
+
+/* Responsive */
+@media (min-width: 768px) {
+  .btc-send-card {
+    max-width: 650px;
+    padding: 30px;
+  }
+
+  .btc-bottom {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .btc-withdraw-btn {
+    width: auto;
+    padding: 18px 30px;
+  }
+}

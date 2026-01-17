@@ -1,0 +1,189 @@
+.user-form-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #24559E;
+}
+
+.user-form-card {
+  background: #C0E3F1;
+  width: 420px;
+  padding: 30px;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+}
+
+.user-form-logo {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.user-form-logo img {
+  width: 250px;
+  margin-bottom: -50px;
+}
+
+.user-form-title {
+  text-align: center;
+  margin-bottom: 24px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.user-form-group {
+  margin-bottom: 16px;
+}
+
+.user-form-group label {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.user-form-input-box {
+  display: flex;
+  align-items: center;
+  background: #f1f3f5;
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+
+.user-form-input-box input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 14px;
+}
+
+.user-form-input-box svg {
+  color: #555;
+}
+
+.user-form-submit-btn {
+  width: 100%;
+  padding: 12px;
+  background: #3498db;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+/* POPUP */
+
+/* Overlay */
+.user-form-popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+/* Card */
+.user-form-popup-card {
+  background: #ffffff;
+  width: 340px;
+  border-radius: 22px;
+  padding: 30px 22px;
+  text-align: center;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+  animation: popupFade 0.3s ease;
+}
+
+/* Success Icon Container */
+.checkmark {
+  width: 90px;
+  height: 90px;
+  stroke-width: 4; /* Make visible but not too thin */
+  stroke: #22c55e;
+  fill: none;
+  stroke-miterlimit: 10;
+  overflow: visible; /* Allow stroke to draw outside bounds */
+}
+
+.checkmark-circle {
+  stroke: #22c55e;
+  fill: none;
+  stroke-width: 4;
+  stroke-miterlimit: 10;
+}
+
+.success-animation {
+  width: 100px;   /* Slightly bigger to avoid clipping */
+  height: 100px;
+  margin: 0 auto 14px;
+}
+
+
+
+.checkmark-check {
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  animation: checkDraw 0.35s ease-out forwards;
+  animation-delay: 0.6s;
+}
+
+/* Title */
+.popup-title {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #000;
+}
+
+/* Text */
+.popup-text {
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 1.5;
+  margin-bottom: 22px;
+}
+
+/* Pay Button */
+.popup-pay-btn {
+  display: inline-block;
+  background: #2563eb;
+  color: #ffffff;
+  padding: 12px 22px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+
+.popup-pay-btn:hover {
+  background: #1e40af;
+}
+
+/* Animations */
+@keyframes popupFade {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes circleDraw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes checkDraw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}

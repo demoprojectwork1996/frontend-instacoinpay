@@ -1,0 +1,149 @@
+/* RESET */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* APP BACKGROUND */
+.wallet-app {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: radial-gradient(circle at top, #1f2933, #0b1118);
+}
+
+/* =====================
+   LOGIN
+===================== */
+.login-box {
+  width: 360px;
+  background: #ffffff;
+  padding: 32px;
+  border-radius: 18px;
+  text-align: center;
+}
+
+.login-box h2 {
+  margin-bottom: 6px;
+}
+
+.login-box p {
+  font-size: 14px;
+  color: #666;
+}
+
+.login-box input {
+  width: 100%;
+  padding: 12px;
+  margin: 16px 0;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+.login-box button {
+  width: 100%;
+  padding: 12px;
+  background: #111827;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+/* =====================
+   WALLET
+===================== */
+.wallet-box {
+  width: 90%;
+  max-width: 900px;
+  background: #0f172a;
+  padding: 28px;
+  border-radius: 22px;
+  color: white;
+}
+
+.wallet-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.wallet-header span {
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+.wallet-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+}
+
+.wallet-item {
+  background: #1e293b;
+  padding: 20px;
+  border-radius: 14px;
+  text-align: center;
+}
+
+.wallet-item p {
+  font-size: 13px;
+  opacity: 0.7;
+}
+
+.wallet-item h3 {
+  font-size: 22px;
+  margin: 8px 0;
+}
+
+.wallet-item input {
+  width: 100%;
+  padding: 8px;
+  border-radius: 8px;
+  border: none;
+  text-align: center;
+}
+
+/* EDIT BUTTON */
+.edit-btn {
+  margin-top: 10px;
+  padding: 6px 12px;
+  font-size: 12px;
+  border: none;
+  border-radius: 8px;
+  background: #2563eb;
+  color: white;
+  cursor: pointer;
+}
+/* =====================
+   CREDIT / DEBIT BUTTONS
+===================== */
+.action-buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.edit-btn.credit {
+  background: linear-gradient(135deg, #16a34a, #15803d);
+}
+
+.edit-btn.debit {
+  background: linear-gradient(135deg, #dc2626, #b91c1c);
+}
+
+/* Optional hover effects */
+.edit-btn.credit:hover {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+}
+
+.edit-btn.debit:hover {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+}

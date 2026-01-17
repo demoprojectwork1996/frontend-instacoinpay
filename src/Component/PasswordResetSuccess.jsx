@@ -1,0 +1,51 @@
+import React from "react";
+import "./PasswordResetSuccess.css";
+import success from "../assets/success.png";
+import logo from "../assets/logo.png";
+import { useNavigate } from "react-router-dom";
+
+const PasswordResetSuccess = () => {
+  const navigate = useNavigate();
+
+  const handleConfirm = () => {
+    // Clear any remaining stored data
+    localStorage.removeItem("resetEmail");
+    localStorage.removeItem("verifiedResetCode");
+    
+    // Redirect to login page
+    navigate("/login");
+  };
+
+  return (
+    <div className="prs-container">
+      <div className="prs-card">
+        {/* Logo */}
+        <div className="prs-logo">
+          <img src={logo} alt="logo" />
+        </div>
+
+        {/* Success Icon */}
+        <div className="prs-icon">
+          <img src={success} alt="success" />
+        </div>
+
+        {/* Text */}
+        <h2 className="prs-title">Password Reset Successful</h2>
+        <p className="prs-text">
+          Your password has been successfully reset. <br />
+          You can now log in with your new password.
+        </p>
+
+        {/* Button */}
+        <button 
+          className="prs-confirm-btn" 
+          onClick={handleConfirm}
+        >
+          Go to Login
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default PasswordResetSuccess;

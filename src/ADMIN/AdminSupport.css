@@ -1,0 +1,79 @@
+.admin-support-page {
+  padding: 30px;
+  background: #020617;
+  min-height: 100vh;
+  color: #ffffff;
+}
+
+.admin-support-page h2 {
+  margin-bottom: 24px;
+}
+
+/* Ticket card */
+.admin-support-ticket-card {
+  background: #0f172a;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+/* Header */
+.admin-support-ticket-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+/* Status */
+.admin-support-status {
+  font-weight: 600;
+}
+
+.admin-support-status.open {
+  color: #facc15;
+}
+
+.admin-support-status.resolved {
+  color: #22c55e;
+}
+
+/* Text */
+.admin-support-ticket-card p {
+  margin: 6px 0;
+  font-size: 14px;
+}
+
+/* Action taken */
+.admin-support-action-taken {
+  margin-top: 8px;
+  color: #22c55e;
+}
+
+/* Button */
+.admin-support-action-btn {
+  margin-top: 12px;
+  padding: 8px 16px;
+  background: #2563eb;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.admin-support-action-btn:hover {
+  background: #1d4ed8;
+}
+
+/* Info & error text */
+.admin-support-info-text {
+  font-size: 14px;
+  opacity: 0.85;
+}
+
+.admin-support-error-text {
+  color: #ef4444;
+  font-size: 14px;
+}

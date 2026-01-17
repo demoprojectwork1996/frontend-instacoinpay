@@ -1,0 +1,349 @@
+/* Container */
+.ca-container {
+  min-height: 100vh;
+  width: 100%;
+  background: #265aa5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+/* Card */
+.ca-card {
+  width: 100%;
+  max-width: 480px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1.5px solid rgba(255, 255, 255, 0.6);
+  border-radius: 20px;
+  padding: 40px 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(6px);
+}
+
+/* Top Logo */
+.ca-top-logo{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: -60px;
+}
+
+.ca-top-logo img {
+    width: 250px;
+    margin-right: 0px;
+    margin-bottom: -30px;
+}
+
+/* Coin Image */
+.ca-coin-wrapper {
+  margin: 20px 0;
+}
+
+.ca-coin-wrapper img {
+    width: 405px;
+    margin-left: 170px;
+    margin-top: 20px;
+    margin-bottom: -70px;
+}
+
+/* Title */
+.ca-title {
+  color: #ffffff;
+  font-size: 30px;
+  font-weight: 700;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+/* Form */
+.ca-form-box {
+  width: 100%;
+}
+
+.ca-form-group {
+  margin-bottom: 18px;
+}
+
+.ca-label {
+  color: #ffffff;
+  font-size: 14px;
+  margin-bottom: 6px;
+  display: block;
+}
+
+/* Inputs */
+.ca-input {
+  width: 100%;
+  padding: 14px 18px;
+  border-radius: 30px;
+  border: none;
+  outline: none;
+  background: #cfefff;
+  font-size: 14px;
+}
+
+/* Button */
+.ca-continue-btn {
+  margin-top: 30px;
+  padding: 14px 60px;
+  border-radius: 30px;
+  border: none;
+  background: #cfefff;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.ca-continue-btn:hover {
+  background: #b9e8ff;
+}
+.ca-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.ca-popup {
+  background: #fff;
+  padding: 25px;
+  border-radius: 10px;
+  text-align: center;
+  width: 300px;
+}
+
+.ca-popup.success {
+  border-top: 5px solid #28a745;
+}
+
+.ca-popup.error {
+  border-top: 5px solid #dc3545;
+}
+
+.ca-popup p {
+  margin-bottom: 15px;
+  font-size: 16px;
+}
+/* CreateAccount.css additions */
+.ca-country-display {
+  background-color: #f5f5f5;
+  padding: 10px 15px;
+  border-radius: 5px;
+  margin: 10px 0 20px;
+  text-align: center;
+  font-size: 14px;
+  color: #333;
+  border: 1px solid #ddd;
+}
+
+.ca-country-display strong {
+  color: #007bff;
+}
+
+.ca-login-link {
+  text-align: center;
+  margin-top: 30px;
+    padding: 10px 15px;
+  color: #666;
+  font-size: 14px;
+   background-color: #f5f5f5;
+}
+
+.ca-link-btn {
+  background: none;
+  border: none;
+  color: #007bff;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 0;
+  text-decoration: underline;
+    font-weight: 600;
+  background-color: #f5f5f5;
+}
+
+.ca-continue-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.ca-input:disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+}
+
+.ca-popup button {
+  padding: 8px 20px;
+  border: none;
+  background: #000;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* ================= POPUP ================= */
+
+.ca-popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.ca-popup-card {
+  width: 320px;
+  background: #f4f6f8;
+  padding: 28px 25px;
+  border-radius: 14px;
+  text-align: center;
+  animation: popupIn 0.3s ease;
+}
+
+/* Icon */
+.ca-icon-box {
+  width: 90px;
+  height: 90px;
+  margin: 0 auto 12px;
+}
+
+.ca-icon {
+  width: 90px;
+  height: 90px;
+}
+
+.ca-circle {
+  fill: none;
+  stroke-width: 6;
+  stroke-dasharray: 283;
+  stroke-dashoffset: 283;
+  animation: drawCircle 0.6s ease forwards;
+}
+
+.ca-path {
+  fill: none;
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-dasharray: 120;
+  stroke-dashoffset: 120;
+  animation: drawPath 0.4s ease forwards;
+  animation-delay: 0.6s;
+}
+
+/* Success */
+.ca-icon-box.success .ca-circle,
+.ca-icon-box.success .ca-path {
+  stroke: #2ecc71;
+}
+
+/* Error */
+.ca-icon-box.error .ca-circle,
+.ca-icon-box.error .ca-path {
+  stroke: #e74c3c;
+}
+
+.ca-popup-text {
+  font-size: 16px;
+  color: #333;
+  margin: 14px 0 18px;
+}
+
+.ca-ok-btn {
+  padding: 10px 28px;
+  border-radius: 6px;
+  border: none;
+  background: #2d2f34;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Animations */
+@keyframes drawCircle {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes drawPath {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes popupIn {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.ca-continue-link {
+  color: #000;
+  text-decoration: none;
+}
+
+/* ---------------- Responsive ---------------- */
+
+/* Tablet */
+@media (max-width: 768px) {
+  .ca-title {
+    font-size: 26px;
+  }
+
+  .ca-coin-wrapper img {
+    width: 140px;
+  }
+
+  .ca-continue-btn {
+    width: 100%;
+    max-width: 420px;
+  }
+
+  .ca-top-logo img {
+    margin-left: 40px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .ca-top-logo img {
+    width: 130px;
+  }
+
+  .ca-coin-wrapper img {
+    width: 120px;
+  }
+
+  .ca-title {
+    font-size: 22px;
+  }
+
+  .ca-input {
+    padding: 12px 16px;
+  }
+
+  .ca-continue-btn {
+    padding: 12px;
+    font-size: 15px;
+  }
+
+  .ca-card {
+    padding: 30px 20px;
+  }
+}

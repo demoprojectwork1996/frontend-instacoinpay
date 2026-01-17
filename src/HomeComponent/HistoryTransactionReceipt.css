@@ -1,0 +1,237 @@
+/* =====================================================
+   PAGE
+===================================================== */
+.receipt-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: #eaf8ff;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* =====================================================
+   CARD
+===================================================== */
+.receipt-card {
+  background: #f3fcff;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 28px;
+  padding: 22px 20px 26px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+}
+
+/* =====================================================
+   TITLE
+===================================================== */
+.receipt-title {
+  text-align: center;
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+
+/* =====================================================
+   AMOUNT
+===================================================== */
+.receipt-amount {
+  text-align: center;
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+/* =====================================================
+   STATUS — FORCE PENDING
+===================================================== */
+.receipt-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #f59e0b !important;   /* always pending color */
+  text-transform: uppercase;
+}
+
+/* Spinner always shown */
+.receipt-status::before {
+  content: "";
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 3px solid #fde68a;
+  border-top: 3px solid #f59e0b;
+  animation: spin 1s linear infinite;
+}
+
+/* Disable completed / success styles completely */
+.receipt-status.completed,
+.receipt-status.success,
+.receipt-status.failed,
+.receipt-status.error {
+  color: #f59e0b !important;
+}
+
+/* =====================================================
+   INFO TEXT
+===================================================== */
+.receipt-info {
+  text-align: center;
+  font-size: 13px;
+  color: #64748b;
+  line-height: 1.5;
+  margin-bottom: 4px;
+}
+
+/* WhatsApp support line */
+.receipt-info::after {
+  content: "Haven’t received your transaction? Chat with WhatsApp support.";
+  display: block;
+  margin-top: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #f59e0b;
+}
+
+/* =====================================================
+   DIVIDER
+===================================================== */
+.receipt-divider {
+  height: 1px;
+  background: #dbeafe;
+  margin: 14px 0;
+}
+
+/* =====================================================
+   ROWS
+===================================================== */
+.receipt-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin: 12px 0;
+  font-size: 14px;
+}
+
+.receipt-row span {
+  color: #64748b;
+  min-width: 120px;
+}
+
+.receipt-row strong {
+  font-weight: 600;
+  text-align: right;
+  word-break: break-all;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* =====================================================
+   COPY BUTTON
+===================================================== */
+.receipt-row button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* =====================================================
+   COPIED FEEDBACK
+===================================================== */
+.copied {
+  text-align: right;
+  font-size: 11px;
+  color: #16a34a;
+  margin-bottom: 6px;
+}
+
+/* =====================================================
+   BACK BUTTON
+===================================================== */
+.receipt-back-btn {
+  margin-top: 22px;
+  width: 100%;
+  padding: 14px;
+  background: #2b5da8;
+  color: #ffffff;
+  border: none;
+  border-radius: 999px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.receipt-back-btn:hover {
+  background: #1f4b8a;
+}
+
+/* =====================================================
+   SPINNER ANIMATION
+===================================================== */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+/* =====================================================
+   FORCE STATUS = PENDING (REMOVE COMPLETED COMPLETELY)
+   CSS ONLY — NO JSX CHANGE
+===================================================== */
+
+/* Hide original status text node completely */
+.receipt-status {
+  font-size: 0 !important;          /* 💥 kills COMPLETED text */
+  line-height: 0 !important;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+/* Spinner (always visible) */
+.receipt-status::before {
+  content: "";
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 3px solid #fde68a;
+  border-top: 3px solid #f59e0b;
+  animation: spin 1s linear infinite;
+}
+
+/* Inject ONLY PENDING text */
+.receipt-status::after {
+  content: "PENDING";
+  font-size: 16px;                  /* restore font size */
+  line-height: 1;
+  font-weight: 700;
+  color: #f59e0b;
+  text-transform: uppercase;
+}
+
+/* Neutralize all backend status classes */
+.receipt-status.completed,
+.receipt-status.success,
+.receipt-status.failed,
+.receipt-status.error {
+  font-size: 0 !important;
+  color: transparent !important;
+}
+
+/* Spinner animation */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

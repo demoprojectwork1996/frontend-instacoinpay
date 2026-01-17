@@ -1,0 +1,188 @@
+/* =========================
+   PAGE WRAPPER
+========================= */
+.receipt-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: #eaf8ff;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* =========================
+   CARD
+========================= */
+.receipt-card {
+  background: #f3fcff;
+  width: 100%;
+  max-width: 390px;
+  border-radius: 28px;
+  padding: 22px 20px 26px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+}
+
+/* =========================
+   TITLE
+========================= */
+.title {
+  text-align: center;
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 14px;
+  color: #000;
+}
+
+/* =========================
+   AMOUNT
+========================= */
+.amount {
+  text-align: center;
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+/* =========================
+   STATUS (PENDING)
+========================= */
+.status {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  color: #f59e0b;
+  font-size: 25px;
+  font-weight: 700;
+  margin-bottom: 14px;
+  text-align: center;
+  position: relative;
+}
+
+/* =========================
+   SPINNER (BUFFER CIRCLE)
+========================= */
+.status::before {
+  content: "";
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 3px solid #fde68a;
+  border-top: 3px solid #f59e0b;
+  animation: pendingSpin 1s linear infinite;
+}
+
+/* =========================
+   STATUS MESSAGES (GRAY + ORANGE)
+========================= */
+.status::after {
+  content:
+    "Your crypto transfer from InstaCoinXPay is complete. For the transaction receipt, please verify with the recipient platform.\A Haven’t received your transaction? Chat with WhatsApp support.";
+  white-space: pre-line;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.5;
+  max-width: 320px;
+  margin-top: 4px;
+  text-align: center;
+
+  /* Color separation */
+  background: linear-gradient(
+    to bottom,
+    #64748b 0%,
+    #64748b 65%,
+    #f59e0b 65%,
+    #f59e0b 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* =========================
+   SPINNER ANIMATION
+========================= */
+@keyframes pendingSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* =========================
+   DIVIDER
+========================= */
+.divider {
+  height: 1px;
+  background: #dbeafe;
+  margin: 14px 0;
+}
+
+/* =========================
+   ROWS
+========================= */
+.row {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  margin: 12px 0;
+  font-size: 14px;
+  align-items: center;
+}
+
+.label {
+  color: #64748b;
+  min-width: 120px;
+}
+
+.value {
+  font-weight: 600;
+  text-align: right;
+  word-break: break-all;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+/* =========================
+   COPY BUTTON
+========================= */
+.value button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* =========================
+   COPIED TEXT
+========================= */
+.copied {
+  text-align: right;
+  font-size: 11px;
+  color: #16a34a;
+  margin-bottom: 4px;
+}
+
+/* =========================
+   DASHBOARD BUTTON
+========================= */
+.dashboard-transaction-receipt-btn {
+  margin-top: 22px;
+  width: 100%;
+  padding: 14px;
+  background: #2b5da8;
+  color: #ffffff;
+  border: none;
+  border-radius: 999px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+  transition: background 0.2s ease;
+}
+
+.dashboard-transaction-receipt-btn:hover {
+  background: #1f4b8a;
+}

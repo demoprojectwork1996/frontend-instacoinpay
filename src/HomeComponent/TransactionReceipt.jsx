@@ -1,0 +1,145 @@
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
+import "./TransactionReceipt.css";
+
+
+export default function TransactionReceipt() {
+  const navigate = useNavigate();
+  const { id } = useParams(); // ✅ MongoDB _id
+
+  const [tx, setTx] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [copied, setCopied] = useState("");
+
+  const NETWORK_FEE_RATE = 0.0062; // 0.62%
+
+  // Copy to clipboard
+  const copyToClipboard = (text, type) => {
+    if (!text) return;
+    navigator.clipboard.writeText(text);
+    setCopied(type);
+    setTimeout(() => setCopied(""), 1500);
+  };
+
+  // Network mapping (UNCHANGED)
+  const getNetwork = (coin) => {
+    const map = {
+      btc: "BTC",
+      eth: "ERC20",
+      bnb: "BEP20",
+      trx: "TRC20",
+      usdttron: "TRC20",
+      usdtbnb: "BEP20",
+      sol: "SOL",
+      xrp: "XRP",
+      doge: "DOGE",
+      ltc: "LTC",
+    };
+    return map[coin.toLowerCase()] || "Unknown";
+  };
+
+  // 🔥 ONLY CHANGE: fetch from backend transfer
+  useEffect(() => {
+    const fetchTransaction = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) return navigate("/login");
+
+        const res = await axios.get(
+          `https://backend-instacoinpay-1.onrender.com/api/transfer/${id}`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+
+        setTx(res.data.data);
+      } catch (err) {
+        console.error("Receipt fetch error:", err);
+        setTx(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTransaction();
+  }, [id, navigate]);
+
+  if (loading) return <p style={{ textAlign: "center" }}>Loading...</p>;
+  if (!tx) return <p style={{ textAlign: "center" }}>Transaction not found</p>;
+
+  // 🔐 SAME LOGIC AS BEFORE
+  const sentAmount = Number(tx.amount);
+  const coin = tx.asset.toUpperCase();
+  const networkFee = +(sentAmount * NETWORK_FEE_RATE).toFixed(8);
+
+  const formattedDate = new Date(
+    tx.completedAt || tx.createdAt
+  ).toLocaleDateString("en-US", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+
+  return (
+    <>
+      {/* 🔒 CSS LEFT EXACTLY SAME */}
+      <div className="receipt-page">
+        <div className="receipt-card">
+          <div className="title">Withdrawal Details</div>
+
+          <div className="amount">-{sentAmount} {coin}</div>
+
+          <div className="status">
+            Pending
+          </div>
+
+          <div className="divider" />
+
+          <div className="row">
+            <span className="label">Network</span>
+            <span className="value">{getNetwork(tx.asset)}</span>
+          </div>
+
+          <div className="row">
+            <span className="label">Address</span>
+            <span className="value">
+              {tx.toAddress}
+              <button onClick={() => copyToClipboard(tx.toAddress, "address")}>📋</button>
+            </span>
+          </div>
+          {copied === "address" && <div className="copied">Address copied</div>}
+
+          <div className="row">
+            <span className="label">TxID</span>
+            <span className="value">
+              {tx.transactionId}
+              <button onClick={() => copyToClipboard(tx.transactionId, "txid")}>📋</button>
+            </span>
+          </div>
+          {copied === "txid" && <div className="copied">TxID copied</div>}
+
+          <div className="row">
+            <span className="label">Withdrawal Amount</span>
+            <span className="value">{sentAmount} {coin}</span>
+          </div>
+
+          <div className="row">
+            <span className="label">Network Fee</span>
+            <span className="value">{networkFee} {coin}</span>
+          </div>
+
+          <div className="row">
+            <span className="label">Date</span>
+            <span className="value">{formattedDate}</span>
+          </div>
+
+          <button
+            className="dashboard-transaction-receipt-btn"
+            onClick={() => navigate("/dashboard")}
+          >
+            Dashboard
+          </button>
+        </div>
+      </div>
+    </>
+  );
+}
