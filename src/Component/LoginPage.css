@@ -6,8 +6,8 @@
   font-family: "Segoe UI", sans-serif;
 }
 
-/* PAGE BACKGROUND */
-.login-wrapper {
+/* PAGE BACKGROUND - MAIN CONTAINER */
+.ca-container {
   min-height: 100vh;
   width: 100%;
   background: #255aa8;
@@ -18,7 +18,7 @@
 }
 
 /* LOGIN CARD */
-.login-card {
+.ca-card {
   width: 100%;
   max-width: 520px;
   background-color: rgba(255, 255, 255, 0.05); /* subtle glass effect */
@@ -33,50 +33,94 @@
   backdrop-filter: blur(6px); /* glass effect */
 }
 
-/* TOP LOGO */
-.login-logo {
+/* Back Button */
+.ca-back-btn {
   position: absolute;
   top: 20px;
   left: 20px;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: #ffffff;
+  padding: 8px 16px;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(4px);
+  z-index: 10;
 }
 
-.login-logo img {
-  width: 150px;
+.ca-back-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.7);
+  transform: translateX(-3px);
+}
+
+/* Top Logo */
+.ca-top-logo-login {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: -20px;
+}
+
+.ca-top-logo-login img {
+  width: 250px;
+  max-width: 80%;
   height: auto;
   object-fit: contain;
 }
 
-/* COIN IMAGE */
-.logo-container {
+/* Coin Image */
+.ca-coin-wrapper-login {
+  margin: 20px 0;
   display: flex;
   justify-content: center;
-  margin-bottom: 25px;
 }
 
-.logo-container img {
-  width: 160px;
+.ca-coin-wrapper-login img {
+  width: 250px;
+  max-width: 90%;
   height: auto;
+  margin-bottom: 10px;
 }
 
 /* TITLE */
-.title {
+.ca-title {
   font-size: 26px;
   color: #ffffff;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
   text-align: center;
+  font-weight: 600;
+}
+
+/* FORM BOX */
+.ca-form-box {
+  width: 100%;
+  max-width: 400px;
+}
+
+/* FORM GROUP */
+.ca-form-group {
+  margin-bottom: 20px;
+  width: 100%;
 }
 
 /* LABEL */
-.login-card label {
+.ca-label {
   display: block;
-  margin: 15px 0 6px;
+  margin-bottom: 8px;
   font-size: 16px;
   color: #ffffff;
-  /* margin-right: 400px; */
+  font-weight: 500;
 }
 
 /* INPUT */
-.login-card input {
+.ca-input {
   width: 100%;
   padding: 14px 18px;
   border-radius: 30px;
@@ -84,14 +128,39 @@
   outline: none;
   font-size: 15px;
   background: #ccecf7;
-  
+  color: #000;
 }
 
-/* BUTTON */
-.login-btn {
+.ca-input::placeholder {
+  color: #666;
+}
+
+/* FORGOT PASSWORD */
+.ca-forgot-password {
+  text-align: right;
+  margin-top: 8px;
+  margin-bottom: 25px;
+}
+
+.ca-link-btn-forgot {
+  background: none;
+  border: none;
+  color: #eff0f5;
+  font-size: 14px;
+  cursor: pointer;
+  font-weight: 500;
+  text-decoration: none;
+  padding: 0;
+}
+
+.ca-link-btn-forgot:hover {
+  text-decoration: underline;
+}
+
+/* LOGIN BUTTON */
+.ca-login-btn {
   width: 100%;
-  margin-top: 30px;
-  padding: 14px;
+  padding: 16px;
   border-radius: 30px;
   border: none;
   background: #ccecf7;
@@ -100,194 +169,57 @@
   font-weight: 600;
   cursor: pointer;
   transition: 0.3s;
-  margin-left: 120px;
+  margin-top: 10px;
 }
+
+.ca-login-btn:hover {
+  background: #b3e2f2;
+  transform: translateY(-2px);
+}
+
 /* Signup / Login Link Section */
 .ca-login-link {
   margin-top: 30px;
-  padding: 12px 16px;
-  background-color: #f5f5f5;
-  border-radius: 8px;
   text-align: center;
   font-size: 14px;
-  color: #444;
-}
-.ca-login-btn {
-  margin-top: 30px;
-  padding: 14px 60px;
-  border-radius: 30px;
-  border: none;
-  background: #cfefff;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-margin-left: 130px;
-}
-
-
-
-/* Mobile adjustments */
-@media (max-width: 480px) {
-  .ca-login-link {
-    font-size: 13px;
-    padding: 10px 12px;
-  }
-
-  .ca-link-btn {
-    font-size: 13px;
-  }
-}
-
-
-.login-btn:hover {
-  background: #b3e2f2;
-}
-
-/* FORGOT PASSWORD */
-.forgot-password {
-  width: 100%;
-  text-align: right;
-  margin-top: 8px;
-  color: white;
-}
-
-.forgot-password a {
-  font-size: 14px;
-  color: #ccecf7;
-  text-decoration: none;
-  transition: 0.3s;
-}
-
-.forgot-password a:hover {
-  text-decoration: underline;
   color: #ffffff;
-}
-/* COMMON INPUT STYLE */
-.input-field {
+  padding: 12px 16px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
   width: 100%;
-  padding: 14px 18px;
-  border-radius: 30px;
-  border: none;
-  outline: none;
-  font-size: 15px;
-  background: #ccecf7;
-}
-
-/* PASSWORD WRAPPER */
-.password-box {
-  position: relative;
-  width: 100%;
-}
-
-/* PASSWORD INPUT SAME AS EMAIL */
-.password-box .input-field {
-  padding-right: 45px; /* space for eye icon */
-}
-/* Top Logo */
-.ca-top-logo-login{
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin-bottom: -60px;
-}
-
-.ca-top-logo-login img {
-  width: 250px;
- margin-right: 0px;
-    margin-bottom: -25px;
-}
-/* Coin Image */
-.ca-coin-wrapper-login {
-  margin: 20px 0;
-}
-
-.ca-coin-wrapper-login img {
-  width: 250px;
-  margin-top: 20px;
-  margin-bottom: -30px;
-}
-/* EYE ICON */
-.eye-icon {
-  position: absolute;
-  right: 16px;
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
-  color: #555;
-  font-size: 18px;
-}
-/* COMMON INPUT STYLE */
-.input-field {
-  width: 100%;
-  padding: 14px 18px;
-  border-radius: 30px;
-  border: none;
-  outline: none;
-  font-size: 15px;
-  background: #ccecf7;
-}
-.ca-forgot-password {
-  text-align: right;
-  margin-bottom: 15px;
+  max-width: 400px;
 }
 
 .ca-link-btn {
   background: none;
   border: none;
-  color: #4f71eb;
+  color: #ccecf7;
   font-size: 14px;
   cursor: pointer;
-  font-weight: 500;
+  font-weight: 600;
   text-decoration: none;
-}
-.ca-link-btn-forgot{
-   background: none;
-  border: none;
-  color: #eff0f5;
-  font-size: 14px;
-  cursor: pointer;
-  font-weight: 500;
-  text-decoration: none;
+  padding: 0 5px;
 }
 
+.ca-link-btn:hover {
+  text-decoration: underline;
+}
 
-/* PASSWORD WRAPPER */
-.password-box {
+/* EYE ICON IN PASSWORD FIELD */
+.ca-form-group div {
   position: relative;
   width: 100%;
 }
 
-/* PASSWORD INPUT SAME AS EMAIL */
-.password-box .input-field {
-  padding-right: 45px; /* space for eye icon */
-}
-
-/* EYE ICON */
-.eye-icon {
+.ca-form-group span {
   position: absolute;
-  right: 16px;
+  right: 18px;
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
   color: #555;
   font-size: 18px;
-}
-.password-box {
-  position: relative;
-}
-
-.password-box input {
-  width: 100%;
-  padding-right: 40px;
-}
-
-.password-box span {
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
-  color: #555;
+  z-index: 2;
 }
 
 /* ---------------- ANIMATED POPUP ---------------- */
@@ -309,11 +241,13 @@ margin-left: 130px;
 
 .ca-popup-card {
   width: 320px;
+  max-width: 90%;
   background: #f4f6f8;
   padding: 28px 25px;
   border-radius: 14px;
   text-align: center;
   animation: popupIn 0.3s ease;
+  margin: 20px;
 }
 
 @keyframes popupIn {
@@ -367,6 +301,7 @@ margin-left: 130px;
   font-size: 16px;
   color: #333;
   margin: 14px 0 18px;
+  line-height: 1.4;
 }
 
 /* OK Button */
@@ -378,6 +313,7 @@ margin-left: 130px;
   color: #fff;
   font-weight: 600;
   cursor: pointer;
+  transition: 0.3s;
 }
 
 .ca-ok-btn:hover {
@@ -393,113 +329,267 @@ margin-left: 130px;
   to { stroke-dashoffset: 0; }
 }
 
-
-/* Popup */
-.popup-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 999;
-}
-
-.popup {
-  background: #fff;
-  padding: 25px;
-  border-radius: 10px;
-  width: 300px;
-  text-align: center;
-}
-
-.popup.success {
-  border-top: 5px solid #28a745;
-}
-
-.popup.error {
-  border-top: 5px solid #dc3545;
-}
-
-.popup button {
-  margin-top: 15px;
-  padding: 8px 20px;
-  border: none;
-  background: #000;
-  color: #fff;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-
 /* =======================
    RESPONSIVE DESIGN
 ======================= */
 
 /* Tablets */
 @media (max-width: 768px) {
-  .login-card {
+  .ca-card {
     padding: 40px 25px;
+    max-width: 90%;
   }
 
-  .logo-container img {
-    width: 140px;
+  .ca-back-btn {
+    top: 15px;
+    left: 15px;
+    padding: 7px 14px;
+    font-size: 13px;
   }
 
-  .title {
+  .ca-top-logo-login img {
+    width: 200px;
+  }
+
+  .ca-coin-wrapper-login img {
+    width: 200px;
+  }
+
+  .ca-title {
     font-size: 24px;
   }
 
-  .login-logo img {
-    width: 60px;
+  .ca-login-link {
+    font-size: 13px;
+    padding: 10px 12px;
+  }
+
+  .ca-link-btn {
+    font-size: 13px;
   }
 }
 
 /* Mobile Devices */
 @media (max-width: 480px) {
-  .login-card {
-    padding: 35px 20px;
+  .ca-container {
+    padding: 15px;
   }
 
-  .logo-container img {
-    width: 130px;
+  .ca-card {
+    padding: 30px 20px;
+    max-width: 95%;
+    border-radius: 15px;
   }
 
-  .title {
+  .ca-back-btn {
+    top: 12px;
+    left: 12px;
+    padding: 6px 12px;
+    font-size: 12px;
+    gap: 6px;
+  }
+
+  .ca-top-logo-login {
+    margin-bottom: -15px;
+  }
+
+  .ca-top-logo-login img {
+    width: 180px;
+  }
+
+  .ca-coin-wrapper-login img {
+    width: 180px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+  }
+
+  .ca-title {
     font-size: 22px;
+    margin-bottom: 20px;
   }
 
-  .login-card input {
+  .ca-input {
     padding: 12px 16px;
     font-size: 14px;
   }
 
-  .login-btn {
-    font-size: 16px;
-    padding: 12px;
+  .ca-label {
+    font-size: 15px;
   }
 
-  .login-logo {
-    top: 15px;
-    left: 15px;
+  .ca-login-btn {
+    padding: 14px;
+    font-size: 16px;
+  }
+
+  .ca-forgot-password {
+    margin-bottom: 20px;
+  }
+
+  .ca-link-btn-forgot {
+    font-size: 13px;
+  }
+
+  .ca-login-link {
+    margin-top: 25px;
+    font-size: 13px;
+    padding: 10px;
+  }
+
+  .ca-link-btn {
+    font-size: 13px;
+  }
+
+  .ca-popup-card {
+    width: 280px;
+    padding: 24px 20px;
+  }
+
+  .ca-popup-text {
+    font-size: 15px;
   }
 }
 
 /* Small Phones */
 @media (max-width: 360px) {
-  .logo-container img {
-    width: 115px;
+  .ca-card {
+    padding: 25px 15px;
+    border-radius: 12px;
   }
 
-  .login-logo img {
-    width: 50px;
+  .ca-back-btn {
+    top: 10px;
+    left: 10px;
+    padding: 5px 10px;
+    font-size: 11px;
   }
 
-  .title {
+  .ca-top-logo-login img {
+    width: 160px;
+  }
+
+  .ca-coin-wrapper-login img {
+    width: 160px;
+  }
+
+  .ca-title {
     font-size: 20px;
+  }
+
+  .ca-input {
+    padding: 11px 14px;
+    font-size: 13px;
+  }
+
+  .ca-login-btn {
+    padding: 12px;
+    font-size: 15px;
+  }
+
+  .ca-login-link {
+    font-size: 12px;
+  }
+
+  .ca-link-btn {
+    font-size: 12px;
+  }
+
+  .ca-icon-box {
+    width: 70px;
+    height: 70px;
+  }
+
+  .ca-icon {
+    width: 70px;
+    height: 70px;
+  }
+
+  .ca-popup-text {
+    font-size: 14px;
   }
 }
 
+/* Extra Small Phones (iPhone 5/SE) */
+@media (max-width: 320px) {
+  .ca-container {
+    padding: 10px;
+  }
+
+  .ca-card {
+    padding: 20px 15px;
+  }
+
+  .ca-back-btn {
+    top: 8px;
+    left: 8px;
+    padding: 4px 8px;
+    font-size: 10px;
+  }
+
+  .ca-top-logo-login img {
+    width: 140px;
+  }
+
+  .ca-coin-wrapper-login img {
+    width: 140px;
+  }
+
+  .ca-title {
+    font-size: 18px;
+  }
+
+  .ca-form-group {
+    margin-bottom: 15px;
+  }
+}
+
+/* Landscape Orientation */
+@media (max-height: 600px) and (orientation: landscape) {
+  .ca-container {
+    padding: 10px;
+    min-height: auto;
+  }
+
+  .ca-card {
+    padding: 20px 25px;
+    max-width: 600px;
+  }
+
+  .ca-back-btn {
+    top: 10px;
+    left: 15px;
+    padding: 5px 10px;
+    font-size: 12px;
+  }
+
+  .ca-top-logo-login {
+    margin-bottom: -10px;
+  }
+
+  .ca-top-logo-login img {
+    width: 150px;
+  }
+
+  .ca-coin-wrapper-login {
+    margin: 10px 0;
+  }
+
+  .ca-coin-wrapper-login img {
+    width: 120px;
+    margin-bottom: 0;
+  }
+
+  .ca-title {
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+
+  .ca-form-group {
+    margin-bottom: 15px;
+  }
+
+  .ca-login-link {
+    margin-top: 20px;
+    padding: 8px 10px;
+  }
+}

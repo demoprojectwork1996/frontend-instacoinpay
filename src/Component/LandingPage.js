@@ -8,7 +8,6 @@ import coinsImg3 from "../assets/Cam3.png";
 import BuyCrypto from "../assets/BuyCryptocurrency.png";
 import globe from "../assets/globe.png";
 import elon from "../assets/elon.png";
-import LearnCrypto from "../assets/LearnCrypto.png";
 import { 
   TrendingUp, 
   TrendingDown, 
@@ -21,25 +20,254 @@ import {
   ArrowDownRight,
   RefreshCw,
   Zap,
-  Clock
+  Clock,
+  Calendar,
+  User,
+  Clock as ClockIcon,
+  Menu,
+  X
 } from 'lucide-react';
 
-export default function App() {
+// Define LiveCounter component outside the main App component
+const LiveCounter = ({ start, step, prefix = "", suffix = "", interval = 40 }) => {
+  const [count, setCount] = useState(start);
+  const intervalRef = useRef(null);
+  const countRef = useRef(start);
+
+  useEffect(() => {
+    if (countRef.current !== start) {
+      countRef.current = start;
+      setCount(start);
+    }
+  }, [start]);
+
+  useEffect(() => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
+    
+    intervalRef.current = setInterval(() => {
+      countRef.current += step;
+      setCount(countRef.current);
+    }, interval);
+
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, [step, interval]);
+
+  return (
+    <h4>
+      {prefix}
+      {count.toLocaleString()}
+      {suffix}
+    </h4>
+  );
+};
+
+export default function LandingPage() {
   const navigate = useNavigate();
   const [showAll, setShowAll] = useState(false);
   const [cryptoData, setCryptoData] = useState([]);
+  const [blogArticles, setBlogArticles] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [blogLoading, setBlogLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [blogError, setBlogError] = useState(null);
   const [totalMarketCap, setTotalMarketCap] = useState(0);
   const [topGainer, setTopGainer] = useState(null);
   const [topLoser, setTopLoser] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
   const [liveUpdates, setLiveUpdates] = useState(true);
   const [lastUpdated, setLastUpdated] = useState(new Date());
+  const [lastBlogUpdate, setLastBlogUpdate] = useState(new Date());
   const [updateCount, setUpdateCount] = useState(0);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   
   const updateIntervalRef = useRef(null);
+  const blogUpdateIntervalRef = useRef(null);
   const initialDataRef = useRef(null);
+
+  // Cryptocurrency News API configuration
+  const NEWS_API_CONFIG = {
+    apis: [
+      {
+        name: 'NewsData.io',
+        url: 'https://newsdata.io/api/1/news?apikey=pub_3765199c264497a2409b55e38a35e9d2fdd4b&q=cryptocurrency&language=en&category=business',
+        transform: (data) => data.results || []
+      },
+      {
+        name: 'CryptoPanic',
+        url: 'https://cryptopanic.com/api/v1/posts/?auth_token=7a675d62d35d5041b02046c2002591ef28bea7dd&public=true',
+        transform: (data) => data.results || []
+      },
+      {
+        name: 'NewsAPI',
+        url: 'https://newsapi.org/v2/everything?q=cryptocurrency&apiKey=d0996f3aa3c14a3a9f5dca6d76e3f5d9&language=en&sortBy=publishedAt&pageSize=10',
+        transform: (data) => data.articles || []
+      }
+    ],
+    fallbackArticles: [
+      {
+        id: 1,
+        title: "Bitcoin Surpasses $75,000: Institutional Adoption Reaches New Highs",
+        excerpt: "Major financial institutions continue to pour billions into Bitcoin, driving the price to new all-time highs.",
+        image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80",
+        category: "Market Analysis",
+        date: new Date().toISOString(),
+        readTime: "5 min read",
+        author: "Michael Chen",
+        authorRole: "Senior Crypto Analyst",
+        source: "CryptoNews",
+        url: "#"
+      },
+      {
+        id: 2,
+        title: "Ethereum 2.0: Complete Guide to Staking & Rewards in 2024",
+        excerpt: "Everything you need to know about Ethereum's transition to Proof-of-Stake and how to stake your ETH for rewards.",
+        image: "https://images.unsplash.com/photo-1642104704074-907c0698ab9f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80",
+        category: "Technology",
+        date: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
+        readTime: "4 min read",
+        author: "Sarah Johnson",
+        authorRole: "Blockchain Developer",
+        source: "TechCrypto",
+        url: "#"
+      }
+    ]
+  };
+
+  // Fetch live cryptocurrency news
+  const fetchCryptoNews = async () => {
+    try {
+      setBlogLoading(true);
+      setLastBlogUpdate(new Date());
+      
+      for (const api of NEWS_API_CONFIG.apis) {
+        try {
+          const response = await fetch(api.url, {
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            }
+          });
+          
+          if (response.ok) {
+            const data = await response.json();
+            const articles = api.transform(data);
+            
+            if (articles && articles.length > 0) {
+              const transformedArticles = articles.slice(0, 6).map((article, index) => {
+                const getArticleData = () => {
+                  if (api.name === 'NewsData.io') {
+                    return {
+                      title: article.title || 'Untitled Article',
+                      excerpt: article.description || article.content || 'No description available.',
+                      image: article.image_url || `https://images.unsplash.com/photo-1621761191319-c6fb62004040?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80&sig=${index}`,
+                      category: article.category?.[0] || 'Crypto',
+                      date: article.pubDate || new Date().toISOString(),
+                      author: article.creator?.[0] || 'Unknown Author',
+                      source: article.source_id || 'News Source',
+                      url: article.link || '#'
+                    };
+                  } else if (api.name === 'CryptoPanic') {
+                    return {
+                      title: article.title || 'Untitled Article',
+                      excerpt: article.metadata?.description || 'No description available.',
+                      image: article.metadata?.image || `https://images.unsplash.com/photo-1642104704074-907c0698ab9f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80&sig=${index}`,
+                      category: 'Crypto News',
+                      date: article.published_at || new Date().toISOString(),
+                      author: 'CryptoPanic',
+                      source: 'CryptoPanic',
+                      url: article.url || '#'
+                    };
+                  } else if (api.name === 'NewsAPI') {
+                    return {
+                      title: article.title || 'Untitled Article',
+                      excerpt: article.description || 'No description available.',
+                      image: article.urlToImage || `https://images.unsplash.com/photo-1621760429962-7e1346f9e8c9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80&sig=${index}`,
+                      category: 'Business',
+                      date: article.publishedAt || new Date().toISOString(),
+                      author: article.author || 'Unknown Author',
+                      source: article.source?.name || 'News Source',
+                      url: article.url || '#'
+                    };
+                  }
+                  return null;
+                };
+                
+                const articleData = getArticleData();
+                if (!articleData) return null;
+
+                return {
+                  id: `article-${index}-${Date.now()}`,
+                  title: articleData.title,
+                  excerpt: articleData.excerpt.length > 120 
+                    ? articleData.excerpt.substring(0, 120) + '...' 
+                    : articleData.excerpt,
+                  image: articleData.image,
+                  category: articleData.category,
+                  date: new Date(articleData.date).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                  }),
+                  readTime: `${Math.max(2, Math.floor(Math.random() * 8) + 2)} min read`,
+                  author: articleData.author,
+                  authorRole: getRandomRole(),
+                  source: articleData.source,
+                  url: articleData.url,
+                  trending: index === 0
+                };
+              }).filter(article => article !== null);
+
+              setBlogArticles(transformedArticles);
+              setBlogError(null);
+              setBlogLoading(false);
+              return;
+            }
+          }
+        } catch (apiError) {
+          console.warn(`API ${api.name} failed:`, apiError);
+          continue;
+        }
+      }
+      
+      throw new Error('All news APIs failed');
+      
+    } catch (err) {
+      console.error('Error fetching crypto news:', err);
+      setBlogError('Using cached news data - live updates temporarily unavailable');
+      const fallbackArticles = NEWS_API_CONFIG.fallbackArticles.map((article, index) => ({
+        ...article,
+        id: `fallback-${index}-${Date.now()}`,
+        date: new Date(article.date).toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric'
+        }),
+        trending: index === 0
+      }));
+      setBlogArticles(fallbackArticles);
+    } finally {
+      setBlogLoading(false);
+    }
+  };
+
+  // Helper function to get random author role
+  const getRandomRole = () => {
+    const roles = [
+      'Senior Crypto Analyst',
+      'Blockchain Developer',
+      'Security Expert',
+      'Market Researcher',
+      'Investment Advisor',
+      'Tech Journalist'
+    ];
+    return roles[Math.floor(Math.random() * roles.length)];
+  };
 
   // Fetch live cryptocurrency data
   const fetchCryptoData = async () => {
@@ -47,7 +275,6 @@ export default function App() {
       setRefreshing(true);
       setLastUpdated(new Date());
       
-      // Fetch top 10 cryptocurrencies by market cap
       const response = await fetch(
         "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10&page=1&sparkline=true&price_change_percentage=24h%2C7d"
       );
@@ -58,15 +285,12 @@ export default function App() {
       
       const data = await response.json();
       
-      // Transform API data to match our structure
       const transformedData = data.map((crypto, index) => {
         const priceChange24h = crypto.price_change_percentage_24h || 0;
         const priceChange7d = crypto.price_change_percentage_7d_in_currency || 0;
         
-        // Generate sparkline data from API
         const sparkline = crypto.sparkline_in_7d?.price || Array(12).fill(0);
         
-        // Determine trend
         let trend = "mixed";
         if (priceChange24h > 0) trend = "up";
         else if (priceChange24h < 0) trend = "down";
@@ -100,11 +324,9 @@ export default function App() {
       setCryptoData(transformedData);
       initialDataRef.current = transformedData;
       
-      // Calculate total market cap
       const totalCap = data.reduce((sum, crypto) => sum + crypto.market_cap, 0);
       setTotalMarketCap(totalCap);
       
-      // Find top gainer and loser
       if (data.length > 0) {
         const sortedBy24h = [...data].sort((a, b) => 
           (b.price_change_percentage_24h || 0) - (a.price_change_percentage_24h || 0)
@@ -119,7 +341,6 @@ export default function App() {
       console.error("Error fetching crypto data:", err);
       setError("Failed to load cryptocurrency data. Please try again.");
       
-      // Fallback to static data if API fails
       const fallbackData = getFallbackData();
       setCryptoData(fallbackData);
       initialDataRef.current = fallbackData;
@@ -135,25 +356,20 @@ export default function App() {
     
     setCryptoData(prevData => {
       return prevData.map(crypto => {
-        // Find original data for reference
         const original = initialDataRef.current.find(c => c.id === crypto.id);
         if (!original) return crypto;
         
-        // Generate small random price fluctuation (±0.1% to ±0.5%)
-        const fluctuation = (Math.random() * 0.008 - 0.004); // -0.2% to +0.2%
+        const fluctuation = (Math.random() * 0.008 - 0.004);
         const newPrice = original.price * (1 + fluctuation);
         
-        // Update 24h change slightly
         const newChange24h = original.change24h + (Math.random() * 0.1 - 0.05);
         
-        // Update sparkline with new point
         const newSparkline = [...crypto.sparkline];
         if (newSparkline.length > 10) {
           newSparkline.shift();
         }
         newSparkline.push(newPrice);
         
-        // Determine new trend
         let newTrend = crypto.trend;
         if (newChange24h > 0.5) newTrend = "up";
         else if (newChange24h < -0.5) newTrend = "down";
@@ -354,16 +570,53 @@ export default function App() {
     setLiveUpdates(!liveUpdates);
   };
 
+  // Handle blog refresh
+  const handleBlogRefresh = () => {
+    fetchCryptoNews();
+  };
+
+  // Handle mobile menu toggle
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen(!mobileMenuOpen);
+  };
+
+  // Format time ago
+  const formatTimeAgo = (date) => {
+    const seconds = Math.floor((new Date() - date) / 1000);
+    
+    if (seconds < 60) return `${seconds} seconds ago`;
+    const minutes = Math.floor(seconds / 60);
+    if (minutes === 1) return "1 minute ago";
+    return `${minutes} minutes ago`;
+  };
+
+  const formatBlogTimeAgo = (date) => {
+    const seconds = Math.floor((new Date() - date) / 1000);
+    
+    if (seconds < 60) return "Just now";
+    const minutes = Math.floor(seconds / 60);
+    if (minutes < 60) return `${minutes}m ago`;
+    const hours = Math.floor(minutes / 60);
+    if (hours < 24) return `${hours}h ago`;
+    const days = Math.floor(hours / 24);
+    return `${days}d ago`;
+  };
+
   useEffect(() => {
     fetchCryptoData();
+    fetchCryptoNews();
     
-    // Refresh data every 30 seconds
     const apiInterval = setInterval(fetchCryptoData, 30000);
+    const blogInterval = setInterval(fetchCryptoNews, 300000);
     
     return () => {
       clearInterval(apiInterval);
+      clearInterval(blogInterval);
       if (updateIntervalRef.current) {
         clearInterval(updateIntervalRef.current);
+      }
+      if (blogUpdateIntervalRef.current) {
+        clearInterval(blogUpdateIntervalRef.current);
       }
     };
   }, []);
@@ -371,7 +624,7 @@ export default function App() {
   // Start/stop live simulation interval
   useEffect(() => {
     if (liveUpdates) {
-      updateIntervalRef.current = setInterval(simulateLiveUpdates, 1000); // Update every second
+      updateIntervalRef.current = setInterval(simulateLiveUpdates, 1000);
     } else {
       if (updateIntervalRef.current) {
         clearInterval(updateIntervalRef.current);
@@ -394,7 +647,6 @@ export default function App() {
     const min = Math.min(...data);
     const range = max - min || 1;
     
-    // Sample data to 12 points for smooth rendering
     let sampledData = data;
     if (data.length > 12) {
       const step = Math.floor(data.length / 12);
@@ -438,15 +690,6 @@ export default function App() {
     fetchCryptoData();
   };
 
-  const formatTimeAgo = (date) => {
-    const seconds = Math.floor((new Date() - date) / 1000);
-    
-    if (seconds < 60) return `${seconds} seconds ago`;
-    const minutes = Math.floor(seconds / 60);
-    if (minutes === 1) return "1 minute ago";
-    return `${minutes} minutes ago`;
-  };
-
   if (loading && cryptoData.length === 0) {
     return (
       <div className="loading-container">
@@ -463,6 +706,8 @@ export default function App() {
         <div className="logo">
           <img src={logo} alt="InstaCoinXPay Logo" />
         </div>
+
+        
         <div className="auth">
           <button className="btn-outline" onClick={() => navigate("/login")}>Login</button>
           <button className="btn-signup" onClick={() => navigate("/getstarted")}>Signup</button>
@@ -472,7 +717,6 @@ export default function App() {
       {/* HERO */}
       <section className="hero">
         <div className="hero-left">
-          <p className="tag" onClick={() => navigate("/getstarted")}>Sign Up Now!</p>
           <h1>
             Buy, Sell & Swap <br />
             <span>Cryptocurrency</span> <br />in Minutes
@@ -481,7 +725,6 @@ export default function App() {
             Trade Bitcoin, Ethereum, Binance and top altcoins on one platform.
           </p>
           <div className="email-box">
-            <input placeholder="Enter your email" />
             <button className="btn-signup">Get Started</button>
           </div>
         </div>
@@ -739,13 +982,11 @@ export default function App() {
           <div className="trusted-cards">
             <div className="info-card-1">
               <h4>Secure Storage</h4>
-              <p>Your assets are secured with advanced protection.</p>
-              <span>Learn More →</span>
+              <p>We safely store your crypto using industry-leading technology.</p>
             </div>
-            <div className="info-card-1 active">
-              <h4>Secure Storage</h4>
-              <p>We securely store your crypto to help keep your assets safe.</p>
-              <span>Learn More →</span>
+            <div className="info-card-2">
+              <h4>Protected by insurance</h4>
+              <p>Your funds are covered with an extra layer of protection.</p>
             </div>
           </div>
 
@@ -757,9 +998,8 @@ export default function App() {
             <p>Explore the top reasons customers trust Demo.</p>
           </div>
           <div className="info-card-1">
-            <h4>Protected by Insurance</h4>
-            <p>Your funds come with an extra layer of protection.</p>
-            <span>Learn More →</span>
+            <h4>24/7 Monitoring</h4>
+            <p>Continuous system monitoring to prevent threats .</p>
           </div>
         </div>
 
@@ -767,22 +1007,25 @@ export default function App() {
         <div className="trusted-middle">
           <div className="features">
             <h3>
-              Some <span>Key Features</span> <br /> Of Demo ✨
+              Some <span>Key Features</span> <br /> Of InstaCoinXPay ✨
             </h3>
             <p className="desc">
               Here are few reasons why you should choose Demo.
             </p>
+
             <div className="stats">
               <div>
-                <h4>141,000+</h4>
+                <LiveCounter start={141729} step={3} suffix="+" />
                 <p>Registered Users</p>
               </div>
+
               <div>
-                <h4>$280M+</h4>
+                <LiveCounter start={80} step={1} prefix="$" suffix="K+" interval={50} />
                 <p>Airdrops Given</p>
               </div>
+
               <div>
-                <h4>$38M+</h4>
+                <LiveCounter start={385} step={2} prefix="$" suffix="K+" />
                 <p>Monthly Withdrawals</p>
               </div>
             </div>
@@ -848,9 +1091,9 @@ export default function App() {
               <span className="icon">🏦</span>
               <span className="number">2</span>
             </div>
-            <h4>Link Your Bank Account</h4>
+            <h4>Link Your crypto wallet</h4>
             <p>
-              Securely link your bank account to enable fiat deposits and
+              Securely link your crypto wallet to enable fiat deposits and
               withdrawals for your crypto trades.
             </p>
           </div>
@@ -869,9 +1112,113 @@ export default function App() {
         </div>
       </section>
 
-      {/* BLOG */}
-      <section className="blog">
-        <img src={LearnCrypto} alt="Learn Crypto" />
+      {/* BLOG SECTION WITH LIVE API */}
+      <section className="blog-section">
+        <div className="blog-container">
+          {/* Blog Header */}
+          <div className="blog-header">
+            <div className="blog-header-text">
+              <span className="blog-badge">📰 Live Crypto News</span>
+              <h2 className="blog-title">
+                Latest <span>Cryptocurrency</span> Updates
+              </h2>
+              <p className="blog-subtitle">
+                Real-time news, analysis, and insights from the cryptocurrency world.
+                Updated every 5 minutes.
+              </p>
+              <div className="blog-stats">
+                <span className="blog-stat">
+                  <ClockIcon size={14} />
+                  Updated: {formatBlogTimeAgo(lastBlogUpdate)}
+                </span>
+                <span className="blog-stat">
+                  📊 {blogArticles.length} Articles
+                </span>
+                {blogError && (
+                  <span className="blog-error-stat">
+                    ⚠️ {blogError}
+                  </span>
+                )}
+              </div>
+            </div>
+            <div className="blog-header-actions">
+              <button 
+                className="refresh-blog-btn" 
+                onClick={handleBlogRefresh}
+                disabled={blogLoading}
+              >
+                <RefreshCw size={18} className={blogLoading ? "spinning" : ""} />
+                {blogLoading ? "Loading..." : "Refresh News"}
+              </button>
+            </div>
+          </div>
+          {/* Loading State */}
+          {blogLoading && blogArticles.length === 0 ? (
+            <div className="blog-loading">
+              <div className="loading-spinner"></div>
+              <p>Loading latest cryptocurrency news...</p>
+            </div>
+          ) : (
+            /* Blog Cards Grid */
+            <div className="blog-grid">
+              {blogArticles.slice(0, 3).map((article, index) => (
+                <div 
+                  key={article.id} 
+                  className={`blog-card ${article.trending ? 'featured' : ''}`}
+                >
+                  {article.trending && (
+                    <div className="blog-card-badge">
+                      <TrendingUp size={12} />
+                      TRENDING
+                    </div>
+                  )}
+                  <div className="blog-card-image">
+                    <img 
+                      src={article.image} 
+                      alt={article.title}
+                      onError={(e) => {
+                        e.target.src = `https://images.unsplash.com/photo-1621761191319-c6fb62004040?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80&sig=${index}`;
+                      }}
+                    />
+                    <div className="blog-card-category">{article.category}</div>
+                    <div className="blog-card-source">
+                      Source: {article.source}
+                    </div>
+                  </div>
+                  <div className="blog-card-content">
+                    <div className="blog-meta">
+                      <span className="blog-date">
+                        <Calendar size={12} />
+                        {article.date}
+                      </span>
+                      <span className="blog-read-time">
+                        <ClockIcon size={12} />
+                        {article.readTime}
+                      </span>
+                    </div>
+                    <h3 className="blog-card-title">
+                      {article.title}
+                    </h3>
+                    <p className="blog-card-excerpt">
+                      {article.excerpt}
+                    </p>
+                    <div className="blog-card-footer">
+                      <div className="blog-author">
+                        <div className="author-avatar">
+                          <User size={16} />
+                        </div>
+                        <div className="author-info">
+                          <span className="author-name">{article.author}</span>
+                          <span className="author-role">{article.authorRole}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </section>
 
       {/* CTA */}
@@ -883,7 +1230,6 @@ export default function App() {
           </h2>
           <div className="cta-buttons">
             <button className="btn-primary" onClick={() => navigate("/getstarted")}>Let's Begin</button>
-            <button className="btn-outline">Explore More</button>
           </div>
         </div>
 

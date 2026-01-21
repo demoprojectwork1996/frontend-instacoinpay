@@ -25,17 +25,17 @@ const BACK = {
 
 const Card = ({
   type = "classic",
-  number,
-  holder,
-  expiry,
-  cvv = "***",
+  number = "**** **** **** 1234",
+  holder = "JOHN DOE",
+  expiry = "12/29",
+  cvv = "XXX",
   status = "INACTIVE",
 }) => {
   const [flipped, setFlipped] = useState(false);
 
-  // ✅ CONTROLLED FLIP WITH AUTO-RESET
+  // ✅ FLIP FOR ALL STATUS
   const handleFlip = () => {
-    if (status !== "Activate" || flipped) return;
+    if (flipped) return;
 
     setFlipped(true);
 
@@ -46,58 +46,61 @@ const Card = ({
   };
 
   return (
-    <div className="card-container">
-      <div
-        className={`card-flip ${flipped ? "flipped" : ""}`}
-        onClick={handleFlip}
-      >
-        {/* FRONT */}
-       <div
-  className="card-exact card-front"
-  style={{ backgroundImage: `url(${FRONT[type]})` }}
->
-  {/* STATUS */}
-  <div
-    className={`card-status ${
-      status === "Activate"
-        ? "card-active"
-        : status === "PENDING"
-        ? "card-pending"
-        : "card-inactive"
-    }`}
-  >
-    {status}
-  </div>
-
-  <div className="card-number">{number}</div>
-  <div className="card-holder-name">Card Holder</div>
-  <div className="card-holder">{holder}</div>
-
-  <div className="card-expiry">
-    <div className="expiry-label">Expiry Date</div>
-    <div className="expiry-value">{expiry}</div>
-  </div>
-</div>
-
-
-        {/* BACK */}
+    <div className="card-page">
+      <div className="card-container">
         <div
-          className="card-exact card-back"
-          style={{ backgroundImage: `url(${BACK[type]})` }}
+          className={`card-flip ${flipped ? "flipped" : ""}`}
+          onClick={handleFlip}
         >
-          <div className="card-support">
-            For customer service, contact WhatsApp Support.
+          {/* FRONT */}
+          <div
+            className="card-exact card-front"
+            style={{ backgroundImage: `url(${FRONT[type]})` }}
+          >
+            {/* STATUS */}
+            <div
+              className={`card-status ${
+                status === "Activate"
+                  ? "card-active"
+                  : status === "PENDING"
+                  ? "card-pending"
+                  : "card-inactive"
+              }`}
+            >
+              {status}
+            </div>
+
+            <div className="card-number">{number}</div>
+
+            <div className="card-holder-name">Card Holder</div>
+            <div className="card-holder">{holder}</div>
+
+            <div className="card-expiry">
+              <div className="expiry-label">Expiry Date</div>
+              <div className="expiry-value">{expiry}</div>
+            </div>
           </div>
 
-          <div className="cvv-box">
-            {status === "Activate" ? cvv : "***"}
-          </div>
+          {/* BACK */}
+          <div
+            className="card-exact card-back"
+            style={{ backgroundImage: `url(${BACK[type]})` }}
+          >
+            <div className="card-support">
+              For customer service, contact WhatsApp Support.
+            </div>
 
-          <div className="card-disclaimer">
-            This card is issued by the authorized issuer and remains its property.
-            The cardholder agrees to comply with all applicable terms, conditions,
-            and security requirements. Misuse may result in suspension or
-            termination.
+            {/* ✅ CVV ONLY WHEN ACTIVE */}
+            <div className="cvv-box">
+              {status === "Activate" ? cvv : "***"}
+            </div>
+
+            <div className="card-disclaimer">
+              This card is issued by the authorized issuer and remains its
+              property. The cardholder agrees to comply with all applicable
+              terms, conditions, and security requirements. Misuse may result in
+              suspension or termination.
+            </div>
           </div>
         </div>
       </div>

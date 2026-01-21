@@ -14,6 +14,7 @@ import xrp from "../assets/xrp.png";
 import doge from "../assets/doge.png";
 import ltc from "../assets/ltc.png";
 
+/* ================= ICON MAP ================= */
 const iconMap = {
   BTC: btc,
   USDT_BNB: usdt,
@@ -27,23 +28,47 @@ const iconMap = {
   LTC: ltc,
 };
 
+/* ================= FORMATTERS ================= */
+const formatCurrency = (amount) =>
+  new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(amount || 0);
+
+const formatPercentage = (value = 0) => {
+  const sign = value >= 0 ? "+" : "";
+  return `${sign}${Number(value).toFixed(2)}%`;
+};
+
+/* ================= COMPONENT ================= */
 const BitcoinWallet = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
+
+  /* ===== NORMALIZED ASSET (🔥 IMPORTANT) ===== */
+  const asset = {
+    name: state?.name || "BTC",
+    sub: state?.sub || "Bitcoin",
+    icon: state?.icon || state?.iconPath || btc,
+    originalAsset: state?.originalAsset || null,
+  };
+
+  /* ===== BALANCE STATES ===== */
+  const [coinBalance, setCoinBalance] = useState(0);
+  const [usdBalance, setUsdBalance] = useState(0);
+  const [price, setPrice] = useState(0);
+  const [change24h, setChange24h] = useState(0);
+
+  /* ===== TRANSACTIONS ===== */
   const [recentTransactions, setRecentTransactions] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const asset = state || {
-    name: "BTC",
-    sub: "Bitcoin",
-    price: "$0.00",
-    balance: "$0",
-    change: "-0.1%",
-  };
-
+  /* ================= ICON ================= */
   const getIcon = () => {
-    if (state?.icon) return state.icon;
+    if (asset.icon) return asset.icon;
 
     const key =
       asset.name === "USDT"
@@ -53,19 +78,35 @@ const BitcoinWallet = () => {
     return iconMap[key] || btc;
   };
 
-  // Fetch recent transactions for this asset
+  /* ================= APPLY DASHBOARD DATA FIRST ================= */
+  useEffect(() => {
+    if (asset.originalAsset) {
+      const {
+        balance,
+        balanceValue,
+        currentPrice,
+        priceChangePercentage24h,
+      } = asset.originalAsset;
+
+      setCoinBalance(balance || 0);
+      setUsdBalance(balanceValue || 0);
+      setPrice(currentPrice || 0);
+      setChange24h(priceChangePercentage24h || 0);
+    }
+  }, []);
+
+  /* ================= FETCH TRANSACTIONS ================= */
   const fetchAssetTransactions = async () => {
     try {
       setLoading(true);
       const token = localStorage.getItem("token");
-      
       if (!token) return;
 
       const response = await axios.get(
         `https://backend-instacoinpay-1.onrender.com/api/history/asset/${asset.name.toLowerCase()}`,
         {
           headers: { Authorization: `Bearer ${token}` },
-          params: { limit: 3 }
+          params: { limit: 3 },
         }
       );
 
@@ -73,7 +114,7 @@ const BitcoinWallet = () => {
         setRecentTransactions(response.data.data);
       }
     } catch (err) {
-      console.error("Error fetching transactions:", err);
+      console.error(err);
       setError("Failed to load transactions");
     } finally {
       setLoading(false);
@@ -81,60 +122,50 @@ const BitcoinWallet = () => {
   };
 
   useEffect(() => {
-    if (asset.name) {
-      fetchAssetTransactions();
-    }
+    fetchAssetTransactions();
   }, [asset.name]);
 
-  // Format transaction for display
-  const formatTransaction = (tx) => {
-    // Use the actual address from transaction data
-    const shortAddress = tx.to || `${asset.name.toLowerCase()}1...xyz`;
-    
-    return {
-      type: tx.type,
-      amount: tx.amount,
-      asset: tx.coin || asset.name,
-      sub: tx.sub || `${tx.amount} ${tx.coin || asset.name}`,
-      to: shortAddress  // Add the address here
-    };
-  };
+  /* ================= FORMAT TX ================= */
+  const formatTransaction = (tx) => ({
+    type: tx.type,
+    amount: tx.amount,
+    asset: tx.coin || asset.name,
+    sub: `${tx.amount} ${tx.coin || asset.name}`,
+  });
 
-  // Default transactions if API fails
-  const defaultTransactions = [
-    { type: "Sent", amount: "- $400.50", asset: asset.name },
-    { type: "Received", amount: "+ $400.50", asset: asset.name },
-    { type: "Pending", amount: "$400.50", asset: asset.name },
-  ];
+  const displayTransactions =
+    recentTransactions.length > 0
+      ? recentTransactions.map(formatTransaction)
+      : [];
 
-  const displayTransactions = recentTransactions.length > 0 
-    ? recentTransactions.map(formatTransaction)
-    : defaultTransactions;
-
+  /* ================= UI ================= */
   return (
     <div className="bw-wrapper">
       <div className="bw-card">
 
-        {/* Header */}
+        {/* HEADER */}
         <div className="bw-header">
           <span className="bw-back" onClick={() => navigate(-1)}>←</span>
-
           <div className="bw-coin">
             <img src={getIcon()} alt={asset.name} />
             <h3>{asset.sub}</h3>
           </div>
         </div>
 
-        {/* Balance */}
+        {/* BALANCE */}
         <div className="bw-balance">
-          <h1>{asset.balance || "0"}</h1>
-          <p className="bw-price">{asset.price}</p>
-          <p className={`bw-change ${asset.change?.includes("-") ? "red" : "green"}`}>
-            {asset.change || "0%"} 24hr
+          <h1>
+            {formatCurrency(usdBalance)} {asset.name}
+          </h1>
+          <p className="bw-price">
+            {formatCurrency(price)} / {asset.name}
+          </p>
+          <p className={`bw-change ${change24h < 0 ? "red" : "green"}`}>
+            {formatPercentage(change24h)} 24hr
           </p>
         </div>
 
-        {/* Chart */}
+        {/* CHART (STATIC) */}
         <div className="bw-chart">
           <svg viewBox="0 0 300 120">
             <polyline
@@ -146,45 +177,49 @@ const BitcoinWallet = () => {
           </svg>
         </div>
 
-        {/* Tabs */}
-        <div className="bw-tabs">
-          <span>D</span>
-          <span>W</span>
-          <span>M</span>
-          <span className="active">3M</span>
-          <span>6M</span>
-          <span>1Y</span>
-          <span>ALL</span>
-        </div>
-
-        {/* Actions */}
+        {/* ACTIONS */}
         <div className="bw-actions">
-          <Action label="Send" icon="↗" onClick={() => navigate("/send", { state: asset })} />
-          <Action label="Receive" icon="↙" onClick={() => navigate("/receive", { state: asset })} />
+          <Action
+            label="Send"
+            icon="↗"
+            onClick={() =>
+              navigate("/send", {
+                state: {
+                  name: asset.name,
+                  sub: asset.sub,
+                  icon: getIcon(),
+                  originalAsset: asset.originalAsset,
+                },
+              })
+            }
+          />
+          <Action
+            label="Receive"
+            icon="↙"
+            onClick={() =>
+              navigate("/receive", {
+                state: {
+                  name: asset.name,
+                  sub: asset.sub,
+                  icon: getIcon(),
+                },
+              })
+            }
+          />
           <Action label="History" icon="⟳" onClick={() => navigate("/history")} />
         </div>
 
-        {/* Recent Transactions */}
+        {/* TRANSACTIONS */}
         <div className="bw-transactions">
           {loading ? (
-            <div className="bw-loading">
-              <div className="spinner-small"></div>
-              <p>Loading transactions...</p>
-            </div>
+            <p>Loading transactions...</p>
           ) : error ? (
-            <div className="bw-error">
-              <p>⚠️ {error}</p>
-            </div>
+            <p>⚠️ {error}</p>
+          ) : displayTransactions.length === 0 ? (
+            <p>No recent transactions</p>
           ) : (
-            displayTransactions.map((tx, index) => (
-              <Transaction 
-                key={index} 
-                type={tx.type} 
-                amount={tx.amount} 
-                asset={tx.asset} 
-                sub={tx.sub}
-                to={tx.to}  // Pass the address here
-              />
+            displayTransactions.map((tx, i) => (
+              <Transaction key={i} {...tx} />
             ))
           )}
         </div>
@@ -194,6 +229,7 @@ const BitcoinWallet = () => {
   );
 };
 
+/* ================= SUB COMPONENTS ================= */
 const Action = ({ icon, label, onClick }) => (
   <div className="bw-action" onClick={onClick}>
     <div className="bw-action-icon">{icon}</div>
@@ -201,18 +237,18 @@ const Action = ({ icon, label, onClick }) => (
   </div>
 );
 
-// Updated Transaction component to accept and display the 'to' address
-const Transaction = ({ type, amount, asset, sub, to }) => (
+const Transaction = ({ type, amount, asset, sub }) => (
   <div className="bw-tx">
     <div className="bw-tx-left">
-      <div className="bw-tx-icon">{asset.charAt(0)}</div>
+      <div className="bw-tx-icon">{asset?.charAt(0)}</div>
       <div>
         <strong>{type}</strong>
-        {/* <span>To: {to}</span>  Changed from static to dynamic */}
-        {sub && <small className="btc-amount">{sub}</small>}
+        <small className="btc-amount">{sub}</small>
       </div>
     </div>
-    <span className={`bw-tx-amount ${type.toLowerCase()}`}>{amount}</span>
+    <span className={`bw-tx-amount ${type?.toLowerCase()}`}>
+      {amount}
+    </span>
   </div>
 );
 

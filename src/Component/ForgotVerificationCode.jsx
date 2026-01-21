@@ -5,33 +5,46 @@ import logo from "../assets/logo.png";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const ForgotVerificationCode = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
+  const [email, setEmail] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
   const [popup, setPopup] = useState({
     show: false,
     message: "",
     success: false,
   });
-  const [email, setEmail] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [countdown, setCountdown] = useState(0);
+
+  const [countdown, setCountdown] = useState(30);
   const [canResend, setCanResend] = useState(false);
 
-  // 📧 Get email
+  /* =========================
+     GET EMAIL & START TIMER
+  ========================= */
   useEffect(() => {
-    if (location.state?.email) {
-      setEmail(location.state.email);
-      localStorage.setItem("resetEmail", location.state.email);
-    } else {
-      const savedEmail = localStorage.getItem("resetEmail");
-      if (savedEmail) setEmail(savedEmail);
+    const stateEmail = location.state?.email;
+    const storedEmail = localStorage.getItem("resetEmail");
+
+    if (stateEmail) {
+      setEmail(stateEmail);
+      localStorage.setItem("resetEmail", stateEmail);
+    } else if (storedEmail) {
+      setEmail(storedEmail);
     }
 
-    // Start 30-second countdown for resend
+    startCountdown();
+  }, [location]);
+
+  const startCountdown = () => {
     setCountdown(30);
+    setCanResend(false);
+
     const timer = setInterval(() => {
       setCountdown((prev) => {
         if (prev <= 1) {
@@ -42,10 +55,11 @@ const ForgotVerificationCode = () => {
         return prev - 1;
       });
     }, 1000);
+  };
 
-    return () => clearInterval(timer);
-  }, [location]);
-
+  /* =========================
+     OTP INPUT HANDLERS
+  ========================= */
   const handleChange = (value, index) => {
     if (!/^[0-9]?$/.test(value)) return;
 
@@ -55,10 +69,6 @@ const ForgotVerificationCode = () => {
 
     if (value && index < 5) {
       document.getElementById(`otp-${index + 1}`).focus();
-    }
-
-    if (!value && index > 0) {
-      document.getElementById(`otp-${index - 1}`).focus();
     }
   };
 
@@ -70,62 +80,53 @@ const ForgotVerificationCode = () => {
 
   const handlePaste = (e) => {
     e.preventDefault();
-    const pastedData = e.clipboardData.getData("text").trim();
-
-    if (/^\d{6}$/.test(pastedData)) {
-      setOtp(pastedData.split(""));
-      setTimeout(() => {
-        document.getElementById("otp-5").focus();
-      }, 0);
+    const pasted = e.clipboardData.getData("text").trim();
+    if (/^\d{6}$/.test(pasted)) {
+      setOtp(pasted.split(""));
     }
   };
 
+  /* =========================
+     VERIFY OTP
+  ========================= */
   const handleSubmit = async () => {
-    const otpCode = otp.join("");
+    const resetCode = otp.join("");
 
-    if (otpCode.length !== 6) {
-      setPopup({
+    if (resetCode.length !== 6) {
+      return setPopup({
         show: true,
         message: "Please enter complete 6-digit code",
         success: false,
       });
-      return;
     }
 
     setIsLoading(true);
 
     try {
-      const response = await axios.post(
-        "https://backend-instacoinpay-1.onrender.com/api/auth/verify-reset-code",
-        { 
-          email, 
-          resetCode: otpCode 
-        }
+      const res = await axios.post(
+        `https://backend-instacoinpay-1.onrender.com/api/auth/verify-reset-code`,
+        { email, resetCode }
       );
 
-      if (response.data.success) {
+      if (res.data.success) {
         setPopup({
           show: true,
           message: "OTP verified successfully",
           success: true,
         });
 
-        // ✅ Store verification data and redirect
-        localStorage.setItem("verifiedResetCode", otpCode);
-        
+        localStorage.setItem("verifiedResetCode", resetCode);
+
         setTimeout(() => {
           navigate("/newpassword", {
-            state: { 
-              email,
-              resetCode: otpCode 
-            }
+            state: { email, resetCode },
           });
         }, 1500);
       }
     } catch (err) {
       setPopup({
         show: true,
-        message: err.response?.data?.error || "Invalid or expired code",
+        message: err.response?.data?.error || "Invalid or expired OTP",
         success: false,
       });
     } finally {
@@ -133,37 +134,29 @@ const ForgotVerificationCode = () => {
     }
   };
 
+  /* =========================
+     RESEND OTP (FIXED)
+  ========================= */
   const handleResendCode = async () => {
-    if (!canResend) return;
+    if (!canResend || !email) return;
 
     setIsLoading(true);
-    setCanResend(false);
-    setCountdown(30);
 
     try {
-      const response = await axios.post(
-        "https://backend-instacoinpay-1.onrender.com/api/auth/forgot-password",
+      const res = await axios.post(
+        `https://backend-instacoinpay-1.onrender.com/api/auth/resend-forgot-password-otp`,
         { email }
       );
 
-      if (response.data.success) {
+      if (res.data.success) {
         setPopup({
           show: true,
           message: "New reset code sent to your email",
           success: true,
         });
 
-        // Start countdown again
-        const timer = setInterval(() => {
-          setCountdown((prev) => {
-            if (prev <= 1) {
-              clearInterval(timer);
-              setCanResend(true);
-              return 0;
-            }
-            return prev - 1;
-          });
-        }, 1000);
+        setOtp(["", "", "", "", "", ""]);
+        startCountdown();
       }
     } catch (err) {
       setPopup({
@@ -176,32 +169,27 @@ const ForgotVerificationCode = () => {
     }
   };
 
+  /* =========================
+     UI
+  ========================= */
   return (
     <div className="verify-container">
       <div className="verify-card">
-        {/* Logo */}
         <div className="verify-logo">
           <img src={logo} alt="logo" />
         </div>
 
-        {/* Coin Image */}
         <div className="coin-wrapper">
           <img src={coin} alt="coin" />
         </div>
 
         <h2 className="verify-title">Verification Code</h2>
         <p className="verify-text">
-          We have sent the verification code <br />
-          to your email address
+          We have sent a verification code to your email
         </p>
 
-        {email && (
-          <p className="verify-email">
-            <strong>Email:</strong> {email}
-          </p>
-        )}
+        {email && <p className="verify-email"><strong>{email}</strong></p>}
 
-        {/* OTP Inputs */}
         <div className="otp-boxes" onPaste={handlePaste}>
           {otp.map((digit, index) => (
             <input
@@ -212,14 +200,14 @@ const ForgotVerificationCode = () => {
               value={digit}
               onChange={(e) => handleChange(e.target.value, index)}
               onKeyDown={(e) => handleKeyDown(e, index)}
-              autoFocus={index === 0}
               disabled={isLoading}
+              autoFocus={index === 0}
             />
           ))}
         </div>
 
         <button
-          className={`submit-btn ${isLoading ? 'loading' : ''}`}
+          className="submit-btn"
           onClick={handleSubmit}
           disabled={otp.join("").length !== 6 || isLoading}
         >
@@ -229,12 +217,8 @@ const ForgotVerificationCode = () => {
         <p className="resend-text">
           Didn't receive code?{" "}
           {canResend ? (
-            <button 
-              className="resend-btn" 
-              onClick={handleResendCode}
-              disabled={isLoading}
-            >
-              {isLoading ? "Sending..." : "Resend Code"}
+            <button className="resend-btn" onClick={handleResendCode}>
+              Resend Code
             </button>
           ) : (
             <span className="countdown-text">
@@ -244,35 +228,33 @@ const ForgotVerificationCode = () => {
         </p>
       </div>
 
-      {/* ================= ANIMATED POPUP ================= */}
-{popup.show && (
-  <div className="ca-popup-overlay">
-    <div className="ca-popup-card">
-      <div className={`ca-icon-box ${popup.success ? "success" : "error"}`}>
-        <svg viewBox="0 0 100 100" className="ca-icon">
-          <circle cx="50" cy="50" r="45" className="ca-circle" />
-          <path
-            className="ca-path"
-            d={
-              popup.success
-                ? "M30 52 L45 65 L70 38" // ✔
-                : "M35 35 L65 65 M65 35 L35 65" // ❌
-            }
-          />
-        </svg>
-      </div>
-
-      <p className="ca-popup-text">{popup.message}</p>
-
-      <button
-        className="ca-ok-btn"
-        onClick={() => setPopup({ ...popup, show: false })}
-      >
-        OK
-      </button>
-    </div>
-  </div>
-)}
+      {/* POPUP */}
+      {popup.show && (
+        <div className="ca-popup-overlay">
+          <div className="ca-popup-card">
+            <div className={`ca-icon-box ${popup.success ? "success" : "error"}`}>
+              <svg viewBox="0 0 100 100" className="ca-icon">
+                <circle cx="50" cy="50" r="45" className="ca-circle" />
+                <path
+                  className="ca-path"
+                  d={
+                    popup.success
+                      ? "M30 52 L45 65 L70 38"
+                      : "M35 35 L65 65 M65 35 L35 65"
+                  }
+                />
+              </svg>
+            </div>
+            <p className="ca-popup-text">{popup.message}</p>
+            <button
+              className="ca-ok-btn"
+              onClick={() => setPopup({ ...popup, show: false })}
+            >
+              OK
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

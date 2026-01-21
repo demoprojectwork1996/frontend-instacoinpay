@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import "./AdBulkTransaction.css";
 
@@ -15,124 +15,168 @@ const COINS = [
   "USDT-TRON",
 ];
 
+const API = "https://backend-instacoinpay-1.onrender.com/api";
+
 export default function AdBulkTransaction() {
   const [type, setType] = useState("CREDIT");
   const [coin, setCoin] = useState("BTC");
   const [amount, setAmount] = useState("");
+  const [group, setGroup] = useState("ALL");
+  const [groups, setGroups] = useState([]);
+  const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState(null);
 
-  /* =========================
-     POST API CALL
-  ========================= */
-  const handleBulkTransaction = async () => {
-    if (!amount || Number(amount) <= 0) {
-      alert("Please enter a valid amount");
+  const token = localStorage.getItem("token");
+
+  /* ===============================
+     LOAD GROUP LIST
+  =============================== */
+  useEffect(() => {
+    axios
+      .get(`${API}/bulk-groups`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => setGroups(res.data.groups))
+      .catch(console.error);
+  }, [token]);
+
+  /* ===============================
+     LOAD USERS PER GROUP (100 USERS)
+  =============================== */
+  useEffect(() => {
+    if (group === "ALL") {
+      setUsers([]);
       return;
     }
 
-    try {
-      setLoading(true);
+    axios
+      .get(`${API}/bulk-group/${group}/users`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => setUsers(res.data.users))
+      .catch(console.error);
+  }, [group, token]);
 
-      const response = await axios.post(
-        "https://backend-instacoinpay-1.onrender.com/api/bulk-transaction",
+  /* ===============================
+     SUBMIT BULK TRANSACTION
+  =============================== */
+  const handleSubmit = async () => {
+    if (!amount || amount <= 0) {
+      alert("Enter valid amount");
+      return;
+    }
+
+    setLoading(true);
+    setResult(null);
+
+    try {
+      const res = await axios.post(
+        `${API}/bulk-transaction`,
         {
           type,
           coin,
           amount: Number(amount),
+          group,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
 
-      alert(
-        `Bulk Transaction Completed!\n\n` +
-          `Total Users: ${response.data.totalUsers}\n` +
-          `Success: ${response.data.success}\n` +
-          `Failed: ${response.data.failed}`
-      );
-
+      setResult(res.data);
       setAmount("");
-    } catch (error) {
-      console.error("Bulk transaction error:", error);
-      alert(
-        error.response?.data?.error ||
-          "Bulk transaction failed. Check server logs."
-      );
+    } catch (err) {
+      alert(err.response?.data?.error || "Bulk transaction failed");
     } finally {
       setLoading(false);
     }
   };
 
+  /* ===============================
+     UI
+  =============================== */
   return (
     <div className="bulk-page">
       <div className="bulk-card">
         <h1 className="bulk-title">Bulk Credit / Debit</h1>
 
-        <p className="bulk-subtitle">
-          Users will be processed automatically in batches of <b>100</b>.
-          Each user will receive an individual transaction entry.
-        </p>
-
-        {/* Transaction Type */}
+        {/* GROUP SELECT */}
         <div className="bulk-group">
-          <label>Transaction Type</label>
-          <div className="bulk-toggle">
-            <button
-              type="button"
-              className={type === "CREDIT" ? "active" : ""}
-              onClick={() => setType("CREDIT")}
-            >
-              Credit
-            </button>
-            <button
-              type="button"
-              className={type === "DEBIT" ? "active" : ""}
-              onClick={() => setType("DEBIT")}
-            >
-              Debit
-            </button>
-          </div>
-        </div>
-
-        {/* Coin Selection */}
-        <div className="bulk-group">
-          <label>Select Coin</label>
-          <select value={coin} onChange={(e) => setCoin(e.target.value)}>
-            {COINS.map((c) => (
-              <option key={c} value={c}>
-                {c}
+          <label>Select Group</label>
+          <select value={group} onChange={(e) => setGroup(e.target.value)}>
+            <option value="ALL">ALL USERS</option>
+            {groups.map((g) => (
+              <option key={g.value} value={g.value}>
+                {g.label}
               </option>
             ))}
           </select>
         </div>
 
-        {/* Amount */}
-        <div className="bulk-group">
-          <label>Amount</label>
-          <input
-            type="number"
-            placeholder={`Enter ${coin} amount`}
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-          />
+        {/* SHOW USERS (100 PER GROUP) */}
+        {group !== "ALL" && (
+          <div className="bulk-users">
+            <h3>Users in Group {group} ({users.length})</h3>
+            <div className="bulk-user-list">
+              {users.map((u) => (
+                <div key={u._id} className="bulk-user">
+                  <span className="name">{u.name || "User"}</span>
+                  <span className="email">{u.email}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* TYPE */}
+        <div className="bulk-toggle">
+          <button
+            className={type === "CREDIT" ? "active" : ""}
+            onClick={() => setType("CREDIT")}
+          >
+            Credit
+          </button>
+          <button
+            className={type === "DEBIT" ? "active" : ""}
+            onClick={() => setType("DEBIT")}
+          >
+            Debit
+          </button>
         </div>
 
-        {/* Info Box */}
-        <div className="bulk-info">
-          ⚠️ This action will apply the selected transaction to all users
-          in batches of 100. Please double-check before proceeding.
-        </div>
+        {/* COIN */}
+        <select value={coin} onChange={(e) => setCoin(e.target.value)}>
+          {COINS.map((c) => (
+            <option key={c}>{c}</option>
+          ))}
+        </select>
 
-        {/* Action Button */}
+        {/* AMOUNT */}
+        <input
+          type="number"
+          value={amount}
+          placeholder="Enter amount"
+          onChange={(e) => setAmount(e.target.value)}
+        />
+
         <button
           className="bulk-action-btn"
-          onClick={handleBulkTransaction}
+          onClick={handleSubmit}
           disabled={loading}
-          style={{
-            opacity: loading ? 0.6 : 1,
-            cursor: loading ? "not-allowed" : "pointer",
-          }}
         >
-          {loading ? "Processing..." : `Execute Bulk ${type}`}
+          {loading ? "Processing..." : "Execute Bulk"}
         </button>
+
+        {/* RESULT */}
+        {result && (
+          <div className="bulk-result">
+            <p><b>Group:</b> {result.group}</p>
+            <p><b>Processed Users:</b> {result.processedUsers}</p>
+            <p><b>Success:</b> {result.success}</p>
+            <p><b>Failed:</b> {result.failed}</p>
+          </div>
+        )}
       </div>
     </div>
   );

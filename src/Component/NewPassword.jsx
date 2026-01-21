@@ -68,14 +68,15 @@ const NewPassword = () => {
     setIsLoading(true);
 
     try {
-      const res = await axios.post(
-        "https://backend-instacoinpay-1.onrender.com/api/auth/reset-password",
-        {
-          email,
-          resetCode,
-          newPassword: formData.newPassword,
-        }
-      );
+     const res = await axios.post(
+  "https://backend-instacoinpay-1.onrender.com/api/auth/reset-password",
+  {
+    email,
+    resetCode,
+    newPassword: formData.newPassword,
+  }
+);
+
 
       if (res.data.success) {
         setPopup({

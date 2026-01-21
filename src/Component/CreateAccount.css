@@ -315,9 +315,6 @@
     max-width: 420px;
   }
 
-  .ca-top-logo img {
-    margin-left: 40px;
-  }
 }
 
 /* Mobile */
@@ -327,7 +324,9 @@
   }
 
   .ca-coin-wrapper img {
-    width: 120px;
+    width: 300px;
+        margin-top: 50px;
+        margin-right: 50px;
   }
 
   .ca-title {

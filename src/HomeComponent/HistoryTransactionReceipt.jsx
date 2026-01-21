@@ -32,27 +32,31 @@ const HistoryTransactionReceipt = () => {
       ltc: "LTC",
     }[asset.toLowerCase()] || "Unknown");
 
-  useEffect(() => {
-    const fetchTx = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        if (!token) return navigate("/login");
+useEffect(() => {
+  const fetchTx = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) return navigate("/login");
 
-        const res = await axios.get(
-          `https://backend-instacoinpay-1.onrender.com/api/transfer/${id}`,
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
+      const res = await axios.get(
+        `https://backend-instacoinpay-1.onrender.com/api/transfer/${id}`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
 
-        setTx(res.data.data);
-      } catch (e) {
-        setTx(null);
-      } finally {
-        setLoading(false);
-      }
-    };
+      const data = res.data.data;
+      data.status = (data.status || "pending").toLowerCase(); // 🔥 FIX
 
-    fetchTx();
-  }, [id, navigate]);
+      setTx(data);
+    } catch (e) {
+      setTx(null);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchTx();
+}, [id, navigate]);
+
 
   if (loading) return <p style={{ textAlign: "center" }}>Loading...</p>;
   if (!tx) return <p style={{ textAlign: "center" }}>Transaction not found</p>;
@@ -79,9 +83,30 @@ const HistoryTransactionReceipt = () => {
           -{amount} {coin}
         </div>
 
-        <div className={`receipt-status ${tx.status}`}>
-          {tx.status?.toUpperCase()}
-        </div>
+        <div className={`status-wrapper ${tx.status}`}>
+
+  {tx.status === "pending" && (
+    <div className="loader" />
+  )}
+
+  {tx.status === "completed" && (
+    <div className="status-icon success">✔</div>
+  )}
+
+  {tx.status === "failed" && (
+    <div className="status-icon failed">✖</div>
+  )}
+
+  <div className="status-text">
+    {tx.status === "completed"
+      ? "Successful"
+      : tx.status === "failed"
+      ? "Failed"
+      : "Pending"}
+  </div>
+
+</div>
+
 
         {/* ✅ FIXED MESSAGE */}
         <div className="receipt-info">

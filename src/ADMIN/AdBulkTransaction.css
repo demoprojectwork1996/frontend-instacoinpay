@@ -1,51 +1,52 @@
+/* AdBulkTransaction.css */
+
+/* Base Styles */
 .bulk-page {
   min-height: 100vh;
   background: linear-gradient(135deg, #1e3c72, #2a5298);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 30px;
-  font-family: "Segoe UI", sans-serif;
+  padding: 20px;
+  font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+  box-sizing: border-box;
 }
 
 .bulk-card {
   background: #ffffff;
   width: 100%;
   max-width: 520px;
-  padding: 35px;
+  padding: 25px 20px;
   border-radius: 18px;
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  box-sizing: border-box;
 }
 
+/* Title */
 .bulk-title {
-  font-size: 26px;
+  font-size: 24px;
   font-weight: 700;
   color: #1f2937;
   text-align: center;
-  margin-bottom: 10px;
+  margin-bottom: 25px;
+  line-height: 1.3;
 }
 
-.bulk-subtitle {
-  font-size: 14px;
-  color: #6b7280;
-  text-align: center;
-  margin-bottom: 30px;
-}
-
+/* Group Selection */
 .bulk-group {
   margin-bottom: 22px;
 }
 
 .bulk-group label {
   display: block;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   color: #374151;
   margin-bottom: 8px;
   text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-.bulk-group input,
 .bulk-group select {
   width: 100%;
   padding: 14px 16px;
@@ -53,58 +54,495 @@
   border: 2px solid #e5e7eb;
   font-size: 15px;
   outline: none;
+  background: white;
+  color: #1f2937;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  background-size: 16px;
 }
 
-.bulk-group input:focus,
 .bulk-group select:focus {
   border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
+/* Users List */
+.bulk-users {
+  margin-bottom: 25px;
+  background: #f9fafb;
+  border-radius: 12px;
+  padding: 15px;
+  border: 1px solid #e5e7eb;
+}
+
+.bulk-users h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.bulk-user-list {
+  max-height: 200px;
+  overflow-y: auto;
+  padding-right: 8px;
+  scrollbar-width: thin;
+  scrollbar-color: #c1c1c1 transparent;
+}
+
+.bulk-user-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.bulk-user-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.bulk-user-list::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 10px;
+}
+
+.bulk-user {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #f3f4f6;
+  font-size: 14px;
+}
+
+.bulk-user .name {
+  font-weight: 500;
+  color: #1f2937;
+  max-width: 40%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bulk-user .email {
+  color: #6b7280;
+  font-size: 13px;
+  max-width: 55%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: right;
+}
+
+/* Type Toggle */
 .bulk-toggle {
   display: flex;
-  gap: 12px;
+  gap: 10px;
+  margin-bottom: 22px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 2px solid #e5e7eb;
 }
 
 .bulk-toggle button {
   flex: 1;
-  padding: 14px;
-  border-radius: 10px;
-  border: 2px solid #e5e7eb;
+  padding: 16px 12px;
+  border: none;
   background: #f9fafb;
   font-weight: 600;
   cursor: pointer;
+  font-size: 15px;
+  transition: all 0.2s ease;
+  min-height: 52px;
+}
+
+.bulk-toggle button:first-child {
+  border-right: 1px solid #e5e7eb;
+}
+
+.bulk-toggle button:last-child {
+  border-left: 1px solid #e5e7eb;
 }
 
 .bulk-toggle button.active {
   background: linear-gradient(135deg, #3b82f6, #2563eb);
   color: #fff;
-  border-color: transparent;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
 }
 
-.bulk-info {
-  background: #fef3c7;
-  color: #92400e;
-  font-size: 13px;
-  padding: 14px;
+/* Coin Selection */
+.bulk-card > select {
+  width: 100%;
+  padding: 14px 16px;
   border-radius: 10px;
-  margin-bottom: 25px;
-  line-height: 1.5;
+  border: 2px solid #e5e7eb;
+  font-size: 15px;
+  margin-bottom: 22px;
+  outline: none;
+  background: white;
+  color: #1f2937;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  background-size: 16px;
 }
 
+.bulk-card > select:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Amount Input */
+.bulk-card > input[type="number"] {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 10px;
+  border: 2px solid #e5e7eb;
+  font-size: 15px;
+  margin-bottom: 25px;
+  outline: none;
+  box-sizing: border-box;
+  color: #1f2937;
+}
+
+.bulk-card > input[type="number"]:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.bulk-card > input[type="number"]::placeholder {
+  color: #9ca3af;
+}
+
+/* Action Button */
 .bulk-action-btn {
   width: 100%;
-  padding: 16px;
+  padding: 18px;
   border-radius: 14px;
   border: none;
   background: linear-gradient(135deg, #16a34a, #15803d);
   color: white;
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 700;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 20px rgba(22, 163, 74, 0.2);
+  min-height: 56px;
 }
 
-.bulk-action-btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 30px rgba(22, 163, 74, 0.4);
+.bulk-action-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(22, 163, 74, 0.3);
+}
+
+.bulk-action-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.bulk-action-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: linear-gradient(135deg, #94a3b8, #64748b);
+}
+
+/* Result Section */
+.bulk-result {
+  margin-top: 25px;
+  padding: 18px;
+  background: #f0fdf4;
+  border-radius: 12px;
+  font-size: 14px;
+  color: #065f46;
+  line-height: 1.6;
+  border: 1px solid #bbf7d0;
+  animation: fadeIn 0.3s ease;
+}
+
+.bulk-result p {
+  margin: 8px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.bulk-result p b {
+  font-weight: 600;
+  color: #047857;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+  .bulk-page {
+    padding: 16px;
+    align-items: flex-start;
+    min-height: calc(100vh - 32px);
+  }
+  
+  .bulk-card {
+    padding: 20px 16px;
+    border-radius: 16px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .bulk-title {
+    font-size: 22px;
+    margin-bottom: 20px;
+  }
+  
+  .bulk-group label {
+    font-size: 13px;
+  }
+  
+  .bulk-group select,
+  .bulk-card > select,
+  .bulk-card > input[type="number"] {
+    padding: 16px 14px;
+    font-size: 16px; /* Larger for mobile touch */
+    border-radius: 12px;
+  }
+  
+  .bulk-user {
+    padding: 12px 10px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  
+  .bulk-user .name,
+  .bulk-user .email {
+    max-width: 100%;
+    width: 100%;
+  }
+  
+  .bulk-user .email {
+    text-align: left;
+    font-size: 12px;
+  }
+  
+  .bulk-toggle {
+    flex-direction: column;
+    border: none;
+    gap: 10px;
+  }
+  
+  .bulk-toggle button {
+    border: 2px solid #e5e7eb !important;
+    border-radius: 10px !important;
+    padding: 18px 12px;
+  }
+  
+  .bulk-toggle button.active {
+    border-color: transparent !important;
+  }
+  
+  .bulk-action-btn {
+    padding: 20px;
+    font-size: 17px;
+    border-radius: 12px;
+  }
+  
+  .bulk-result {
+    padding: 16px;
+    font-size: 13px;
+  }
+  
+  .bulk-result p {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+}
+
+@media (max-width: 480px) {
+  .bulk-page {
+    padding: 12px;
+  }
+  
+  .bulk-card {
+    padding: 18px 14px;
+    border-radius: 14px;
+  }
+  
+  .bulk-title {
+    font-size: 20px;
+  }
+  
+  .bulk-users {
+    padding: 12px;
+  }
+  
+  .bulk-users h3 {
+    font-size: 15px;
+  }
+  
+  .bulk-user-list {
+    max-height: 180px;
+  }
+  
+  .bulk-group select,
+  .bulk-card > select,
+  .bulk-card > input[type="number"] {
+    padding: 15px 12px;
+    font-size: 15px;
+  }
+  
+  .bulk-toggle button {
+    padding: 16px 12px;
+    font-size: 14px;
+  }
+  
+  .bulk-action-btn {
+    padding: 18px;
+    font-size: 16px;
+  }
+}
+
+/* Very small screens */
+@media (max-width: 320px) {
+  .bulk-page {
+    padding: 8px;
+  }
+  
+  .bulk-card {
+    padding: 16px 12px;
+  }
+  
+  .bulk-title {
+    font-size: 18px;
+  }
+  
+  .bulk-user {
+    font-size: 13px;
+  }
+  
+  .bulk-user .email {
+    font-size: 11px;
+  }
+}
+
+/* Tablet Landscape */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .bulk-page {
+    padding: 30px;
+  }
+  
+  .bulk-card {
+    max-width: 600px;
+    padding: 30px;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .bulk-card {
+    background: #1f2937;
+    color: #f9fafb;
+  }
+  
+  .bulk-title {
+    color: #f9fafb;
+  }
+  
+  .bulk-group label {
+    color: #d1d5db;
+  }
+  
+  .bulk-group select,
+  .bulk-card > select,
+  .bulk-card > input[type="number"] {
+    background: #374151;
+    border-color: #4b5563;
+    color: #f9fafb;
+  }
+  
+  .bulk-group select:focus,
+  .bulk-card > select:focus,
+  .bulk-card > input[type="number"]:focus {
+    border-color: #3b82f6;
+  }
+  
+  .bulk-users {
+    background: #374151;
+    border-color: #4b5563;
+  }
+  
+  .bulk-users h3 {
+    color: #f9fafb;
+  }
+  
+  .bulk-user {
+    background: #4b5563;
+    border-color: #6b7280;
+  }
+  
+  .bulk-user .name {
+    color: #f9fafb;
+  }
+  
+  .bulk-user .email {
+    color: #d1d5db;
+  }
+  
+  .bulk-toggle button {
+    background: #374151;
+    border-color: #4b5563;
+    color: #f9fafb;
+  }
+  
+  .bulk-toggle button.active {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    color: #fff;
+  }
+  
+  .bulk-result {
+    background: #064e3b;
+    border-color: #047857;
+    color: #d1fae5;
+  }
+  
+  .bulk-result p b {
+    color: #a7f3d0;
+  }
+}
+
+/* Accessibility Improvements */
+.bulk-toggle button:focus,
+.bulk-group select:focus,
+.bulk-card > select:focus,
+.bulk-card > input[type="number"]:focus,
+.bulk-action-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
+}
+
+/* Loading State Animation */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.bulk-action-btn:disabled {
+  animation: pulse 1.5s infinite;
 }

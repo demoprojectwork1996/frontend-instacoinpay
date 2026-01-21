@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import "./Support.css";
 import logo from "../assets/logo.png";
 
 const Support = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     subject: "",
@@ -46,6 +48,11 @@ const Support = () => {
 
   return (
     <div className="help-page">
+      {/* BACK BUTTON */}
+      <button className="help-back-btn" onClick={() => navigate("/dashboard")}>
+        ← Back to Dashboard
+      </button>
+
       <header className="help-header">
         <div className="help-logo">
           <img src={logo} alt="help-logo" />

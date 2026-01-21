@@ -186,3 +186,130 @@
 .dashboard-transaction-receipt-btn:hover {
   background: #1f4b8a;
 }
+
+
+.status {
+  font-weight: 600;
+  margin: 8px 0;
+}
+
+.status.completed {
+  color: #22c55e; /* green */
+}
+
+.status.failed {
+  color: #ef4444; /* red */
+}
+
+.status.pending {
+  color: #f59e0b; /* yellow */
+}
+.status-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+  margin: 12px 0;
+}
+
+/* 🔄 Loader */
+.loader {
+  width: 18px;
+  height: 18px;
+  border: 3px solid #ddd;
+  border-top: 3px solid #f59e0b;
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ✔ Success */
+.status-icon.success {
+  color: #22c55e;
+  font-size: 35px;
+  font-weight: bold;
+}
+
+/* ✖ Failed */
+.status-icon.failed {
+  color: #ef4444;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+/* Text */
+.status-text {
+  font-weight: 600;
+  font-size: 22px;
+}
+
+/* =========================
+   STATUS OVERRIDES
+========================= */
+
+/* ❌ Stop spinner for completed & failed */
+.status.completed::before,
+.status.failed::before {
+  display: none;
+}
+
+/* =========================
+   ✔ SUCCESS TICK ANIMATION
+========================= */
+.status.completed::before {
+  content: "✔";
+  display: block;
+  width: auto;
+  height: auto;
+  border: none;
+  font-size: 38px;
+  color: #22c55e;
+  animation: tickPop 0.5s ease-out forwards;
+}
+
+@keyframes tickPop {
+  0% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* =========================
+   ❌ FAILED ICON
+========================= */
+.status.failed::before {
+  content: "✖";
+  display: block;
+  width: auto;
+  height: auto;
+  border: none;
+  font-size: 30px;
+  color: #ef4444;
+}
+
+/* =========================
+   STATUS TEXT COLORS
+========================= */
+.status.completed {
+  color: #22c55e;
+}
+
+.status.failed {
+  color: #ef4444;
+}
+
+.status.pending {
+  color: #f59e0b;
+}

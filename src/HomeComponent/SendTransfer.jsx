@@ -1,28 +1,44 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import axios from "axios";
+import API from "../api/api";
 import "./SendTransfer.css";
 import btcIcon from "../assets/btc.png";
+
+/* ================= FORMAT ================= */
+const formatCurrency = (amount) =>
+  new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(amount || 0);
 
 const SendTransfer = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
 
-  const asset = state || {
-    name: "BTC",
-    sub: "Bitcoin",
-    icon: btcIcon,
+  /* ================= ASSET ================= */
+  const asset = {
+    name: state?.name || "BTC",
+    sub: state?.sub || "Bitcoin",
+    icon: state?.icon || btcIcon,
+    originalAsset: state?.originalAsset || null,
   };
 
-  /* ===== LOGIC (UNCHANGED) ===== */
+  /* ================= FORM ================= */
   const [formData, setFormData] = useState({
     toAddress: "",
-    amount: "",
+    amount: "", // ⬅️ USD INPUT
     notes: "",
   });
 
+  /* ================= STATES ================= */
+  const [coinBalance, setCoinBalance] = useState(0);
+  const [usdBalance, setUsdBalance] = useState(0);
+  const [price, setPrice] = useState(0);
+  const [coinAmount, setCoinAmount] = useState(0); // BTC (derived)
+
   const [loading, setLoading] = useState(false);
-  const [availableBalance, setAvailableBalance] = useState("0");
   const [transferResult, setTransferResult] = useState(null);
 
   const [popup, setPopup] = useState({
@@ -31,66 +47,91 @@ const SendTransfer = () => {
     success: false,
   });
 
-  const fetchWalletBalance = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      const res = await axios.get(
-        "https://backend-instacoinpay-1.onrender.com/api/transfer/balance",
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-
-      const balance =
-        res.data.data.walletBalances[asset.name.toLowerCase()] || 0;
-
-      setAvailableBalance(`${balance} ${asset.name}`);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
+  /* ================= INIT FROM DASHBOARD ================= */
   useEffect(() => {
-    fetchWalletBalance();
+    if (!asset.originalAsset) {
+      navigate("/dashboard");
+      return;
+    }
+
+    const { balance, balanceValue, currentPrice } = asset.originalAsset;
+
+    setCoinBalance(balance);
+    setUsdBalance(balanceValue);
+    setPrice(currentPrice);
   }, []);
 
+  /* ================= USD → BTC CONVERSION ================= */
+  useEffect(() => {
+    if (!formData.amount || !price) {
+      setCoinAmount(0);
+      return;
+    }
+
+    setCoinAmount(Number(formData.amount) / price);
+  }, [formData.amount, price]);
+
+  /* ================= INPUT ================= */
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((p) => ({ ...p, [name]: value }));
   };
 
+  /* ================= MAX (USD) ================= */
   const handleMaxAmount = () => {
-    const balance = parseFloat(availableBalance);
-    if (!isNaN(balance)) {
-      setFormData((p) => ({
-        ...p,
-        amount: balance.toFixed(8),
-      }));
-    }
+    setFormData((p) => ({
+      ...p,
+      amount: usdBalance.toFixed(2), // ⬅️ USD MAX
+    }));
   };
 
+  /* ================= TRANSFER ================= */
   const handleTransfer = async () => {
     if (!formData.toAddress || !formData.amount) {
-      setPopup({ show: true, message: "Enter all details", success: false });
+      setPopup({
+        show: true,
+        message: "Enter all details",
+        success: false,
+      });
+      return;
+    }
+
+    if (coinAmount <= 0) {
+      setPopup({
+        show: true,
+        message: "Enter a valid USD amount",
+        success: false,
+      });
+      return;
+    }
+
+    if (coinAmount > coinBalance) {
+      setPopup({
+        show: true,
+        message: "Insufficient balance",
+        success: false,
+      });
       return;
     }
 
     try {
       setLoading(true);
-      const token = localStorage.getItem("token");
 
-      const res = await axios.post(
-        "https://backend-instacoinpay-1.onrender.com/api/transfer",
-        {
-          asset: asset.name.toLowerCase(),
-          toAddress: formData.toAddress,
-          amount: Number(formData.amount),
-          notes: formData.notes,
-        },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      // 🚨 BACKEND ALWAYS RECEIVES BTC
+      const res = await API.post("/transfer", {
+        asset: asset.name.toLowerCase(),
+        toAddress: formData.toAddress,
+        amount: Number(coinAmount.toFixed(8)), // BTC
+        notes: formData.notes,
+      });
 
-      setTransferResult(res.data.data.transfer);
-      setPopup({ show: true, message: "Transfer successful", success: true });
-      fetchWalletBalance();
+      setTransferResult(res.data.data);
+
+      setPopup({
+        show: true,
+        message: "Transfer successful",
+        success: true,
+      });
     } catch (err) {
       setPopup({
         show: true,
@@ -102,10 +143,11 @@ const SendTransfer = () => {
     }
   };
 
-  /* ===== UI ===== */
+  /* ================= UI (UNCHANGED) ================= */
   return (
     <div className="st-wrapper">
       <div className="st-card">
+
         {/* HEADER */}
         <div className="st-header">
           <span className="st-back-btn" onClick={() => navigate(-1)}>
@@ -137,11 +179,11 @@ const SendTransfer = () => {
             </div>
           </div>
           <div className="st-available">
-            Balance: <b>{availableBalance}</b>
+            Balance: <b>{formatCurrency(usdBalance)} {asset.name}</b>
           </div>
         </div>
 
-        {/* AMOUNT */}
+        {/* AMOUNT (USD) */}
         <div className="st-group">
           <label>Amount</label>
           <div className="st-amount-box">
@@ -155,6 +197,9 @@ const SendTransfer = () => {
               MAX
             </button>
           </div>
+          <small>
+            ≈ {coinAmount.toFixed(8)} {asset.name}
+          </small>
         </div>
 
         <button
@@ -166,12 +211,11 @@ const SendTransfer = () => {
         </button>
       </div>
 
-      {/* ===== POPUP UI (REPLACED ONLY) ===== */}
-   {popup.show && (
+      {popup.show && (
   <div className="stx-popup-overlay">
     <div className={`stx-popup ${popup.success ? "stx-success" : "stx-error"}`}>
 
-      {/* ICON */}
+      {/* ✅ ICON */}
       <div className={`stx-icon-box ${popup.success ? "stx-success" : "stx-error"}`}>
         <svg viewBox="0 0 100 100" className="stx-icon">
           <circle cx="50" cy="50" r="45" className="stx-circle" />
@@ -179,14 +223,14 @@ const SendTransfer = () => {
             className="stx-path"
             d={
               popup.success
-                ? "M30 52 L45 65 L70 38"
-                : "M35 35 L65 65 M65 35 L35 65"
+                ? "M30 52 L45 65 L70 38"   // ✔ Success tick
+                : "M35 35 L65 65 M65 35 L35 65" // ❌ Error cross
             }
           />
         </svg>
       </div>
 
-      {/* HEADING */}
+      {/* TITLE */}
       <h2 className="stx-popup-title">
         {popup.success ? "Transaction Successful!" : "Transaction Failed"}
       </h2>
@@ -204,7 +248,7 @@ const SendTransfer = () => {
         onClick={() => {
           setPopup({ ...popup, show: false });
           if (popup.success && transferResult) {
-            navigate("/admin/transaction/" + transferResult._id);
+            navigate("/transaction/" + transferResult._id);
           }
         }}
       >
@@ -214,9 +258,6 @@ const SendTransfer = () => {
   </div>
 )}
 
-
-
- 
     </div>
   );
 };

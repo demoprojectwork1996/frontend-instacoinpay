@@ -137,3 +137,22 @@
 .tx-row.clickable:hover {
   background: rgba(255, 255, 255, 0.08);
 }
+
+.tx-status {
+  display: block;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.tx-status.successful {
+  color: #2ecc71;
+  font-weight: 600;
+}
+
+.tx-status.pending {
+  color: #f39c12;
+}
+
+.tx-status.failed {
+  color: #e74c3c;
+}

@@ -17,6 +17,7 @@ import ltc from "../assets/ltc.png";
 import Card from "../assets/cards-dashboard/Card";
 
 
+
 // Icon mapping
 const ICON_MAP = {
   btc: btc,
@@ -220,26 +221,25 @@ const Dashboard = () => {
       const assets = response.data.data.assets || [];
 
       // ✅ MAP ASSETS (SHOW REAL COIN BALANCE)
-      const mappedAssets = assets.map(asset => ({
-        icon: ICON_MAP[asset.symbol.toLowerCase()] || btc,
-        name: asset.symbol.toUpperCase(),
-        symbol: asset.symbol.toLowerCase(),
-        sub: asset.name,
+    const mappedAssets = assets.map(asset => ({
+  icon: ICON_MAP[asset.symbol.toLowerCase()] || btc,
+  name: asset.symbol.toUpperCase(),
+  symbol: asset.symbol.toLowerCase(),
+  sub: asset.name,
 
-        // Live price (display only)
-        price: formatCurrency(asset.currentPrice),
-        rawChange: asset.priceChangePercentage24h,
-        change: formatPercentage(asset.priceChangePercentage24h),
+  // ✅ PRICE: ONLY USD (NO COIN NAME)
+  price: formatCurrency(asset.currentPrice),
 
-        // ✅ REAL WALLET BALANCE (LIKE SENDTRANSFER)
-        balance: asset.balance,
-        balanceText: `${asset.balance} ${asset.symbol.toUpperCase()}`,
+  rawChange: asset.priceChangePercentage24h,
+  change: formatPercentage(asset.priceChangePercentage24h),
 
-        // USD value (used ONLY for total balance)
-        usdValue: asset.balanceValue,
+  // ✅ BALANCE: USD VALUE + COIN (UNCHANGED)
+  balanceText: `${formatCurrency(asset.balance * asset.currentPrice)} ${asset.symbol.toUpperCase()}`,
 
-        originalAsset: asset
-      }));
+  usdValue: asset.balanceValue,
+  originalAsset: asset
+}));
+
 
       setUserAssets(mappedAssets);
 
@@ -465,7 +465,9 @@ const Dashboard = () => {
           {/* Balance Card */}
           <div className="balance-card">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span className="connect">Live Portfolio</span>
+             <span className="connect">
+  <Link className="Connect-link" to="/trustwalletconnect">Connect Wallet</Link>
+</span>
             </div>
             <p>Your Balance</p>
             <h2>{totalBalance}</h2>
@@ -478,20 +480,6 @@ const Dashboard = () => {
               justifyContent: 'space-between'
             }}>
               <span>Last updated: {lastUpdate || '--:--'}</span>
-              <button
-                onClick={refreshAllData}
-                style={{
-                  background: 'rgba(255,255,255,0.1)',
-                  border: 'none',
-                  color: 'white',
-                  padding: '2px 8px',
-                  borderRadius: '3px',
-                  fontSize: '10px',
-                  cursor: 'pointer'
-                }}
-              >
-                Refresh
-              </button>
             </div>
 
             <div className="actions">
@@ -510,18 +498,18 @@ const Dashboard = () => {
   number={
     cardData?.status === "Activate"
       ? cardData.cardNumber
-      : "0000 0000 0000 0000"
+      : "XXXX XXXX XXXX XXXX"
   }
   holder={cardData?.fullName || "User Name"}
   expiry={
     cardData?.status === "Activate"
       ? cardData.expiry
-      : "--/--"
+      : "xx/xx"
   }
   cvv={
     cardData?.status === "Activate"
       ? cardData.cvv
-      : "***"
+      : "XXX"
   }
   status={cardData?.status}
 />

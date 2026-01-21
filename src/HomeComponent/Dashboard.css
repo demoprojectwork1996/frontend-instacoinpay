@@ -58,14 +58,6 @@
   transform: scale(1.05);
 }
 
-.dash-logo {
-  width: 130px;
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  z-index: 2;
-}
-
 /* Sidebar Styles */
 .sidebar-overlay {
   position: fixed;
@@ -179,26 +171,24 @@
   margin-top: 10px;
 }
 
+/* BALANCE CARD - Responsive Design */
 .balance-card {
-  width: 600px;          /* ✅ SAME AS VISA */
-  height: 350px;         /* ✅ SAME AS VISA */
+  width: 600px;
+  height: 350px;
   background: #8fd4ec;
-  border-radius: 26px;   /* match visa radius */
+  border-radius: 26px;
   padding: 30px;
   color: #000;
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-
   box-shadow: 0 25px 50px rgba(0, 0, 0, 0.45),
               inset 0 1px 0 rgba(255, 255, 255, 0.4);
-
   transition: all 0.3s ease;
   border: 1px solid rgba(255, 255, 255, 0.15);
   margin-top: 32px;
 }
-
 
 .balance-card:hover {
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25), 
@@ -223,6 +213,11 @@
   transition: all 0.2s ease;
 }
 
+.Connect-link {
+  text-decoration: none;
+  color: #245aa6;
+}
+
 .balance-card .connect:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
@@ -243,6 +238,16 @@
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 
+/* Status update text */
+.status-update {
+  font-size: 11px;
+  color: #888;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Actions buttons */
 .actions {
   display: flex;
   justify-content: space-between;
@@ -284,147 +289,6 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-}
-
-/* Visa Card */
-.visa-card {
-  flex: 1 1;
-  background: linear-gradient(135deg, #2bbcff, #8e3aa7);
-  border-radius: 22px;
-  padding: 25px;
-  color: #fff;
-  min-height: 250px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3),
-              0 8px 20px rgba(0, 0, 0, 0.25),
-              inset 0 1px 0 rgba(255, 255, 255, 0.3);
-  position: relative;
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  transition: all 0.3s ease;
-  margin-left: 0px;
-}
-
-.visa-card:hover {
-  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35),
-              0 12px 25px rgba(0, 0, 0, 0.3),
-              inset 0 1px 0 rgba(255, 255, 255, 0.4);
-  filter: brightness(1.03);
-}
-
-
-
-.visa-card::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  right: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
-  background-size: 20px 20px;
-  opacity: 0.2;
-  pointer-events: none;
-}
-
-.visa-card::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.03) 50%, transparent 70%);
-  pointer-events: none;
-}
-
-/* Visa Top Row */
-.visa-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  position: relative;
-  z-index: 1;
-  margin-top: 30px;
-}
-
-.chip-img img {
-  width: 45px;
-  height: auto;
-  filter: brightness(1.2);
-  margin-top: 20px;
-}
-
-/* Visa Right Section */
-.visa-right-section {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  text-align: right;
-}
-
-.visa-inactive {
-  color: #ff6b6b;
-  font-weight: 600;
-  font-size: 14px;
-  margin-bottom: 5px;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-}
-
-.visa-text {
-  font-size: 24px;
-  font-weight: 800;
-  letter-spacing: 2px;
-  color: white;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-/* Card Number */
-.card-number {
-  font-size: 22px;
-  letter-spacing: 3px;
-  margin: 20px 0;
-  font-weight: 500;
-  font-family: 'Courier New', monospace;
-  position: relative;
-  z-index: 1;
-  text-align: center;
-  word-spacing: 10px;
-  margin-right: 80px;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
-  margin-top: -20px;
-}
-
-/* Bottom Section */
-.visa-bottom {
-  display: flex;
-  justify-content: space-between;
-  position: relative;
-  z-index: 1;
-  margin-top: -30px;
-}
-
-.dashboard-dashboard-label {
-  font-size: 11px;
-  opacity: 0.8;
-  display: block;
-  margin-bottom: 5px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-}
-
-.value {
-  font-size: 16px;
-  font-weight: 600;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-}
-
-/* Right align expiry */
-.expiry {
-  text-align: right;
 }
 
 /* Assets */
@@ -540,71 +404,63 @@
 
 /* ================= RESPONSIVE DESIGN ================= */
 
-/* Tablets and small desktops */
-@media (max-width: 1024px) {
+/* Large Desktop (1600px and above) */
+@media (min-width: 1600px) {
   .dashboard {
-    padding: 18px 40px;
+    padding-left: 150px;
+    padding-right: 150px;
+  }
+  
+  .balance-card, .visa-container {
+    min-height: 400px;
+  }
+  
+  .assets {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Laptop (1440px and below) */
+@media (max-width: 1440px) {
+  .dashboard {
+    padding-left: 80px;
+    padding-right: 80px;
+  }
+  
+  .top-section {
+    gap: 40px;
+  }
+}
+
+/* Laptop (1280px and below) */
+@media (max-width: 1280px) {
+  .dashboard {
+    padding-left: 60px;
+    padding-right: 60px;
   }
   
   .header img {
     width: 160px;
+    margin-top: 25px;
+    margin-bottom: -25px;
   }
   
   .balance-card h2 {
     font-size: 32px;
   }
   
-  .actions div {
-    width: 60px;
-    height: 60px;
-    font-size: 22px;
-  }
-  
-  .card-number {
-    font-size: 20px;
-    word-spacing: 8px;
-  }
-  
-  .sidebar {
-    width: 280px;
-    right: -280px;
-  }
-}
-
-/* Tablets in portrait mode */
-@media (max-width: 900px) {
-  .top-section {
-    flex-direction: column;
-    gap: 20px;
-  }
-  
-  .balance-card, .visa-container {
-    width: 100%;
-  }
-  
-  .balance-card {
-    min-height: 220px;
-  }
-  
-  .visa-card {
-    min-height: 220px;
-  }
-  
   .assets {
     grid-template-columns: repeat(2, 1fr);
-  }
-  
-  .dash-logo {
-    width: 110px;
-    top: 20px;
-    left: 20px;
+    gap: 25px;
   }
 }
 
-/* Large mobile phones */
-@media (max-width: 768px) {
+/* Tablets and small desktops (1024px and below) */
+@media (max-width: 1024px) {
   .dashboard {
-    padding: 16px 30px;
+    padding: 18px 40px;
+    padding-left: 40px;
+    padding-right: 40px;
   }
   
   .header {
@@ -612,42 +468,52 @@
   }
   
   .header img {
-    width: 140px;
+    width: 150px;
+    margin-top: 20px;
+    margin-bottom: -20px;
   }
   
   .menu {
-    width: 40px;
-    height: 40px;
-    font-size: 24px;
+    font-size: 26px;
+    width: 42px;
+    height: 42px;
+    margin-top: 25px;
   }
   
+  /* BALANCE CARD adjustments */
   .balance-card {
-    padding: 18px;
-    min-height: 200px;
+    width: 500px;
+    height: 300px;
+    padding: 25px;
+    border-radius: 22px;
+    margin-top: 25px;
   }
   
-  .balance-card .connect {
-    padding: 6px 14px;
-    font-size: 12px;
+  .balance-card h2 {
+    font-size: 30px;
+    margin: 8px 0 16px;
   }
   
   .balance-card p {
     font-size: 15px;
   }
   
-  .balance-card h2 {
-    font-size: 28px;
-    margin: 8px 0 16px;
+  .balance-card .connect {
+    font-size: 12px;
+    padding: 7px 14px;
+    right: 18px;
+    top: 13px;
   }
   
-  .actions {
-    margin-top: 10px;
+  .status-update {
+    font-size: 10px;
+    margin-bottom: 12px;
   }
   
   .actions div {
-    width: 55px;
-    height: 55px;
-    font-size: 20px;
+    width: 58px;
+    height: 58px;
+    font-size: 22px;
     border-radius: 12px;
   }
   
@@ -656,57 +522,24 @@
     margin-top: 5px;
   }
   
-  .visa-card {
-    padding: 20px;
-    min-height: 200px;
-    border-radius: 20px;
-  }
-  
-  .dash-logo {
-    width: 100px;
-    top: 18px;
-    left: 18px;
-  }
-  
-  .chip-img img {
-    width: 40px;
-  }
-  
-  .visa-inactive {
-    font-size: 13px;
-  }
-  
-  .visa-text {
-    font-size: 22px;
-  }
-  
-  .card-number {
-    font-size: 18px;
-    letter-spacing: 2.5px;
-    margin: 15px 0;
-    word-spacing: 8px;
-  }
-  
-  .dashboard-label {
-    font-size: 10px;
-  }
-  
-  .value {
-    font-size: 14px;
+  .sidebar {
+    width: 280px;
+    right: -280px;
   }
   
   .assets-title {
-    margin: 30px 0 15px;
+    margin: 35px 0 18px;
     font-size: 20px;
   }
   
   .assets {
-    gap: 14px;
+    gap: 20px;
   }
   
   .asset-card {
     padding: 16px;
     border-radius: 14px;
+    gap: 12px;
   }
   
   .asset-card img {
@@ -718,129 +551,140 @@
     font-size: 15px;
   }
   
-  .asset-info span {
-    font-size: 12px;
-  }
-  
   .asset-price {
-    margin-right: 15px;
+    margin-right: 120px;
   }
   
   .asset-price strong {
     font-size: 15px;
   }
   
-  .asset-price span {
-    font-size: 12px;
-  }
-  
   .asset-balance {
     font-size: 15px;
+  }
+}
+
+/* Tablets (900px and below) */
+@media (max-width: 900px) {
+  .dashboard {
+    padding: 16px 35px;
+  }
+  
+  .top-section {
+    flex-direction: column;
+    gap: 25px;
+  }
+  
+  /* BALANCE CARD becomes full width */
+  .balance-card {
+    width: 100%;
+    height: 280px;
+    padding: 22px;
+    margin-top: 0;
+  }
+  
+  .visa-container {
+    width: 100%;
+  }
+  
+  .header img {
+    width: 140px;
+    margin-top: 15px;
+    margin-bottom: -15px;
+  }
+  
+  .menu {
+    font-size: 24px;
+    width: 40px;
+    height: 40px;
+    margin-top: 20px;
+  }
+  
+  .balance-card h2 {
+    font-size: 28px;
+  }
+  
+  .balance-card .connect {
+    font-size: 11px;
+    padding: 6px 12px;
+  }
+  
+  .actions div {
+    width: 55px;
+    height: 55px;
+    font-size: 21px;
   }
   
   .sidebar {
     width: 260px;
     right: -260px;
   }
-}
-
-/* Medium mobile phones */
-@media (max-width: 600px) {
-  .dashboard {
-    padding: 14px 20px;
+  
+  .assets-title {
+    margin: 30px 0 15px;
   }
   
   .assets {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
-  
-  .asset-card {
-    padding: 15px;
-  }
-  
-  .asset-info strong {
-    font-size: 14px;
-  }
-  
-  .asset-price strong {
-    font-size: 14px;
-  }
-  
-  .asset-balance {
-    font-size: 14px;
-  }
-  
-  .card-number {
-    font-size: 16px;
-    letter-spacing: 2px;
-    word-spacing: 6px;
-  }
-  
-  .dash-logo {
-    width: 90px;
-    top: 15px;
-    left: 15px;
-  }
-  
-  .sidebar {
-    width: 250px;
-    right: -250px;
-  }
-  
-  .sidebar-item {
-    padding: 16px 20px;
-    font-size: 15px;
+    gap: 18px;
   }
 }
 
-/* Small mobile phones */
-@media (max-width: 480px) {
+/* Tablets in portrait mode (768px and below) */
+@media (max-width: 768px) {
   .dashboard {
-    padding: 14px 15px;
+    padding: 15px 30px;
+  }
+  
+  .header {
+    margin-bottom: 10px;
   }
   
   .header img {
-    width: 120px;
+    width: 130px;
   }
   
   .menu {
-    width: 36px;
-    height: 36px;
     font-size: 22px;
+    width: 38px;
+    height: 38px;
   }
   
+  /* BALANCE CARD adjustments */
   .balance-card {
-    padding: 16px;
-    min-height: 180px;
-    border-radius: 16px;
+    height: 250px;
+    padding: 20px;
+    border-radius: 20px;
   }
   
-  .balance-card .connect {
-    font-size: 11px;
-    padding: 5px 12px;
-    right: 16px;
-    top: 12px;
+  .balance-card h2 {
+    font-size: 26px;
+    margin: 6px 0 14px;
   }
   
   .balance-card p {
     font-size: 14px;
-    margin-top: 8px;
   }
   
-  .balance-card h2 {
-    font-size: 24px;
-    margin: 6px 0 12px;
+  .balance-card .connect {
+    font-size: 10px;
+    padding: 5px 10px;
+    right: 16px;
+    top: 12px;
+  }
+  
+  .status-update {
+    font-size: 9px;
+    margin-bottom: 10px;
   }
   
   .actions {
-    margin-top: 8px;
+    margin-top: 15px;
   }
   
   .actions div {
     width: 50px;
     height: 50px;
-    font-size: 18px;
+    font-size: 20px;
     border-radius: 10px;
   }
   
@@ -849,55 +693,216 @@
     margin-top: 4px;
   }
   
-  .visa-card {
+  .assets-title {
+    font-size: 18px;
+    margin: 25px 0 12px;
+  }
+  
+  .assets {
+    gap: 15px;
+  }
+  
+  .asset-card {
+    padding: 15px;
+    border-radius: 12px;
+  }
+  
+  .asset-card img {
+    width: 38px;
+    height: 38px;
+  }
+  
+  .asset-info strong {
+    font-size: 14px;
+  }
+  
+  .asset-info span {
+    font-size: 12px;
+  }
+  
+  .asset-price {
+    margin-right: 80px;
+  }
+  
+  .asset-price strong {
+    font-size: 14px;
+  }
+  
+  .asset-price span {
+    font-size: 12px;
+  }
+  
+  .asset-balance {
+    font-size: 14px;
+  }
+}
+
+/* Large mobile phones (600px and below) */
+@media (max-width: 600px) {
+  .dashboard {
+    padding: 14px 25px;
+  }
+  
+  .header img {
+    width: 120px;
+    margin-top: 10px;
+    margin-bottom: -10px;
+  }
+  
+  .menu {
+    font-size: 20px;
+    width: 36px;
+    height: 36px;
+    margin-top: 15px;
+  }
+  
+  .top-section {
+    gap: 20px;
+  }
+  
+  /* BALANCE CARD adjustments */
+  .balance-card {
+    height: 230px;
     padding: 18px;
-    min-height: 180px;
     border-radius: 18px;
   }
   
-  .dash-logo {
-    width: 80px;
-    top: 15px;
-    left: 15px;
+  .balance-card h2 {
+    font-size: 24px;
+    margin: 5px 0 12px;
   }
   
-  .chip-img img {
-    width: 35px;
-  }
-  
-  .visa-inactive {
-    font-size: 12px;
-    margin-top: -30px;
-  }
-  
-  .visa-text {
-    font-size: 20px;
-    margin-top: -10px;
-  }
-  
-  .card-number {
-    font-size: 15px;
-    letter-spacing: 2px;
-    margin: 10px 0;
-    word-spacing: 5px;
-    margin-top: -40px;
-  }
-  
-  .visa-top {
-    margin-top: 25px;
-  }
-  
-  .dashboard-label {
-    font-size: 9px;
-  }
-  
-  .value {
+  .balance-card p {
     font-size: 13px;
+    margin-top: 5px;
+  }
+  
+  .balance-card .connect {
+    font-size: 9px;
+    padding: 4px 9px;
+    border-radius: 16px;
+    right: 14px;
+    top: 10px;
+  }
+  
+  .status-update {
+    font-size: 8px;
+    margin-bottom: 8px;
+  }
+  
+  .actions {
+    margin-top: 10px;
+  }
+  
+  .actions div {
+    width: 46px;
+    height: 46px;
+    font-size: 18px;
+    border-radius: 9px;
+  }
+  
+  .actions div span {
+    font-size: 9px;
+    margin-top: 3px;
+  }
+  
+  .assets {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .asset-card {
+    padding: 14px;
+    gap: 10px;
+  }
+  
+  .sidebar {
+    width: 240px;
+    right: -240px;
+  }
+  
+  .sidebar-header {
+    padding: 20px 15px;
+  }
+  
+  .sidebar-logo {
+    width: 120px;
+  }
+  
+  .sidebar-item {
+    padding: 15px 20px;
+    font-size: 15px;
+  }
+}
+
+/* Medium mobile phones (480px and below) */
+@media (max-width: 480px) {
+  .dashboard {
+    padding: 12px 20px;
+  }
+  
+  .header img {
+    width: 110px;
+  }
+  
+  .menu {
+    font-size: 18px;
+    width: 34px;
+    height: 34px;
+  }
+  
+  .top-section {
+    gap: 15px;
+  }
+  
+  /* BALANCE CARD adjustments */
+  .balance-card {
+    height: 210px;
+    padding: 16px;
+    border-radius: 16px;
+  }
+  
+  .balance-card h2 {
+    font-size: 22px;
+    margin: 4px 0 10px;
+  }
+  
+  .balance-card p {
+    font-size: 12px;
+  }
+  
+  .balance-card .connect {
+    font-size: 8px;
+    padding: 3px 8px;
+    border-radius: 14px;
+    right: 12px;
+    top: 9px;
+  }
+  
+  .status-update {
+    font-size: 7px;
+    margin-bottom: 6px;
+  }
+  
+  .actions {
+    margin-top: 8px;
+  }
+  
+  .actions div {
+    width: 42px;
+    height: 42px;
+    font-size: 16px;
+    border-radius: 8px;
+  }
+  
+  .actions div span {
+    font-size: 8px;
+    margin-top: 2px;
   }
   
   .assets-title {
-    margin: 25px 0 12px;
-    font-size: 18px;
+    font-size: 16px;
+    margin: 20px 0 10px;
   }
   
   .assets {
@@ -905,9 +910,8 @@
   }
   
   .asset-card {
-    padding: 14px;
-    border-radius: 12px;
-    gap: 12px;
+    padding: 12px;
+    border-radius: 10px;
   }
   
   .asset-card img {
@@ -940,114 +944,93 @@
   }
   
   .sidebar {
-    width: 240px;
-  }
-  
-  .sidebar-header {
-    padding: 20px 15px;
-  }
-  
-  .sidebar-logo {
-    width: 120px;
+    width: 220px;
+    right: -220px;
   }
   
   .sidebar-item {
-    padding: 14px 18px;
+    padding: 13px 18px;
     font-size: 14px;
   }
 }
 
-/* Very small mobile phones */
+/* Small mobile phones (375px and below) */
 @media (max-width: 375px) {
   .dashboard {
-    padding: 12px 10px;
+    padding: 10px 15px;
   }
   
   .header img {
-    width: 110px;
+    width: 100px;
+    margin-top: 8px;
+    margin-bottom: -8px;
   }
   
   .menu {
-    width: 34px;
-    height: 34px;
-    font-size: 20px;
+    font-size: 16px;
+    width: 32px;
+    height: 32px;
+    margin-top: 12px;
   }
   
+  /* BALANCE CARD adjustments */
   .balance-card {
+    height: 190px;
     padding: 14px;
-    min-height: 170px;
-  }
-  
-  .balance-card .connect {
-    font-size: 10px;
-    padding: 4px 10px;
+    border-radius: 14px;
   }
   
   .balance-card h2 {
-    font-size: 22px;
+    font-size: 20px;
+    margin: 3px 0 8px;
+  }
+  
+  .balance-card p {
+    font-size: 11px;
+    margin-top: 3px;
+  }
+  
+  .balance-card .connect {
+    font-size: 7px;
+    padding: 2px 6px;
+    border-radius: 12px;
+    right: 10px;
+    top: 8px;
+  }
+  
+  .status-update {
+    font-size: 6px;
+    margin-bottom: 4px;
+  }
+  
+  .actions {
+    margin-top: 6px;
   }
   
   .actions div {
-    width: 45px;
-    height: 45px;
-    font-size: 16px;
+    width: 38px;
+    height: 38px;
+    font-size: 14px;
+    border-radius: 7px;
   }
   
   .actions div span {
-    font-size: 9px;
-  }
-  
-  .visa-card {
-    padding: 16px;
-    min-height: 170px;
-  }
-  
-  .dash-logo {
-    width: 70px;
-    top: 12px;
-    left: 12px;
-  }
-  
-  .chip-img img {
-    width: 32px;
-  }
-  
-  .visa-inactive {
-    font-size: 11px;
-  }
-  
-  .visa-text {
-    font-size: 18px;
-  }
-  
-  .card-number {
-    font-size: 14px;
-    letter-spacing: 1.5px;
-    margin: 8px 0;
-    word-spacing: 4px;
-    margin-top: -40px;
-  }
-  
-  .visa-top {
-    margin-top: 20px;
-  }
-  
-  .dashboard-label {
-    font-size: 8px;
-  }
-  
-  .value {
-    font-size: 12px;
+    font-size: 7px;
+    margin-top: 2px;
   }
   
   .assets-title {
-    font-size: 16px;
-    margin: 20px 0 10px;
+    font-size: 15px;
+    margin: 15px 0 8px;
+  }
+  
+  .assets {
+    gap: 8px;
   }
   
   .asset-card {
-    padding: 12px;
-    gap: 10px;
+    padding: 10px;
+    border-radius: 9px;
   }
   
   .asset-card img {
@@ -1059,8 +1042,20 @@
     font-size: 12px;
   }
   
+  .asset-info span {
+    font-size: 10px;
+  }
+  
+  .asset-price {
+    margin-right: 40px;
+  }
+  
   .asset-price strong {
     font-size: 12px;
+  }
+  
+  .asset-price span {
+    font-size: 10px;
   }
   
   .asset-balance {
@@ -1068,12 +1063,89 @@
   }
   
   .sidebar {
-    width: 220px;
+    width: 200px;
+    right: -200px;
+  }
+  
+  .sidebar-header {
+    padding: 15px 12px;
+  }
+  
+  .sidebar-logo {
+    width: 100px;
   }
   
   .sidebar-item {
-    padding: 12px 16px;
+    padding: 11px 15px;
     font-size: 13px;
+  }
+}
+
+/* Very small mobile phones (320px and below) */
+@media (max-width: 320px) {
+  .dashboard {
+    padding: 8px 10px;
+  }
+  
+  .header img {
+    width: 90px;
+  }
+  
+  .menu {
+    font-size: 14px;
+    width: 30px;
+    height: 30px;
+  }
+  
+  /* BALANCE CARD adjustments */
+  .balance-card {
+    height: 180px;
+    padding: 12px;
+    border-radius: 12px;
+  }
+  
+  .balance-card h2 {
+    font-size: 18px;
+  }
+  
+  .balance-card p {
+    font-size: 10px;
+  }
+  
+  .balance-card .connect {
+    font-size: 6px;
+    padding: 2px 5px;
+  }
+  
+  .actions div {
+    width: 35px;
+    height: 35px;
+    font-size: 13px;
+  }
+  
+  .actions div span {
+    font-size: 6px;
+  }
+  
+  .assets-title {
+    font-size: 14px;
+  }
+  
+  .asset-card {
+    padding: 9px;
+  }
+  
+  .asset-card img {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .asset-info strong {
+    font-size: 11px;
+  }
+  
+  .asset-balance {
+    font-size: 11px;
   }
 }
 
@@ -1084,26 +1156,34 @@
   }
   
   .balance-card {
-    min-height: 160px;
+    height: 160px;
     padding: 12px;
   }
   
-  .visa-card {
-    min-height: 160px;
-    padding: 15px;
+  .balance-card h2 {
+    font-size: 18px;
+    margin: 3px 0 6px;
   }
   
-  .card-number {
-    margin: 10px 0;
-    font-size: 14px;
+  .actions div {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
   }
   
   .assets-title {
-    margin: 15px 0 10px;
+    margin: 12px 0 8px;
+    font-size: 16px;
   }
   
-  .visa-top {
-    margin-top: 15px;
+  .assets {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  
+  .asset-card {
+    padding: 10px;
+    min-height: 60px;
   }
   
   .sidebar-menu {
@@ -1111,177 +1191,54 @@
   }
   
   .sidebar-item {
-    padding: 12px 20px;
+    padding: 10px 20px;
   }
 }
 
-/* ===== VISA FLIP ===== */
-.visa-container {
-  perspective: 1200px;
+/* For devices with very small height */
+@media (max-height: 500px) {
+  .balance-card {
+    height: 140px;
+    padding: 10px;
+  }
+  
+  .balance-card h2 {
+    font-size: 16px;
+    margin: 2px 0 4px;
+  }
+  
+  .actions div {
+    width: 35px;
+    height: 35px;
+    font-size: 14px;
+  }
+  
+  .actions div span {
+    font-size: 6px;
+  }
 }
 
-.visa-flip {
-  position: relative;
-  width: 100%;
-  height: 260px; /* 👈 FIXED HEIGHT = NO GLITCH */
-  transform-style: preserve-3d;
-  transition: transform 0.75s cubic-bezier(0.22, 0.61, 0.36, 1);
-  cursor: pointer;
-  will-change: transform;
+/* Adjust for foldable phones and very tall screens */
+@media (min-height: 800px) and (max-width: 600px) {
+  .balance-card {
+    height: 250px;
+            height: 200px;
+        width: 340px;
+        margin-left: 18px;
+  }
+  
+  .balance-card h2 {
+    font-size: 26px;
+  }
 }
 
-
-.visa-flip.flipped {
-  transform: rotateY(180deg);
-}
-
-.visa-front,
-.visa-back {
-  position: absolute;
-  inset: 0;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  transform-style: preserve-3d;
-  will-change: transform;
-}
-
-
-.visa-back {
-  transform: rotateY(180deg);
-}
-
-/* Shadow adjustment during flip */
-.visa-flip.flipped .visa-front {
-  box-shadow: none;
-}
-
-.visa-flip.flipped .visa-back {
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
-}
-
-
-/* ===== VISA BACK (IMAGE MATCHED DESIGN) ===== */
-
-.visa-back {
-  background: linear-gradient(135deg, #2bbcff, #8e3aa7);
-  color: #fff;
-  padding: 20px;
-}
-
-/* Top text strip */
-.visa-support {
-  font-size: 11px;
-  text-align: center;
-  padding: 6px 8px;
-  background: rgba(0,0,0,0.25);
-  border-radius: 6px;
-  margin-bottom: 12px;
-}
-
-/* Black magnetic strip */
-.magnetic-strip {
-  height: 46px;
-  background: linear-gradient(
-    90deg,
-    #000,
-    #222,
-    #000
-  );
-  border-radius: 4px;
-  margin-bottom: 8px;
-}
-
-
-.visa-status {
-  position: absolute;
-  top: 70px;
-  right: 280px;
-  z-index: 5;
-  font-weight: 700;
-  font-size: 11px;
-  letter-spacing: 1px;
-  padding: 6px 14px;
-  border-radius: 20px;
-  text-transform: uppercase;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
-}
-
-.visa-active {
-  background: linear-gradient(135deg, #38ef7d, #11998e);
-  padding: 4px 10px;
-  border-radius: 12px;
-  font-size: 11px;
-  color: #fff;
-}
-
-.visa-inactive {
-  background: linear-gradient(135deg, #ff416c, #ff4b2b);
-  padding: 4px 10px;
-  border-radius: 12px;
-  font-size: 11px;
-  color: #fff;
-}
-
-.visa-pending {
-  background: linear-gradient(135deg, #f6d365, #fda085);
-  color: #ffffff;
-}
-/* Thin red strip under magnetic strip */
-
-
-/* Signature + CVV row */
-.signature-cvv-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 16px;
-}
-
-/* Signature strip */
-.signature-strip {
-  flex: 1;
-  height: 36px;
-  background: repeating-linear-gradient(
-    0deg,
-    #f5f5f5,
-    #f5f5f5 3px,
-    #dcdcdc 3px,
-    #dcdcdc 6px
-  );
-  border-radius: 4px;
-}
-
-/* CVV */
-.cvv-box {
-  width: 55px;
-  height: 36px;
-  /* background: #fff; */
-  color: #000;
-  font-weight: 700;
-  font-size: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 4px;
-  letter-spacing: 1px;
-}
-
-/* Disclaimer */
-.visa-disclaimer {
-  font-size: 10px;
-  line-height: 1.5;
-  opacity: 0.85;
-}
-
-.visa-back .brand-strip {
-  height: 8px;
-  background: linear-gradient(
-    90deg,
-    #2bbcff,
-    #6a7bff,
-    #8e3aa7
-  );
-  border-radius: 4px;
-  margin-bottom: 16px;
-  box-shadow: inset 0 1px 2px rgba(255,255,255,0.35);
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .balance-card {
+    background: #7cc4dc;
+  }
+  
+  .balance-card h2 {
+    color: #111;
+  }
 }

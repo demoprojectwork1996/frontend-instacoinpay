@@ -54,72 +54,67 @@ const CreateAccount = () => {
   };
 
   const handleRegister = async () => {
-    const validationError = validateForm();
-    if (validationError) {
-      setPopup({ show: true, message: validationError, success: false });
-      return;
-    }
+  const validationError = validateForm();
+  if (validationError) {
+    setPopup({ show: true, message: validationError, success: false });
+    return;
+  }
 
-    if (!country) {
-      setPopup({ show: true, message: "Please complete the 'Get Started' step first", success: false });
-      setTimeout(() => navigate("/get-started"), 2000);
-      return;
-    }
+  if (!country) {
+    setPopup({
+      show: true,
+      message: "Please complete the 'Get Started' step first",
+      success: false,
+    });
+    setTimeout(() => navigate("/get-started"), 2000);
+    return;
+  }
 
-    setIsLoading(true);
+  setIsLoading(true);
 
-    try {
-      const registrationData = {
-        fullName: formData.fullName,
-        email: formData.email,
-        password: formData.password,
-        country: country,
-        referralCode: initialReferralCode || undefined,
-      };
+  try {
+    const registrationData = {
+      fullName: formData.fullName,
+      email: formData.email,
+      password: formData.password,
+      country,
+      referralCode: initialReferralCode || undefined,
+    };
 
-      const res = await axios.post("https://backend-instacoinpay-1.onrender.com/api/auth/register", registrationData);
+    const res = await axios.post(
+      "https://backend-instacoinpay-1.onrender.com/api/auth/register",
+      registrationData
+    );
 
-      if (res.data.success) {
-        // Store email for verification page
-        localStorage.setItem("verificationEmail", formData.email);
+    if (res.data.success) {
+      // store email for verification page
+      localStorage.setItem("verificationEmail", formData.email);
 
-        setPopup({
-          show: true,
-          message: res.data.message || "Account created successfully! Check your email for verification code.",
-          success: true,
+      setPopup({
+        show: true,
+        message: "OTP sent to your email. Please verify.",
+        success: true,
+      });
+
+      setTimeout(() => {
+        navigate("/verificationcode", {
+          state: { email: formData.email },
         });
-
-        // Redirect to verification page
-        setTimeout(() => {
-          navigate("/verificationcode", { state: { email: formData.email, token: res.data.token } });
-        }, 2000);
-      }
-    } catch (error) {
-      console.error("Registration error:", error);
-
-      let errorMessage = "Registration failed";
-
-      if (error.response) {
-        if (error.response.status === 400) {
-          if (error.response.data.error === "User already exists with this email") {
-            errorMessage = "This email is already registered";
-          } else if (error.response.data.error === "Invalid referral code") {
-            errorMessage = "Invalid referral code";
-          } else {
-            errorMessage = error.response.data.error || "Registration failed";
-          }
-        } else if (error.response.status === 500) {
-          errorMessage = "Server error. Please try again later.";
-        }
-      } else if (error.request) {
-        errorMessage = "Network error. Please check your connection.";
-      }
-
-      setPopup({ show: true, message: errorMessage, success: false });
-    } finally {
-      setIsLoading(false);
+      }, 1500);
     }
-  };
+  } catch (error) {
+    let errorMessage = "Registration failed";
+
+    if (error.response?.data?.error) {
+      errorMessage = error.response.data.error;
+    }
+
+    setPopup({ show: true, message: errorMessage, success: false });
+  } finally {
+    setIsLoading(false);
+  }
+};
+
 
   return (
     <div className="ca-container">

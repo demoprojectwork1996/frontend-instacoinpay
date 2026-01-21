@@ -69,105 +69,61 @@ const VerificationCode = () => {
   };
 
   const handleSubmit = async () => {
-    const otpCode = otp.join("");
+  const otpCode = otp.join("");
 
-    if (otpCode.length !== 6) {
-      setPopup({
-        show: true,
-        message: "Please enter complete 6-digit code",
-        success: false,
-      });
-      return;
-    }
+  if (otpCode.length !== 6) {
+    setPopup({ show: true, message: "Please enter complete 6-digit code", success: false });
+    return;
+  }
 
-    if (!email) {
-      setPopup({
-        show: true,
-        message: "Email not found. Please register again.",
-        success: false,
-      });
-      setTimeout(() => {
-        navigate("/register");
-      }, 2000);
-      return;
-    }
+  setIsLoading(true);
+  try {
+    const res = await axios.post(
+      "https://backend-instacoinpay-1.onrender.com/api/auth/verify-email",
+      { email, verificationCode: otpCode }
+    );
 
-    setIsLoading(true);
+    setPopup({ show: true, message: "Email verified successfully!", success: true });
+    localStorage.removeItem("verificationEmail");
 
-    try {
-      const res = await axios.post(
-        "https://backend-instacoinpay-1.onrender.com/api/auth/verify-email",
-        {
-          email: email,
-          verificationCode: otpCode,
-        }
-      );
+    setTimeout(() => navigate("/login"), 2000);
+  } catch (error) {
+    setPopup({
+      show: true,
+      message: error.response?.data?.error || "Invalid or expired OTP",
+      success: false,
+    });
+  } finally {
+    setIsLoading(false);
+  }
+};
 
-      setPopup({
-        show: true,
-        message: res.data.message || "Email verified successfully!",
-        success: true,
-      });
+ const handleResendCode = async () => {
+  if (!email) return;
 
-      // Clear stored email
-      localStorage.removeItem("verificationEmail");
+  setIsLoading(true);
+  try {
+    await axios.post(
+      "https://backend-instacoinpay-1.onrender.com/api/auth/resend-verification",
+      { email }
+    );
 
-      // Redirect after success
-      setTimeout(() => {
-        navigate("/login", { 
-          state: { 
-            token: res.data.token,
-            user: res.data.data
-          }
-        });
-      }, 2000);
-    } catch (error) {
-      setPopup({
-        show: true,
-        message:
-          error.response?.data?.error || 
-          error.response?.data?.message || 
-          "Invalid or expired verification code",
-        success: false,
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    setPopup({
+      show: true,
+      message: "New verification code sent to your email",
+      success: true,
+    });
+  } catch (error) {
+    setPopup({
+      show: true,
+      message: "Failed to resend verification code",
+      success: false,
+    });
+  } finally {
+    setIsLoading(false);
+  }
+};
 
-  const handleResendCode = async () => {
-    if (!email) {
-      setPopup({
-        show: true,
-        message: "Email not found",
-        success: false,
-      });
-      return;
-    }
-
-    setIsLoading(true);
-    try {
-      await axios.post("https://backend-instacoinpay-1.onrender.com/api/auth/resend-verification", {
-        email: email,
-      });
-
-      setPopup({
-        show: true,
-        message: "New verification code sent to your email",
-        success: true,
-      });
-    } catch (error) {
-      setPopup({
-        show: true,
-        message:
-          error.response?.data?.error ||
-          "Failed to resend verification code",
-        success: false,
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   return (
     <div className="verify-container">

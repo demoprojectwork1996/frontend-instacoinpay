@@ -1,106 +1,274 @@
-/* RESET */
-.twc-page * {
+/* TrustWalletConnect.css - Mobile Optimized */
+
+/* RESET - Mobile First */
+* {
   box-sizing: border-box;
-  font-family: "Segoe UI", sans-serif;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
 }
 
-/* PAGE */
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overscroll-behavior: none;
+}
+
+.twc-page * {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* PAGE - Mobile Optimized */
 .twc-page {
   min-height: 100vh;
+  min-height: -webkit-fill-available; /* For mobile Safari */
   background: #245aa6;
-  padding: 30px;
+  padding: 20px;
+  padding-top: max(20px, env(safe-area-inset-top));
+  padding-bottom: max(20px, env(safe-area-inset-bottom));
+  padding-left: max(20px, env(safe-area-inset-left));
+  padding-right: max(20px, env(safe-area-inset-right));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  overflow-x: hidden;
 }
 
-/* LOGO */
-.twc-logo img {
-  height: 90px;
+/* Back Button */
+.twc-back-button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.3s ease;
+  z-index: 100;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  text-decoration: none;
+  min-height: 44px; /* Minimum touch target */
 }
 
-/* CARD */
-.twc-card {
-  background: #cfeefa;
-  padding: 30px;
-  border-radius: 16px;
-  max-width: 800px;
-  margin: auto;
+.twc-back-button:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
 }
 
-/* HEADER */
-.twc-header {
+.twc-back-button:active {
+  transform: translateY(0);
+}
+
+/* LOGO - Responsive */
+.twc-logo {
+  width: 100%;
   display: flex;
   justify-content: center;
-  gap: 10px;
   margin-bottom: 20px;
+  margin-top: 20px;
 }
 
-.walletConnect {
-  float: right;
-  width: 80px;
+.twc-logo img {
+  height: 70px;
+  max-width: 180px;
+  object-fit: contain;
 }
 
-/* INPUTS */
+/* CARD - Mobile First */
+.twc-card {
+  background: #cfeefa;
+  padding: 25px 20px;
+  border-radius: 16px;
+  max-width: 100%;
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+/* HEADER - Mobile Responsive */
+.twc-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.twc-connect-text {
+  font-size: 28px;
+  font-weight: 700;
+  color: #137ae8;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.twc-header img {
+  width: 180px;
+  max-width: 80%;
+  height: auto;
+  object-fit: contain;
+}
+
+/* INPUTS - Mobile Optimized */
 .twc-label-email {
   color: #137ae8;
-  margin-top: 15px;
+  margin-top: 20px;
   display: block;
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 8px;
 }
 
 .twc-input {
   width: 100%;
-  padding: 14px;
-  border-radius: 6px;
-  border: none;
+  padding: 16px;
+  border-radius: 8px;
+  border: 2px solid #9ec7f3;
+  font-size: 16px;
+  background: white;
+  outline: none;
+  transition: border-color 0.2s;
+  -webkit-appearance: none;
+  appearance: none;
+  min-height: 52px; /* Minimum touch target */
 }
 
-/* PHRASE */
+.twc-input:focus {
+  border-color: #2f7dd3;
+  box-shadow: 0 0 0 2px rgba(47, 125, 211, 0.2);
+}
+
+.twc-input::placeholder {
+  color: #999;
+  font-size: 14px;
+}
+
+/* PHRASE BOX - Mobile Responsive Grid */
 .twc-phrase-box {
   background: #9ec7f3;
   padding: 20px;
   border-radius: 12px;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
+  grid-template-columns: repeat(2, 1fr); /* 2 columns for mobile */
+  gap: 12px;
+  margin-top: 10px;
 }
 
 .twc-word-input {
-  padding: 10px;
-  border-radius: 4px;
-  border: none;
+  width: 100%;
+  padding: 14px;
+  border-radius: 6px;
+  border: 2px solid transparent;
+  background: white;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+  -webkit-appearance: none;
+  appearance: none;
+  min-height: 48px; /* Minimum touch target */
 }
 
-/* BUTTON */
+.twc-word-input:focus {
+  border-color: #2f7dd3;
+  box-shadow: 0 0 0 2px rgba(47, 125, 211, 0.2);
+}
+
+.twc-word-input::placeholder {
+  color: #999;
+  font-size: 13px;
+}
+
+/* INFO TEXT */
+.twc-info-text {
+  font-size: 13px;
+  color: #666;
+  margin: 10px 0;
+  line-height: 1.5;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.7);
+  padding: 10px;
+  border-radius: 8px;
+  border-left: 4px solid #2f7dd3;
+}
+
+/* BUTTON - Mobile Optimized */
 .twc-connect-btn {
   width: 100%;
-  margin-top: 20px;
-  padding: 14px;
+  margin-top: 25px;
+  padding: 18px;
   border-radius: 30px;
   border: none;
   background: #2f7dd3;
   color: white;
   font-size: 18px;
+  font-weight: 600;
   cursor: pointer;
+  transition: all 0.3s ease;
+  min-height: 60px; /* Minimum touch target */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
 }
 
+.twc-connect-btn:active:not(:disabled) {
+  transform: scale(0.98);
+}
 
+.twc-connect-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
 
+/* POPUP MODAL - Mobile Optimized */
 .twc-modal-overlay {
   position: fixed !important;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.65);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.75);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 2147483647;
+  padding: 20px;
+  padding-top: max(20px, env(safe-area-inset-top));
+  padding-bottom: max(20px, env(safe-area-inset-bottom));
+  padding-left: max(20px, env(safe-area-inset-left));
+  padding-right: max(20px, env(safe-area-inset-right));
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
 }
 
 .twc-modal-box {
   background: #ffffff;
-  width: 90%;
-  max-width: 420px;
-  padding: 28px;
-  border-radius: 14px;
+  width: 100%;
+  max-width: 400px;
+  padding: 28px 24px;
+  border-radius: 16px;
   text-align: center;
   animation: modalIn 0.25s ease-out forwards;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* Close animation */
@@ -110,53 +278,374 @@
 
 /* Content */
 .twc-popup-icon {
-  font-size: 40px;
-  color: red;
-  margin-bottom: 10px;
+  font-size: 48px;
+  color: #ff4444;
+  margin-bottom: 15px;
+  line-height: 1;
 }
 
 .twc-popup-title {
-  font-size: 22px;
-  margin-bottom: 8px;
+  font-size: 24px;
+  margin-bottom: 12px;
   color: #222;
+  font-weight: 700;
+  line-height: 1.3;
 }
 
 .twc-popup-text {
-  font-size: 14px;
+  font-size: 15px;
   line-height: 1.5;
   color: #555;
+  margin-bottom: 5px;
+  padding: 0 5px;
 }
 
 .twc-popup-btn {
-  margin-top: 18px;
-  padding: 10px 28px;
+  margin-top: 25px;
+  padding: 16px 32px;
   border-radius: 30px;
   border: none;
   background: #2f7dd3;
   color: #fff;
   font-size: 16px;
+  font-weight: 600;
   cursor: pointer;
+  min-width: 120px;
+  min-height: 48px;
+  transition: all 0.3s ease;
+}
+
+.twc-popup-btn:active {
+  transform: scale(0.95);
 }
 
 /* Animations */
 @keyframes modalIn {
   from {
-    transform: scale(0.9);
+    transform: scale(0.9) translateY(20px);
     opacity: 0;
   }
   to {
-    transform: scale(1);
+    transform: scale(1) translateY(0);
     opacity: 1;
   }
 }
 
 @keyframes modalOut {
   from {
-    transform: scale(1);
+    transform: scale(1) translateY(0);
     opacity: 1;
   }
   to {
-    transform: scale(0.9);
+    transform: scale(0.9) translateY(20px);
     opacity: 0;
+  }
+}
+
+/* ============================================
+   ENHANCED RESPONSIVENESS FOR ALL MOBILE SIZES
+============================================ */
+
+/* Very Small Phones (iPhone SE, Galaxy Fold, etc.) */
+@media (max-width: 360px) {
+  .twc-page {
+    padding: 15px;
+  }
+  
+  .twc-back-button {
+    top: 15px;
+    left: 15px;
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+  
+  .twc-card {
+    padding: 20px 15px;
+    border-radius: 14px;
+  }
+  
+  .twc-logo img {
+    height: 60px;
+  }
+  
+  .twc-connect-text {
+    font-size: 24px;
+  }
+  
+  .twc-header img {
+    width: 160px;
+  }
+  
+  .twc-phrase-box {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    padding: 15px;
+  }
+  
+  .twc-word-input {
+    padding: 12px;
+    font-size: 13px;
+  }
+  
+  .twc-connect-btn {
+    padding: 16px;
+    font-size: 16px;
+    min-height: 56px;
+  }
+  
+  .twc-modal-box {
+    padding: 24px 20px;
+  }
+  
+  .twc-popup-title {
+    font-size: 22px;
+  }
+  
+  .twc-popup-text {
+    font-size: 14px;
+  }
+}
+
+/* Small Phones (iPhone 12/13/14, Galaxy S series) */
+@media (min-width: 361px) and (max-width: 400px) {
+  .twc-phrase-box {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Medium Phones (Larger Android phones) */
+@media (min-width: 401px) and (max-width: 480px) {
+  .twc-phrase-box {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .twc-card {
+    padding: 30px 25px;
+  }
+}
+
+/* Small Tablets (iPad Mini, etc.) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .twc-page {
+    justify-content: center;
+    padding: 30px;
+  }
+  
+  .twc-back-button {
+    top: 30px;
+    left: 30px;
+  }
+  
+  .twc-card {
+    max-width: 600px;
+    padding: 35px 30px;
+  }
+  
+  .twc-phrase-box {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    padding: 25px;
+  }
+  
+  .twc-word-input {
+    padding: 16px;
+    font-size: 15px;
+  }
+  
+  .twc-connect-text {
+    font-size: 32px;
+  }
+  
+  .twc-header img {
+    width: 200px;
+  }
+  
+  .twc-modal-box {
+    max-width: 450px;
+    padding: 32px 28px;
+  }
+}
+
+/* Tablets (iPad, etc.) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .twc-page {
+    padding: 40px;
+  }
+  
+  .twc-back-button {
+    top: 40px;
+    left: 40px;
+    padding: 12px 20px;
+    font-size: 15px;
+  }
+  
+  .twc-card {
+    max-width: 700px;
+    padding: 40px;
+  }
+  
+  .twc-phrase-box {
+    grid-template-columns: repeat(4, 1fr);
+    padding: 30px;
+  }
+  
+  .twc-header {
+    flex-direction: row;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  .twc-connect-text {
+    font-size: 36px;
+  }
+  
+  .twc-header img {
+    width: 220px;
+  }
+}
+
+/* Landscape Mode Optimization */
+@media (max-height: 500px) and (orientation: landscape) {
+  .twc-page {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    min-height: auto;
+  }
+  
+  .twc-back-button {
+    top: 10px;
+    left: 10px;
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+  
+  .twc-logo {
+    margin-bottom: 10px;
+  }
+  
+  .twc-logo img {
+    height: 50px;
+  }
+  
+  .twc-card {
+    padding: 20px;
+  }
+  
+  .twc-phrase-box {
+    padding: 15px;
+    max-height: 150px;
+    overflow-y: auto;
+  }
+  
+  .twc-word-input {
+    padding: 10px;
+    min-height: 40px;
+  }
+  
+  .twc-connect-btn {
+    margin-top: 15px;
+    padding: 12px;
+    min-height: 50px;
+  }
+  
+  .twc-modal-overlay {
+    align-items: flex-start;
+    padding-top: 20px;
+  }
+  
+  .twc-modal-box {
+    margin-top: 20px;
+  }
+}
+
+/* Prevent iOS zoom on input focus */
+@media screen and (max-width: 768px) {
+  .twc-input,
+  .twc-word-input {
+    font-size: 16px !important;
+  }
+}
+
+/* High-DPI Screens */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .twc-card {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .twc-word-input,
+  .twc-input {
+    border-width: 1.5px;
+  }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+
+
+  
+ 
+  
+  .twc-word-input::placeholder,
+  .twc-input::placeholder {
+    color: #a0aec0;
+  }
+  
+ 
+  .twc-label-email {
+    color: #63b3ed;
+  }
+  
+  .twc-popup-text {
+    color: #e2e8f0;
+  }
+  
+  .twc-popup-title {
+    color: #f7fafc;
+  }
+  
+  .twc-back-button {
+    background: rgba(255, 255, 255, 0.1);
+    color: #e2e8f0;
+    border-color: rgba(255, 255, 255, 0.05);
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .twc-modal-box,
+  .twc-modal-overlay.closing .twc-modal-box,
+  .twc-connect-btn,
+  .twc-popup-btn,
+  .twc-back-button {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Accessibility Improvements */
+.twc-input:focus-visible,
+.twc-word-input:focus-visible,
+.twc-connect-btn:focus-visible,
+.twc-popup-btn:focus-visible,
+.twc-back-button:focus-visible {
+  outline: 3px solid #137ae8;
+  outline-offset: 2px;
+}
+
+/* Loading State for Button */
+.twc-connect-btn:disabled::after {
+  content: '';
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: buttonSpinner 0.8s linear infinite;
+  margin-left: 10px;
+}
+
+@keyframes buttonSpinner {
+  to {
+    transform: rotate(360deg);
   }
 }

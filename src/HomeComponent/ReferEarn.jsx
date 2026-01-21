@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./ReferEarn.css";
 import logo from "../assets/logo.png";
 
 const ReferEarn = () => {
+  const navigate = useNavigate();
   const [copied, setCopied] = useState(false);
   const referralUrl = "https://demo.com/signup?referralCode=F28E-6892";
 
@@ -14,6 +16,11 @@ const ReferEarn = () => {
 
   return (
     <div className="refer-wrapper">
+      {/* BACK BUTTON */}
+      <button className="refer-back-btn" onClick={() => navigate("/dashboard")}>
+        ← Back
+      </button>
+
       {/* Background Elements */}
       <div className="bg-gradient"></div>
       <div className="floating-shape shape1"></div>

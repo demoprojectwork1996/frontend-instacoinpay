@@ -79,6 +79,8 @@ export default function TransactionReceipt() {
     year: "numeric",
   });
 
+  const status = tx.status; // ✅ REQUIRED
+
   return (
     <>
       {/* 🔒 CSS LEFT EXACTLY SAME */}
@@ -88,9 +90,32 @@ export default function TransactionReceipt() {
 
           <div className="amount">-{sentAmount} {coin}</div>
 
-          <div className="status">
-            Pending
-          </div>
+       <div className={`status-wrapper ${status}`}>
+
+  {status === "pending" && (
+    <div className="loader" />
+  )}
+
+  {status === "completed" && (
+    <div className="status-icon success">✔</div>
+  )}
+
+  {status === "failed" && (
+    <div className="status-icon failed">✖</div>
+  )}
+
+  <div className="status-text">
+    {status === "completed"
+      ? "Successful"
+      : status === "failed"
+      ? "Failed"
+      : "Pending"}
+  </div>
+
+</div>
+
+
+
 
           <div className="divider" />
 
@@ -111,8 +136,9 @@ export default function TransactionReceipt() {
           <div className="row">
             <span className="label">TxID</span>
             <span className="value">
-              {tx.transactionId}
-              <button onClick={() => copyToClipboard(tx.transactionId, "txid")}>📋</button>
+              {tx._id}
+<button onClick={() => copyToClipboard(tx._id, "txid")}>📋</button>
+
             </span>
           </div>
           {copied === "txid" && <div className="copied">TxID copied</div>}

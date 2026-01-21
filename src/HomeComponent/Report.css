@@ -7,6 +7,32 @@
   align-items: center;
   padding: 20px;
   box-sizing: border-box;
+  position: relative;
+}
+
+/* Back Button */
+.report-back-btn {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.report-back-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateX(-5px);
 }
 
 /* Header */
@@ -18,6 +44,7 @@
   justify-content: center;
   position: relative;
   margin-bottom: 20px;
+  margin-top: 40px;
 }
 
 .report-logo {
@@ -30,6 +57,7 @@
   color: #fff;
   font-size: 28px;
   letter-spacing: 1px;
+  margin: 0;
 }
 
 /* Card */
@@ -40,6 +68,7 @@
   border-radius: 20px;
   padding: 30px;
   box-sizing: border-box;
+  margin-top: 10px;
 }
 
 .report-card label {
@@ -47,6 +76,7 @@
   font-weight: 600;
   margin-bottom: 8px;
   display: block;
+  color: #000;
 }
 
 .report-card input,
@@ -54,15 +84,24 @@
   width: 100%;
   padding: 14px;
   border-radius: 8px;
-  border: none;
+  border: 1px solid #ddd;
   outline: none;
   margin-bottom: 18px;
   font-size: 14px;
+  box-sizing: border-box;
+  background: #fff;
+}
+
+.report-card input:focus,
+.report-card textarea:focus {
+  border-color: #35c3ff;
+  box-shadow: 0 0 0 2px rgba(53, 195, 255, 0.2);
 }
 
 .report-card textarea {
   min-height: 120px;
-  resize: none;
+  resize: vertical;
+  font-family: inherit;
 }
 
 /* File */
@@ -71,6 +110,25 @@
   padding: 10px;
   border-radius: 6px;
   width: 100%;
+  border: 1px dashed #ddd;
+  cursor: pointer;
+}
+
+.file-box small {
+  display: block;
+  margin-top: 5px;
+  color: #666;
+  font-size: 12px;
+}
+
+/* Message */
+.report-message {
+  padding: 10px;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 600;
+  margin-top: 10px;
+  color: #000;
 }
 
 /* Submit Button */
@@ -86,13 +144,45 @@
   background: linear-gradient(to right, #35c3ff, #1d5dff);
   color: #000;
   font-weight: 500;
+  transition: all 0.3s;
+}
 
+.report-submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(29, 93, 255, 0.4);
+}
+
+.report-submit-btn:active {
+  transform: translateY(0);
+}
+
+.report-submit-btn:disabled {
+  background: linear-gradient(to right, #cccccc, #999999);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }
 
 /* ========================= */
 /* 📱 Mobile Responsive */
 /* ========================= */
 @media (max-width: 768px) {
+  .report-page {
+    padding: 15px;
+    padding-top: 60px;
+  }
+  
+  .report-back-btn {
+    top: 15px;
+    left: 15px;
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+  
+  .report-header {
+    margin-top: 30px;
+  }
+  
   .report-header h1 {
     font-size: 22px;
   }
@@ -104,25 +194,47 @@
 
   .report-card {
     padding: 20px;
+    max-width: 100%;
   }
 
-  .submit-btn {
+  .report-submit-btn {
     font-size: 18px;
     padding: 14px;
+    max-width: 100%;
+  }
+  
+  .report-card input,
+  .report-card textarea {
+    font-size: 15px;
+    padding: 12px;
   }
 }
 
 /* ========================= */
-/* 📱 Small Devices */
+/* 📱 Small Devices (481px - 480px) */
 /* ========================= */
 @media (max-width: 480px) {
+  .report-page {
+    padding: 12px;
+    padding-top: 50px;
+  }
+  
+  .report-back-btn {
+    top: 12px;
+    left: 12px;
+    padding: 7px 10px;
+    font-size: 12px;
+  }
+  
   .report-header {
     flex-direction: column;
     gap: 10px;
+    margin-top: 25px;
   }
 
   .report-logo {
     position: static;
+    width: 100px;
   }
 
   .report-header h1 {
@@ -131,9 +243,223 @@
 
   .report-card {
     border-radius: 16px;
+    padding: 18px;
   }
 
-  .submit-btn {
+  .report-submit-btn {
     border-radius: 8px;
+    font-size: 16px;
+    padding: 12px;
+  }
+  
+  .report-card label {
+    font-size: 13px;
+  }
+  
+  .report-card input,
+  .report-card textarea {
+    font-size: 14px;
+    padding: 10px;
+  }
+}
+
+/* Extra Small Mobile (up to 360px) */
+@media (max-width: 360px) {
+  .report-page {
+    padding: 10px;
+    padding-top: 45px;
+  }
+  
+  .report-back-btn {
+    top: 10px;
+    left: 10px;
+    padding: 6px 8px;
+    font-size: 11px;
+  }
+  
+  .report-header h1 {
+    font-size: 18px;
+  }
+  
+  .report-logo {
+    width: 90px;
+  }
+  
+  .report-card {
+    padding: 15px;
+  }
+  
+  .report-submit-btn {
+    font-size: 15px;
+    padding: 10px;
+  }
+}
+
+/* Tablet Devices (769px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .report-page {
+    padding: 30px;
+    padding-top: 80px;
+  }
+  
+  .report-back-btn {
+    top: 30px;
+    left: 30px;
+    font-size: 16px;
+    padding: 12px 18px;
+  }
+  
+  .report-back-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateX(-5px);
+  }
+  
+  .report-card {
+    max-width: 700px;
+  }
+  
+  .report-submit-btn {
+    max-width: 700px;
+    font-size: 20px;
+    padding: 18px;
+  }
+}
+
+/* Desktop (1025px and above) */
+@media (min-width: 1025px) {
+  .report-page {
+    padding: 40px;
+    padding-top: 100px;
+  }
+  
+  .report-back-btn {
+    top: 40px;
+    left: 40px;
+    font-size: 16px;
+    padding: 12px 24px;
+  }
+  
+  .report-back-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateX(-5px);
+  }
+  
+  .report-card {
+    max-width: 850px;
+    padding: 35px;
+  }
+  
+  .report-submit-btn {
+    max-width: 850px;
+    font-size: 24px;
+    padding: 20px;
+  }
+}
+
+/* Landscape Mode for Mobile */
+@media (max-height: 600px) and (orientation: landscape) {
+  .report-page {
+    padding: 10px;
+    padding-top: 50px;
+    min-height: auto;
+  }
+  
+  .report-back-btn {
+    top: 10px;
+    left: 10px;
+    padding: 8px 12px;
+  }
+  
+  .report-header {
+    margin-top: 20px;
+  }
+  
+  .report-logo {
+    width: 80px;
+  }
+  
+  .report-header h1 {
+    font-size: 18px;
+  }
+  
+  .report-card {
+    padding: 15px;
+    margin-top: 5px;
+  }
+  
+  .report-submit-btn {
+    margin-top: 20px;
+    padding: 12px;
+  }
+}
+
+/* Prevent iOS zoom */
+@media (max-width: 768px) {
+  .report-card input[type="email"],
+  .report-card textarea {
+    font-size: 16px !important;
+  }
+}
+
+/* Touch-friendly button sizes */
+@media (max-width: 768px) {
+  .report-submit-btn {
+    min-height: 50px;
+  }
+  
+  .report-back-btn {
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* Safe area insets for modern mobile devices */
+@supports (padding: max(0px)) {
+  .report-page {
+    padding-left: max(15px, env(safe-area-inset-left));
+    padding-right: max(15px, env(safe-area-inset-right));
+    padding-top: max(20px, env(safe-area-inset-top));
+    padding-bottom: max(20px, env(safe-area-inset-bottom));
+  }
+  
+  .report-back-btn {
+    left: max(15px, env(safe-area-inset-left));
+    top: max(15px, env(safe-area-inset-top));
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .report-page {
+    background: #1a4a8a;
+  }
+  
+  .report-card {
+    background: #b8e2f5;
+  }
+  
+  .report-card label {
+    color: #1a1a1a;
+  }
+  
+  .report-card input,
+  .report-card textarea {
+    background: #fff;
+    color: #000;
+  }
+  
+  .report-submit-btn {
+    color: #000;
+  }
+  
+  .report-back-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+  
+  .report-back-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
   }
 }

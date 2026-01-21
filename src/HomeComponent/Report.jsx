@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import "./Report.css";
 import logo from "../assets/logo.png";
 
 const Report = () => {
+  const navigate = useNavigate();
   const [userEmail, setUserEmail] = useState("");
   const [reportedEmail, setReportedEmail] = useState("");
   const [description, setDescription] = useState("");
@@ -43,6 +45,11 @@ const Report = () => {
 
   return (
     <div className="report-page">
+      {/* BACK BUTTON */}
+      <button className="report-back-btn" onClick={() => navigate("/dashboard")}>
+        ← Back to Dashboard
+      </button>
+
       {/* Header */}
       <div className="report-header">
         <img src={logo} alt="CoinXPay" className="report-logo" />

@@ -89,7 +89,9 @@ function App() {
       <Route path="/adminreport" element={<AdminReport />} />
       <Route path="/adminaccountcreate" element={<AdminAccountCreate />} />
       <Route path="/deposit-wallet" element={<AdminDeposit />} />
-     <Route path="/admin/transaction/:id" element={<TransactionReceipt />} />
+     <Route path="/transaction/:id" element={<TransactionReceipt />} />
+
+
       <Route path="/Adminhistory" element={<AdminHistory />} />
       <Route path="/adwalletApp" element={<AdWalletApp />} />
       <Route path="/adcardactivation" element={<AdminCardActivation/>}/>
