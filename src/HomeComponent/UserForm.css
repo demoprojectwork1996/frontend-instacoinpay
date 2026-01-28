@@ -115,6 +115,12 @@
   stroke-width: 4;
   stroke-miterlimit: 10;
 }
+.checkmark-circle {
+  stroke-dasharray: 157;
+  stroke-dashoffset: 157;
+  animation: circleDraw 0.6s ease-out forwards;
+}
+
 
 .success-animation {
   width: 100px;   /* Slightly bigger to avoid clipping */

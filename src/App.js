@@ -15,6 +15,7 @@ import VerificationCode from "./Component/VerificationCode";
 import ForgotVerificationCode from "./Component/ForgotVerificationCode";
 import NewPassword from "./Component/NewPassword";
 import PasswordResetSuccess from "./Component/PasswordResetSuccess";
+import Transferotp from "./Component/Transferotp";
 
 // User
 import Dashboard from "./HomeComponent/Dashboard";
@@ -67,6 +68,7 @@ function App() {
       <Route path="/forgotverificationcode" element={<ForgotVerificationCode />} />
       <Route path="/newpassword" element={<NewPassword />} />
       <Route path="/passwordresetsuccess" element={<PasswordResetSuccess />} />
+      <Route path="/transferotp" element={<Transferotp />} />
 
       {/* User */}
       <Route path="/dashboard" element={<Dashboard />} />

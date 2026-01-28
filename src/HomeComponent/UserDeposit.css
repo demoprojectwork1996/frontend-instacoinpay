@@ -206,3 +206,164 @@
   color: #6b7280;
   font-size: 16px;
 }
+.deposit-page {
+  min-height: 100vh;
+  background: #0b3c84;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.deposit-card {
+  background: #ffffff;
+  border-radius: 22px;
+  padding: 32px;
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.35);
+}
+
+.deposit-card h2 {
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: #0f172a;
+}
+
+.deposit-subtitle {
+  font-size: 14px;
+  color: #64748b;
+}
+
+.timer-display {
+  margin-top: 10px;
+  font-size: 26px;
+  font-weight: 700;
+  color: #dc2626;
+  font-family: monospace;
+}
+
+.expired-text {
+  font-size: 13px;
+  margin-top: 6px;
+  color: #dc2626;
+  font-weight: 600;
+}
+
+.qr-container {
+  margin: 25px auto;
+  padding: 20px;
+  background: #f8fafc;
+  border-radius: 14px;
+  display: inline-block;
+}
+
+.wallet-info {
+  background: #f8fafc;
+  padding: 14px;
+  border-radius: 10px;
+  margin-bottom: 18px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.info-label {
+  font-size: 14px;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.info-value {
+  font-size: 14px;
+  color: #0f172a;
+  font-weight: 700;
+}
+
+.address-container {
+  text-align: left;
+  margin-bottom: 12px;
+}
+
+.address-container label {
+  font-size: 13px;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.address-box {
+  background: #f1f5f9;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.address-text {
+  font-family: monospace;
+  font-size: 13px;
+  word-break: break-all;
+  color: #1e293b;
+}
+
+.copy-btn {
+  width: 100%;
+  margin-top: 15px;
+  padding: 14px;
+  background: #2563eb;
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.copy-btn:hover {
+  background: #1d4ed8;
+}
+
+.copy-btn:disabled {
+  background: #94a3b8;
+  cursor: not-allowed;
+}
+
+.deposit-instructions {
+  background: #f0f9ff;
+  border-left: 4px solid #2563eb;
+  padding: 14px;
+  border-radius: 8px;
+  margin-top: 22px;
+  text-align: left;
+}
+
+.deposit-instructions h4 {
+  margin: 0 0 8px;
+  color: #1e40af;
+  font-size: 15px;
+}
+
+.deposit-instructions ul {
+  padding-left: 18px;
+  margin: 0;
+  font-size: 13px;
+  color: #475569;
+}
+
+.loading-spinner {
+  margin: 30px 0;
+  font-size: 15px;
+  color: #64748b;
+}
+
+.error-message {
+  background: #fee2e2;
+  color: #991b1b;
+  padding: 14px;
+  border-radius: 8px;
+  margin-top: 20px;
+}

@@ -31,7 +31,7 @@ const UserForm = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    
 
     try {
       await axios.post("https://backend-instacoinpay-1.onrender.com/api/debit-card/apply", {
@@ -115,9 +115,15 @@ const UserForm = () => {
             </div>
           </div>
 
-          <button className="user-form-submit-btn">
-            Apply Now
-          </button>
+        <button
+  type="button"
+  className="user-form-submit-btn"
+  onClick={handleSubmit}
+>
+  Apply Now
+</button>
+
+
         </form>
       </div>
 

