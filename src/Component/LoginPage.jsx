@@ -81,7 +81,7 @@ const LoginPage = () => {
     success: false,
   });
 
- const handleLogin = async () => {
+const handleLogin = async () => {
   if (!email || !password) {
     setPopup({
       show: true,
@@ -93,22 +93,18 @@ const LoginPage = () => {
 
   try {
     const res = await axios.post(
-      "https://backend-instacoinpay-1.onrender.com/api/auth/login",
+      "https://backend-srtt.onrender.com/api/auth/login",
       { email, password }
     );
 
     if (res.data.token) {
-      const user = res.data.data;   // ✅ backend user object
-
       localStorage.setItem("token", res.data.token);
-      localStorage.setItem("userEmail", user.email);
-      localStorage.setItem("userName", user.name);   // ✅ fullName
-      localStorage.setItem("userId", user.id);       // ✅ optional
+      localStorage.setItem("user", JSON.stringify(res.data.data));
     }
 
     setPopup({
       show: true,
-      message: res.data.message || "Login successful",
+      message: "Login successful",
       success: true,
     });
 
@@ -122,6 +118,7 @@ const LoginPage = () => {
     });
   }
 };
+
 
 
   return (

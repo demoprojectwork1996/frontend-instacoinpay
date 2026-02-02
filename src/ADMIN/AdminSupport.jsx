@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import "./AdminSupport.css";
 
-const API_URL = "https://backend-instacoinpay-1.onrender.com/api/support";
+const API_URL = "https://backend-srtt.onrender.com/api/support";
 
 export default function Support() {
   const [tickets, setTickets] = useState([]);

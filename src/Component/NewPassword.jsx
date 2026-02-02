@@ -131,7 +131,7 @@ const NewPassword = () => {
 
     try {
       const res = await axios.post(
-        "https://backend-instacoinpay-1.onrender.com/api/auth/reset-password",
+        "https://backend-srtt.onrender.com/api/auth/reset-password",
         {
           email,
           resetCode,

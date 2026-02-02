@@ -16,7 +16,7 @@ export default function AdminReport() {
   const fetchReports = async () => {
     try {
       setLoading(true);
-      const res = await axios.get("https://backend-instacoinpay-1.onrender.com/api/reports", {
+      const res = await axios.get("https://backend-srtt.onrender.com/api/reports", {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -45,7 +45,7 @@ export default function AdminReport() {
 
     try {
       await axios.put(
-        `https://backend-instacoinpay-1.onrender.com/api/reports/${id}/resolve`,
+        `https://backend-srtt.onrender.com/api/reports/${id}/resolve`,
         { actionTaken },
         {
           headers: {

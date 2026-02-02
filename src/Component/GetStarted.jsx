@@ -4,6 +4,10 @@ import logo from "../assets/logo.png";
 import cam2 from "../assets/Cam2.png";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+
+
 
 /* ================= WHATSAPP FLOAT COMPONENT ================= */
 const WhatsAppFloat = ({ 
@@ -67,6 +71,8 @@ const WhatsAppFloat = ({
   );
 };
 
+
+
 const GetStarted = () => {
   const navigate = useNavigate();
 
@@ -78,6 +84,19 @@ const GetStarted = () => {
     success: true,
   });
   const [isLoading, setIsLoading] = useState(false);
+
+    const location = useLocation();
+
+  // ✅ AUTO-FILL REFERRAL CODE FROM URL
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const ref = params.get("referralCode");
+
+    if (ref) {
+      setReferralCode(ref.toUpperCase());
+    }
+  }, [location.search]);
+
 
   const handleSubmit = async () => {
     if (!country) {
@@ -93,7 +112,7 @@ const GetStarted = () => {
 
     try {
       const res = await axios.post(
-        "https://backend-instacoinpay-1.onrender.com/api/auth/get-started",
+        "https://backend-srtt.onrender.com/api/auth/get-started",
         {
           country,
           referralCode: referralCode || undefined,

@@ -96,7 +96,7 @@ const Support = () => {
     setMessage("");
 
     try {
-      await axios.post("https://backend-instacoinpay-1.onrender.com/api/support", formData);
+      await axios.post("https://backend-srtt.onrender.com/api/support", formData);
 
       setMessage("✅ Support ticket submitted successfully");
       setFormData({ email: "", subject: "", description: "" });

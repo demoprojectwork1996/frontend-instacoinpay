@@ -105,7 +105,7 @@ const AllTransactions = () => {
       }
 
       const res = await axios.get(
-        "https://backend-instacoinpay-1.onrender.com/api/history/grouped/all",
+        "https://backend-srtt.onrender.com/api/history/grouped/all",
         {
           headers: { Authorization: `Bearer ${token}` },
         }

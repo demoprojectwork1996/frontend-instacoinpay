@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import "./ReferEarn.css";
 import logo from "../assets/logo.png";
 
+
+
 /* ================= WHATSAPP FLOAT COMPONENT ================= */
 const WhatsAppFloat = ({ 
   phoneNumber = "15485825756", 
@@ -68,7 +70,12 @@ const WhatsAppFloat = ({
 const ReferEarn = () => {
   const navigate = useNavigate();
   const [copied, setCopied] = useState(false);
-  const referralUrl = "https://demo.com/signup?referralCode=F28E-6892";
+
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  const referralUrl = user
+    ? `${window.location.origin}/signup?referralCode=${user.referralCode}`
+    : "";
 
   const handleCopy = () => {
     navigator.clipboard.writeText(referralUrl);
@@ -76,12 +83,37 @@ const ReferEarn = () => {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const handleShare = (platform) => {
+    const text = `Join CoinXPay and get 25 USDT (BEP20) welcome bonus! Use my referral code: ${user?.referralCode || ''}. Sign up here: ${referralUrl}`;
+    
+    switch(platform) {
+      case 'whatsapp':
+        window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+        break;
+      case 'email':
+        window.open(`mailto:?subject=Join CoinXPay & Get 25 USDT Bonus!&body=${encodeURIComponent(text)}`);
+        break;
+      case 'social':
+        // For generic social media sharing
+        if (navigator.share) {
+          navigator.share({
+            title: 'Join CoinXPay - Get 25 USDT Bonus!',
+            text: text,
+            url: referralUrl
+          });
+        }
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
     <>
       <div className="refer-wrapper">
         {/* BACK BUTTON */}
         <button className="refer-back-btn" onClick={() => navigate("/dashboard")}>
-          ← Back
+          ← 
         </button>
 
         {/* Background Elements */}
@@ -94,7 +126,7 @@ const ReferEarn = () => {
         <header className="refer-header">
           <img src={logo} alt="CoinXPay" className="logo" />
           <div className="header-badge">
-            <span className="badge-text">Earn Rewards</span>
+            <span className="badge-text">Earn 25 USDT per Referral</span>
           </div>
         </header>
 
@@ -110,6 +142,28 @@ const ReferEarn = () => {
               <div className="reward-count">
                 <div className="count-number">10</div>
                 <div className="count-label">Friends Referred</div>
+                <div className="total-earnings">
+                  Total Earnings: $250 USDT
+                </div>
+              </div>
+              
+              {/* Referral History - Placeholder */}
+              <div className="referral-history">
+                <h4>Recent Referrals</h4>
+                <div className="history-list">
+                  <div className="history-item">
+                    <div className="history-name">John Doe</div>
+                    <div className="history-bonus">+$25 USDT</div>
+                  </div>
+                  <div className="history-item">
+                    <div className="history-name">Jane Smith</div>
+                    <div className="history-bonus">+$25 USDT</div>
+                  </div>
+                  <div className="history-item">
+                    <div className="history-name">Alex Johnson</div>
+                    <div className="history-bonus">+$25 USDT</div>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -117,20 +171,25 @@ const ReferEarn = () => {
             <div className="right-section">
               <div className="badge">HOT OFFER</div>
               <h1 className="title">
-                <span className="title-gradient">REFER AND EARN</span>
+                <span className="title-gradient">REFER AND EARN 25 USDT</span>
               </h1>
-              <p className="subtitle">Invite friends to join CoinXPay and earn rewards together</p>
+              <p className="subtitle">
+                Invite friends to join CoinXPay. Both you and your friend get 25 USDT (BEP20) bonus!
+              </p>
 
               {/* Reward Section */}
               <div className="reward-section">
                 <div className="reward-card">
                   <div className="reward-icon">💰</div>
                   <div className="reward-details">
-                    <div className="reward-label">PER USER</div>
+                    <div className="reward-label">PER USER REFERRAL</div>
                     <div className="reward-amount">
                       <span className="currency">$</span>
-                      <span className="amount">10</span>
-                      <span className="reward-bonus">+ $5 bonus after 5 referrals</span>
+                      <span className="amount">25</span>
+                      <span className="reward-bonus">USDT (BEP20) Bonus</span>
+                    </div>
+                    <div className="reward-note">
+                      Both referrer and referee receive 25 USDT instantly!
                     </div>
                   </div>
                 </div>
@@ -146,7 +205,7 @@ const ReferEarn = () => {
                   </div>
                   <div className="step">
                     <div className="step-number">3</div>
-                    <div className="step-text">Get $10 credited to your wallet</div>
+                    <div className="step-text">Both get 25 USDT credited instantly</div>
                   </div>
                 </div>
               </div>
@@ -156,9 +215,27 @@ const ReferEarn = () => {
                 <div className="section-header">
                   <h3>Your Personal Referral Link</h3>
                   <div className="share-buttons">
-                    <button className="share-btn" title="Share via WhatsApp">📱</button>
-                    <button className="share-btn" title="Share via Email">✉️</button>
-                    <button className="share-btn" title="Share on Social Media">📢</button>
+                    <button 
+                      className="share-btn" 
+                      title="Share via WhatsApp"
+                      onClick={() => handleShare('whatsapp')}
+                    >
+                      📱
+                    </button>
+                    <button 
+                      className="share-btn" 
+                      title="Share via Email"
+                      onClick={() => handleShare('email')}
+                    >
+                      ✉️
+                    </button>
+                    <button 
+                      className="share-btn" 
+                      title="Share on Social Media"
+                      onClick={() => handleShare('social')}
+                    >
+                      📢
+                    </button>
                   </div>
                 </div>
                 
@@ -179,9 +256,22 @@ const ReferEarn = () => {
                     </button>
                   </div>
                   <p className="code-hint">
-                    Share this link with friends. When they sign up using your link, both of you get $10!
+                    Share this link with friends. When they sign up using your link and verify their account, 
+                    both of you will receive 25 USDT (BEP20) instantly!
                   </p>
                 </div>
+              </div>
+
+              {/* Bonus Information */}
+              <div className="bonus-info">
+                <h4>🎁 Bonus Information</h4>
+                <ul>
+                  <li>✓ Every new user gets 25 USDT (BEP20) welcome bonus</li>
+                  <li>✓ Referrer gets additional 25 USDT per successful referral</li>
+                  <li>✓ No limit on number of referrals</li>
+                  <li>✓ Bonuses are credited instantly after verification</li>
+                  <li>✓ USDT can be traded, withdrawn, or used for payments</li>
+                </ul>
               </div>
 
             </div>
@@ -202,5 +292,7 @@ const ReferEarn = () => {
     </>
   );
 };
+
+
 
 export default ReferEarn;
