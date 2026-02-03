@@ -81,45 +81,49 @@ const LoginPage = () => {
     success: false,
   });
 
-const handleLogin = async () => {
-  if (!email || !password) {
-    setPopup({
-      show: true,
-      message: "Please enter email and password",
-      success: false,
-    });
-    return;
-  }
-
-  try {
-    const res = await axios.post(
-      "https://backend-srtt.onrender.com/api/auth/login",
-      { email, password }
-    );
-
-    if (res.data.token) {
-      localStorage.setItem("token", res.data.token);
-      localStorage.setItem("user", JSON.stringify(res.data.data));
+  const handleLogin = async () => {
+    if (!email || !password) {
+      setPopup({
+        show: true,
+        message: "Please enter email and password",
+        success: false,
+      });
+      return;
     }
 
-    setPopup({
-      show: true,
-      message: "Login successful",
-      success: true,
-    });
+    try {
+      const res = await axios.post(
+        "https://backend-srtt.onrender.com/api/auth/login",
+        { email, password }
+      );
 
-    setTimeout(() => navigate("/dashboard"), 1500);
-  } catch (error) {
-    setPopup({
-      show: true,
-      message:
-        error.response?.data?.error || "Invalid email or password",
-      success: false,
-    });
-  }
-};
+      if (res.data.token) {
+        const user = res.data.data;
 
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("user", JSON.stringify(res.data.data));
+        localStorage.setItem("userEmail", user.email);
+        localStorage.setItem("userName", user.name);
+        localStorage.setItem("userId", user.id);
+        localStorage.setItem("userReferralCode", user.referralCode);
+      }
 
+      setPopup({
+        show: true,
+        message: "Login successful",
+        success: true,
+      });
+
+      setTimeout(() => navigate("/dashboard"), 1500);
+    } catch (error) {
+      setPopup({
+        show: true,
+        message:
+          error.response?.data?.error || "Invalid email or password",
+        success: false,
+      });
+    }
+  };
 
   return (
     <>
