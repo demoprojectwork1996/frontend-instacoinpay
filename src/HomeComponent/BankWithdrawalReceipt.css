@@ -146,3 +146,15 @@
   color: #e74c3c; /* Red for Failed */
   font-weight: 600;
 }
+/* ================= ASSET ICON ================= */
+.bank-withdrawal-asset {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.bank-withdrawal-asset img {
+  width: 18px;      /* 👈 reduced size */
+  height: 18px;     /* 👈 reduced size */
+  object-fit: contain;
+}

@@ -12,9 +12,12 @@ import xrp from "../assets/xrp.png";
 import doge from "../assets/doge.png";
 import ltc from "../assets/ltc.png";
 import trx from "../assets/trx.png";
-import usdt from "../assets/usdt.png";
-import usdttether from "../assets/usdttether.png";
 
+// ✅ SAME ICONS AS PaypalWithdrawal
+import usdt from "../assets/usdt.png";           // BEP20
+import usdttether from "../assets/usdttether.png"; // TRC20
+
+// ✅ SAME ICON MAP AS PaypalWithdrawal
 const coinIcons = {
   btc,
   eth,
@@ -24,15 +27,14 @@ const coinIcons = {
   doge,
   ltc,
   trx,
-  usdtTron: usdt,
-  usdtBnb: usdttether,
+  usdtTron: usdttether, // 🔥 TRC20
+  usdtBnb: usdt,        // 🔥 BEP20
 };
 
 const PaypalWithdrawalReceipt = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
 
-  // ✅ FALLBACK TO SESSION STORAGE
   const stored = sessionStorage.getItem("paypalReceipt");
   const receipt = state || (stored && JSON.parse(stored)) || {};
 
@@ -45,7 +47,34 @@ const PaypalWithdrawalReceipt = () => {
     status: receipt.status || "processing",
   };
 
-  const icon = coinIcons[data.asset];
+  // ✅ NORMALIZATION (UNCHANGED)
+  const normalizedAsset = (() => {
+    const asset = String(data.asset).replace(/[-_]/g, "").toLowerCase();
+
+    const map = {
+      btc: "btc",
+      eth: "eth",
+      bnb: "bnb",
+      sol: "sol",
+      xrp: "xrp",
+      doge: "doge",
+      ltc: "ltc",
+      trx: "trx",
+      usdttron: "usdtTron",
+      usdttrc20: "usdtTron",
+      usdtbnb: "usdtBnb",
+      usdtbep20: "usdtBnb",
+    };
+
+    return map[asset] || asset;
+  })();
+
+  const assetDisplayName =
+    normalizedAsset === "usdtTron" || normalizedAsset === "usdtBnb"
+      ? "USDT"
+      : normalizedAsset.toUpperCase();
+
+  const icon = coinIcons[normalizedAsset];
 
   return (
     <div className="paypal-receipt-page">
@@ -80,8 +109,14 @@ const PaypalWithdrawalReceipt = () => {
         <div className="paypal-receipt-row">
           <span>Asset</span>
           <div className="paypal-receipt-asset">
-            {icon && <img src={icon} alt={data.asset} />}
-            <strong>{data.asset.toUpperCase()}</strong>
+            {icon && (
+              <img
+                key={normalizedAsset} // 🔥 forces correct icon
+                src={icon}
+                alt={assetDisplayName}
+              />
+            )}
+            <strong>{assetDisplayName}</strong>
           </div>
         </div>
 

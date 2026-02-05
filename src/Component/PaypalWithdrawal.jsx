@@ -28,8 +28,9 @@ const coins = [
   { key: "doge", label: "Dogecoin", symbol: "DOGE", icon: doge },
   { key: "ltc", label: "Litecoin", symbol: "LTC", icon: ltc },
   { key: "trx", label: "TRX", symbol: "TRX", icon: trx },
-  { key: "usdtTron", label: "USDT (TRON)", symbol: "USDT-TRC20", icon: usdt },
-  { key: "usdtBnb", label: "USDT (BNB)", symbol: "USDT-BEP20", icon: usdttether },
+ { key: "usdtTron", label: "USDT-TRC20", symbol: "USDT-TRC20", icon: usdttether },
+{ key: "usdtBnb", label: "USDT-BEP20", symbol: "USDT-BEP20", icon: usdt },
+
 ];
 
 const PaypalWithdrawal = () => {
@@ -140,9 +141,10 @@ const PaypalWithdrawal = () => {
               }
             >
               {coins.map((coin) => (
-                <option key={coin.key} value={coin.key}>
-                  {coin.symbol} — {coin.label}
-                </option>
+             <option key={coin.key} value={coin.key}>
+  {coin.symbol}
+</option>
+
               ))}
             </select>
           </div>

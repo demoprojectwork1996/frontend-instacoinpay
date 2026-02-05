@@ -229,3 +229,66 @@
   }
 }
 
+/* ================= FIXES (DO NOT REMOVE ABOVE CODE) ================= */
+
+/* Ensure white box is always visible */
+.paypal-input-with-icon {
+  background: #ffffff;
+  border-radius: 18px;
+}
+
+/* Remove absolute-position overlap behavior */
+.paypal-input-with-icon img,
+.paypal-input-with-icon .paypal-coin-symbol {
+  position: static;
+  transform: none;
+  pointer-events: auto;
+}
+
+/* Turn input-with-icon into flex layout */
+.paypal-input-with-icon {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 14px;
+}
+
+/* Icon size */
+.paypal-input-with-icon img {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+/* Hide duplicate symbol text (BTC BTC issue) */
+.paypal-coin-symbol {
+  display: none;
+}
+
+/* Clean select */
+.paypal-input-with-icon select {
+  padding-left: 0 !important;
+  background: transparent;
+  appearance: none;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* Add dropdown arrow */
+.paypal-input-with-icon::after {
+  content: "▾";
+  margin-left: auto;
+  font-size: 14px;
+  color: #555;
+}
+
+/* Prevent text collision on small screens */
+@media (max-width: 480px) {
+  .paypal-input-with-icon {
+    padding: 0 12px;
+  }
+
+  .paypal-input-with-icon select {
+    font-size: 13px;
+  }
+}
