@@ -32,7 +32,7 @@ export default function InstaPlaystore() {
         </div>
         <div className="stat-divider"></div>
         <div className="stat-item">
-          <div className="stat-value">1M+</div>
+          <div className="stat-value">973K+</div>
           <div className="stat-label">Downloads</div>
         </div>
         <div className="stat-divider"></div>
