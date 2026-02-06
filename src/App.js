@@ -23,8 +23,8 @@ import PaypalWithdrawal from "./Component/PaypalWithdrawal";
 import BankWithdrawalotp from "./HomeComponent/BankWithdrawalotp";
 import BankWithdrawalReceipt from "./HomeComponent/BankWithdrawalReceipt";
 import PaypalWithdrawalOtp from "./Component/PaypalWithdrawalOtp";
-import Paypalreceipt from "./Component/PaypalWithdrawalReceipt";
-
+import InstaPlaystore from "./Component/InstaPlaystore";
+import AppStoreSoon from "./Component/AppStoreSoon";
 
 
 // User
@@ -89,6 +89,8 @@ function App() {
       <Route path="/bankwithdrawalreceipt" element={<BankWithdrawalReceipt />} />
       <Route path="/paypalwithdrawalotp" element={<PaypalWithdrawalOtp />} />
       <Route path="/paypalreceipt" element={<PaypalWithdrawalReceipt />} />
+      <Route path="/instaplaystore" element={<InstaPlaystore />} />
+      <Route path="/appstore-soon" element={<AppStoreSoon />} />
 
 
       {/* User */}

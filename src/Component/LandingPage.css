@@ -201,26 +201,113 @@ nav a:hover {
   max-width: 500px;
 }
 
-.email-box {
+/* App Store Download Buttons */
+.app-download-buttons {
   display: flex;
-  gap: 10px;
-  margin-top: 30px;
-  max-width: 500px;
+  gap: 0px; /* Increased gap */
+  margin-top: 40px;
+  flex-wrap: wrap;
+  align-items: center;
+  width: 100%;
 }
 
-.email-box input {
-  flex: 1;
-  padding: 14px 20px;
-  border-radius: 25px;
-  border: 1px solid #cbd5e1;
-  font-size: 16px;
-  outline: none;
-  transition: border-color 0.3s;
-  min-width: 0;
+.app-store-btn,
+.google-play-btn {
+  display: inline-block;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  height: 50px;
+  max-width: 170px;
+  width: 100%;
 }
 
-.email-box input:focus {
-  border-color: #2563eb;
+.app-store-btn:hover,
+.google-play-btn:hover {
+  transform: translateY(-3px);
+  opacity: 0.9;
+}
+
+.app-store-btn img,
+.google-play-btn img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 10px;
+}
+
+/* Desktop - Row format */
+@media (min-width: 769px) {
+  .app-download-buttons {
+    justify-content: flex-start;
+  }
+  
+  .app-store-btn,
+  .google-play-btn {
+    max-width: 180px;
+    height: 100px;
+  }
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .app-download-buttons {
+    justify-content: flex-start;
+  }
+  
+  .app-store-btn,
+  .google-play-btn {
+    max-width: 160px;
+    height: 50px;
+  }
+}
+
+/* Mobile - Center aligned */
+@media (max-width: 768px) {
+  .app-download-buttons {
+    justify-content: center;
+    gap: 12px;
+    margin-top: 25px;
+  }
+  
+  .app-store-btn,
+  .google-play-btn {
+    max-width: 150px;
+    height: 45px;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+  .app-download-buttons {
+    flex-direction: row;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .app-store-btn,
+  .google-play-btn {
+    max-width: 140px;
+    height: 42px;
+  }
+}
+
+/* Very Small Mobile */
+@media (max-width: 360px) {
+  .app-download-buttons {
+    flex-direction: row;
+    justify-content: center;
+    gap: 8px;
+  }
+  
+  .app-store-btn,
+  .google-play-btn {
+    max-width: 130px;
+    height: 40px;
+  }
+}
+
+/* Remove the old email-box styles */
+.email-box {
+  display: none;
 }
 
 .crypto-container {

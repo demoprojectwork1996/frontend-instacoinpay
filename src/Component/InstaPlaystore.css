@@ -1,0 +1,1037 @@
+/* Container */
+.playstore-container {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 420px;
+  margin: 0 auto;
+  background: #fff;
+  min-height: 100vh;
+  padding: 16px;
+}
+.getstarted-back{
+ position: absolute;
+    left: 10px;
+    font-size: 22px;
+    cursor: pointer;
+    color: white;
+
+}
+/* Header */
+.app-header {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.app-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 16px;
+  flex-shrink: 0;
+  object-fit: cover;
+}
+
+.app-info {
+  flex: 1;
+}
+
+.app-name {
+  margin: 0 0 4px 0;
+  font-size: 22px;
+  font-weight: 500;
+  color: #202124;
+}
+
+.app-developer {
+  margin: 0 0 4px 0;
+  font-size: 14px;
+  color: #5f6368;
+}
+
+.app-meta {
+  margin: 0;
+  font-size: 12px;
+  color: #5f6368;
+}
+
+/* Stats */
+.app-stats {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat-value {
+  font-size: 12px;
+  color: #5f6368;
+  margin-bottom: 2px;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: #5f6368;
+}
+
+.stat-divider {
+  width: 1px;
+  background: #dadce0;
+  margin: 0 8px;
+}
+
+.pegi-badge {
+  border: 1px solid #dadce0;
+  border-radius: 4px;
+  padding: 2px 6px;
+  display: inline-block;
+}
+
+/* Install Button */
+.install-btn {
+  width: 100%;
+  padding: 12px;
+  background: #01875f;
+  color: #ffffff;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  margin-bottom: 20px;
+
+  /* 🔑 anchor fixes */
+  display: block;
+  text-align: center;
+  text-decoration: none;
+}
+
+.install-btn:hover {
+  background: #016d4d;
+}
+
+
+/* Screenshots */
+.screenshots {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  margin-bottom: 24px;
+  padding-bottom: 4px;
+}
+
+.screenshot-img {
+  min-width: 160px;
+  height: 320px;
+  border-radius: 12px;
+  object-fit: cover;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Sections */
+.section {
+  margin-bottom: 24px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.section-title {
+  font-size: 16px;
+  font-weight: 500;
+  color: #202124;
+  margin: 0;
+}
+
+.section-arrow {
+  font-size: 20px;
+  color: #5f6368;
+}
+
+.about-text {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #5f6368;
+  margin: 0 0 12px 0;
+}
+
+.tags {
+  display: flex;
+  gap: 8px;
+}
+
+.tag {
+  padding: 4px 12px;
+  background: #e8f0fe;
+  color: #1967d2;
+  border-radius: 16px;
+  font-size: 12px;
+  border: 1px solid #d2e3fc;
+}
+
+/* Ratings */
+.ratings-disclaimer {
+  font-size: 12px;
+  color: #5f6368;
+  margin-bottom: 16px;
+}
+
+.rating-overview {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 20px;
+}
+
+.rating-score {
+  text-align: center;
+}
+
+.score-number {
+  font-size: 56px;
+  font-weight: 400;
+  color: #202124;
+  line-height: 1;
+}
+
+.score-stars {
+  color: #fbbc04;
+  font-size: 16px;
+  margin: 4px 0;
+}
+
+.score-count {
+  font-size: 12px;
+  color: #5f6368;
+}
+
+.rating-bars {
+  flex: 1;
+}
+
+.rating-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.rating-star-num {
+  font-size: 12px;
+  color: #5f6368;
+  width: 8px;
+}
+
+.rating-bar-bg {
+  flex: 1;
+  height: 8px;
+  background: #e8eaed;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.rating-bar-fill {
+  height: 100%;
+  background: #01875f;
+  border-radius: 4px;
+}
+
+/* Review */
+.review-card {
+  padding: 16px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.review-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.reviewer-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #a142f4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.reviewer-name {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 500;
+  color: #202124;
+}
+
+.review-menu {
+  font-size: 18px;
+  color: #5f6368;
+  cursor: pointer;
+}
+
+.review-stars {
+  color: #fbbc04;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.review-date {
+  font-size: 12px;
+  color: #5f6368;
+  margin-bottom: 8px;
+}
+
+.review-text {
+  font-size: 14px;
+  line-height: 1.5;
+  color: #3c4043;
+  margin: 0 0 12px 0;
+}
+
+.review-helpful {
+  font-size: 12px;
+  color: #5f6368;
+}
+
+.helpful-btn {
+  margin-left: 16px;
+  padding: 6px 16px;
+  border: 1px solid #dadce0;
+  border-radius: 4px;
+  background: white;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.helpful-btn:first-of-type {
+  margin-left: 16px;
+}
+
+.helpful-btn:last-of-type {
+  margin-left: 8px;
+}
+
+.helpful-btn:hover {
+  background: #f8f9fa;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 16px 0;
+  border-top: 1px solid #dadce0;
+  font-size: 12px;
+  color: #5f6368;
+}
+
+.footer-updated {
+  margin-bottom: 8px;
+}
+
+.footer-category {
+  margin-bottom: 12px;
+}
+
+.footer-links {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+}
+
+.footer-link {
+  color: #5f6368;
+  text-decoration: none;
+}
+
+.footer-link:hover {
+  text-decoration: underline;
+}
+/* Container */
+.playstore-container {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  max-width: 420px;
+  margin: 0 auto;
+  background: #fff;
+  min-height: 100vh;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.getstarted-back{
+  position: absolute;
+  left: 10px;
+  font-size: 22px;
+  cursor: pointer;
+  color: white;
+}
+
+/* Header */
+.app-header {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.app-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 16px;
+  flex-shrink: 0;
+  object-fit: cover;
+}
+
+.app-info {
+  flex: 1;
+}
+
+.app-name {
+  margin: 0 0 4px 0;
+  font-size: 22px;
+  font-weight: 500;
+  color: #202124;
+}
+
+.app-developer {
+  margin: 0 0 4px 0;
+  font-size: 14px;
+  color: #5f6368;
+}
+
+.app-meta {
+  margin: 0;
+  font-size: 12px;
+  color: #5f6368;
+}
+
+/* Stats */
+.app-stats {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat-value {
+  font-size: 12px;
+  color: #5f6368;
+  margin-bottom: 2px;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: #5f6368;
+}
+
+.stat-divider {
+  width: 1px;
+  background: #dadce0;
+  margin: 0 8px;
+}
+
+.pegi-badge {
+  border: 1px solid #dadce0;
+  border-radius: 4px;
+  padding: 2px 6px;
+  display: inline-block;
+}
+
+/* Install Button */
+.install-btn {
+  width: 100%;
+  padding: 12px;
+  background: #01875f;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  margin-bottom: 20px;
+  display: block;
+  text-align: center;
+  text-decoration: none;
+}
+
+.install-btn:hover {
+  background: #016d4d;
+}
+
+/* Screenshots */
+.screenshots {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  margin-bottom: 24px;
+  padding-bottom: 4px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.screenshot-img {
+  min-width: 160px;
+  height: 320px;
+  border-radius: 12px;
+  object-fit: cover;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Sections */
+.section {
+  margin-bottom: 24px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.section-title {
+  font-size: 16px;
+  font-weight: 500;
+  color: #202124;
+  margin: 0;
+}
+
+.section-arrow {
+  font-size: 20px;
+  color: #5f6368;
+}
+
+.about-text {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #5f6368;
+  margin: 0 0 12px 0;
+}
+
+.tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tag {
+  padding: 4px 12px;
+  background: #e8f0fe;
+  color: #1967d2;
+  border-radius: 16px;
+  font-size: 12px;
+  border: 1px solid #d2e3fc;
+}
+
+/* Ratings */
+.ratings-disclaimer {
+  font-size: 12px;
+  color: #5f6368;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.rating-overview {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 20px;
+}
+
+.rating-score {
+  text-align: center;
+}
+
+.score-number {
+  font-size: 56px;
+  font-weight: 400;
+  color: #202124;
+  line-height: 1;
+}
+
+.score-stars {
+  color: #fbbc04;
+  font-size: 16px;
+  margin: 4px 0;
+}
+
+.score-count {
+  font-size: 12px;
+  color: #5f6368;
+}
+
+.rating-bars {
+  flex: 1;
+}
+
+.rating-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.rating-star-num {
+  font-size: 12px;
+  color: #5f6368;
+  width: 8px;
+}
+
+.rating-bar-bg {
+  flex: 1;
+  height: 8px;
+  background: #e8eaed;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.rating-bar-fill {
+  height: 100%;
+  background: #01875f;
+  border-radius: 4px;
+}
+
+/* Review */
+.review-card {
+  padding: 16px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.review-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.reviewer-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #a142f4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.reviewer-name {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 500;
+  color: #202124;
+}
+
+.review-menu {
+  font-size: 18px;
+  color: #5f6368;
+  cursor: pointer;
+}
+
+.review-stars {
+  color: #fbbc04;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.review-date {
+  font-size: 12px;
+  color: #5f6368;
+  margin-bottom: 8px;
+}
+
+.review-text {
+  font-size: 14px;
+  line-height: 1.5;
+  color: #3c4043;
+  margin: 0 0 12px 0;
+}
+
+.review-helpful {
+  font-size: 12px;
+  color: #5f6368;
+}
+
+.helpful-btn {
+  margin-left: 16px;
+  padding: 6px 16px;
+  border: 1px solid #dadce0;
+  border-radius: 4px;
+  background: white;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.helpful-btn:first-of-type {
+  margin-left: 16px;
+}
+
+.helpful-btn:last-of-type {
+  margin-left: 8px;
+}
+
+.helpful-btn:hover {
+  background: #f8f9fa;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 16px 0;
+  border-top: 1px solid #dadce0;
+  font-size: 12px;
+  color: #5f6368;
+}
+
+.footer-updated {
+  margin-bottom: 8px;
+}
+
+.footer-category {
+  margin-bottom: 12px;
+}
+
+.footer-links {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.footer-link {
+  color: #5f6368;
+  text-decoration: none;
+}
+
+.footer-link:hover {
+  text-decoration: underline;
+}
+
+/* ==================== RESPONSIVE DESIGN ==================== */
+
+/* Desktop - Large Screens (1024px and above) */
+@media (min-width: 1024px) {
+  .playstore-container {
+    max-width: 480px;
+    padding: 24px;
+    margin: 40px auto;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+  }
+
+  .app-icon {
+    width: 80px;
+    height: 80px;
+  }
+
+  .app-name {
+    font-size: 24px;
+  }
+
+  .screenshot-img {
+    min-width: 180px;
+    height: 360px;
+  }
+
+  .score-number {
+    font-size: 64px;
+  }
+
+  .install-btn {
+    padding: 14px;
+    font-size: 16px;
+  }
+}
+
+/* Tablet (768px - 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .playstore-container {
+    max-width: 450px;
+    padding: 20px;
+  }
+
+  .app-icon {
+    width: 76px;
+    height: 76px;
+  }
+
+  .screenshot-img {
+    min-width: 170px;
+    height: 340px;
+  }
+}
+
+/* Mobile - Large (481px - 767px) */
+@media (min-width: 481px) and (max-width: 767px) {
+  .playstore-container {
+    max-width: 100%;
+    padding: 16px;
+  }
+
+  .app-header {
+    gap: 12px;
+  }
+
+  .rating-overview {
+    gap: 16px;
+  }
+
+  .score-number {
+    font-size: 48px;
+  }
+}
+
+/* Mobile - Medium (376px - 480px) */
+@media (min-width: 376px) and (max-width: 480px) {
+  .playstore-container {
+    padding: 14px;
+  }
+
+  .app-icon {
+    width: 68px;
+    height: 68px;
+  }
+
+  .app-name {
+    font-size: 20px;
+  }
+
+  .screenshot-img {
+    min-width: 150px;
+    height: 300px;
+  }
+
+  .rating-overview {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .rating-score {
+    width: 100%;
+  }
+
+  .rating-bars {
+    width: 100%;
+  }
+
+  .score-number {
+    font-size: 44px;
+  }
+
+  .review-helpful {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+  }
+
+  .helpful-btn {
+    margin-left: 0 !important;
+  }
+}
+
+/* Mobile - Small (320px - 375px) */
+@media (max-width: 375px) {
+  .playstore-container {
+    padding: 12px;
+  }
+
+  .app-icon {
+    width: 64px;
+    height: 64px;
+  }
+
+  .app-name {
+    font-size: 18px;
+  }
+
+  .app-developer {
+    font-size: 13px;
+  }
+
+  .screenshot-img {
+    min-width: 140px;
+    height: 280px;
+  }
+
+  .rating-overview {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .rating-score {
+    width: 100%;
+  }
+
+  .rating-bars {
+    width: 100%;
+  }
+
+  .score-number {
+    font-size: 40px;
+  }
+
+  .section-title {
+    font-size: 15px;
+  }
+
+  .about-text {
+    font-size: 13px;
+  }
+
+  .review-card {
+    padding: 12px;
+  }
+
+  .review-text {
+    font-size: 13px;
+  }
+
+  .review-helpful {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+  }
+
+  .helpful-btn {
+    margin-left: 0 !important;
+    width: 100%;
+  }
+
+  .footer-links {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
+/* Very Small Mobile (below 320px) */
+@media (max-width: 319px) {
+  .playstore-container {
+    padding: 10px;
+  }
+
+  .app-icon {
+    width: 60px;
+    height: 60px;
+  }
+
+  .app-name {
+    font-size: 16px;
+  }
+
+  .app-developer {
+    font-size: 12px;
+  }
+
+  .app-meta {
+    font-size: 11px;
+  }
+
+  .screenshot-img {
+    min-width: 130px;
+    height: 260px;
+  }
+
+  .stat-value,
+  .stat-label {
+    font-size: 11px;
+  }
+
+  .install-btn {
+    padding: 10px;
+    font-size: 13px;
+  }
+
+  .score-number {
+    font-size: 36px;
+  }
+
+  .section-title {
+    font-size: 14px;
+  }
+
+  .about-text {
+    font-size: 12px;
+  }
+
+  .tag {
+    font-size: 11px;
+    padding: 3px 10px;
+  }
+
+  .review-card {
+    padding: 10px;
+  }
+}
+
+/* Landscape Mode for Mobile Devices */
+@media (max-height: 600px) and (orientation: landscape) {
+  .playstore-container {
+    padding: 12px;
+  }
+
+  .screenshot-img {
+    height: 240px;
+  }
+
+  .score-number {
+    font-size: 40px;
+  }
+}
+
+/* Touch-friendly buttons for mobile */
+@media (max-width: 768px) {
+  .install-btn,
+  .helpful-btn {
+    min-height: 44px;
+  }
+
+  .review-menu {
+    padding: 8px;
+    margin: -8px;
+  }
+}
+
+/* Ensure images don't break layout on small screens */
+@media (max-width: 480px) {
+  .screenshot-img {
+    max-width: 100%;
+  }
+}
+
+/* Print styles */
+@media print {
+  .playstore-container {
+    max-width: 100%;
+    box-shadow: none;
+  }
+
+  .install-btn {
+    display: none;
+  }
+
+  .screenshots {
+    overflow-x: visible;
+  }
+}

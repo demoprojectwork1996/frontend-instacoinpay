@@ -7,7 +7,9 @@ import coinsImg2 from "../assets/Cam2.png";
 import coinsImg3 from "../assets/Cam3.png";
 import BuyCrypto from "../assets/BuyCryptocurrency.png";
 import globe from "../assets/globe.png";
-import bitcoin from "../assets/beautiful_bitcoins.jpg"
+import bitcoin from "../assets/beautiful_bitcoins.jpg";
+import appStoreBadge from "../assets/app-store-badge.png";
+import googlePlayBadge from "../assets/google-play-badge.png";
 
 import {
   TrendingUp,
@@ -655,8 +657,23 @@ export default function LandingPage() {
           <p className="sub">
             Trade Bitcoin, Ethereum, Binance and top altcoins on one platform.
           </p>
-          <div className="email-box">
-            <button className="btn-signup" onClick={() => navigate("/login")}>Get Started</button>
+          <div className="app-download-buttons">
+            <a 
+              href="/appstore-soon" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="app-store-btn"
+            >
+              <img src={appStoreBadge} alt="Download on the App Store" />
+            </a>
+            <a 
+              href="/instaplaystore" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="google-play-btn"
+            >
+              <img src={googlePlayBadge} alt="Get it on Google Play" />
+            </a>
           </div>
         </div>
         <div className="crypto-container">
