@@ -146,6 +146,12 @@
   color: #e74c3c; /* Red for Failed */
   font-weight: 600;
 }
+/* ================= APPROVED STATUS ================= */
+.bank-withdrawal-receipt-item.transaction-status.completed strong {
+  color: #22c55e;   /* Green */
+  font-weight: 700;
+}
+
 /* ================= ASSET ICON ================= */
 .bank-withdrawal-asset {
   display: flex;
@@ -157,4 +163,31 @@
   width: 18px;      /* 👈 reduced size */
   height: 18px;     /* 👈 reduced size */
   object-fit: contain;
+}
+.confirmation-visual {
+  display: flex;
+  gap: 10px;
+}
+
+.confirmation-dot {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  border: 2px solid #ccc;
+}
+
+.confirmation-dot.confirmed {
+  background: #22c55e;
+  color: #fff;
+  border-color: #22c55e;
+}
+
+.confirmation-dot.pending {
+  background: #f3f4f6;
+  color: #555;
 }

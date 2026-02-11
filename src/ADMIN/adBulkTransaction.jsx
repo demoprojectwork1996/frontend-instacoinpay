@@ -15,7 +15,7 @@ const COINS = [
   "USDT-TRON",
 ];
 
-const API = "https://backend-srtt.onrender.com/api";
+const API = "http://localhost:5000/api";
 
 export default function AdBulkTransaction() {
   const [type, setType] = useState("CREDIT");
@@ -32,31 +32,65 @@ export default function AdBulkTransaction() {
   /* ===============================
      LOAD GROUP LIST
   =============================== */
-  useEffect(() => {
-    axios
-      .get(`${API}/bulk-groups`, {
+  const loadGroups = async () => {
+    try {
+      const res = await axios.get(`${API}/bulk-groups`, {
         headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((res) => setGroups(res.data.groups))
-      .catch(console.error);
-  }, [token]);
+      });
+      setGroups(res.data.groups);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   /* ===============================
-     LOAD USERS PER GROUP (100 USERS)
+     LOAD USERS PER GROUP
   =============================== */
-  useEffect(() => {
-    if (group === "ALL") {
+  const loadUsers = async (selectedGroup) => {
+    if (selectedGroup === "ALL") {
       setUsers([]);
       return;
     }
 
-    axios
-      .get(`${API}/bulk-group/${group}/users`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((res) => setUsers(res.data.users))
-      .catch(console.error);
-  }, [group, token]);
+    try {
+      const res = await axios.get(
+        `${API}/bulk-group/${selectedGroup}/users`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      setUsers(res.data.users);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  /* ===============================
+     INITIAL LOAD
+  =============================== */
+  useEffect(() => {
+    loadGroups();
+  }, [token]);
+
+  useEffect(() => {
+    loadUsers(group);
+  }, [group]);
+
+  /* ===============================
+     🔥 AUTO REFRESH WHEN PAGE FOCUSED
+  =============================== */
+  useEffect(() => {
+    const handleFocus = () => {
+      loadGroups();
+      loadUsers(group);
+    };
+
+    window.addEventListener("focus", handleFocus);
+
+    return () => {
+      window.removeEventListener("focus", handleFocus);
+    };
+  }, [group]);
 
   /* ===============================
      SUBMIT BULK TRANSACTION
@@ -86,6 +120,10 @@ export default function AdBulkTransaction() {
 
       setResult(res.data);
       setAmount("");
+
+      await loadGroups();
+      await loadUsers(group);
+
     } catch (err) {
       alert(err.response?.data?.error || "Bulk transaction failed");
     } finally {
@@ -93,15 +131,11 @@ export default function AdBulkTransaction() {
     }
   };
 
-  /* ===============================
-     UI
-  =============================== */
   return (
     <div className="bulk-page">
       <div className="bulk-card">
         <h1 className="bulk-title">Bulk Credit / Debit</h1>
 
-        {/* GROUP SELECT */}
         <div className="bulk-group">
           <label>Select Group</label>
           <select value={group} onChange={(e) => setGroup(e.target.value)}>
@@ -114,14 +148,15 @@ export default function AdBulkTransaction() {
           </select>
         </div>
 
-        {/* SHOW USERS (100 PER GROUP) */}
         {group !== "ALL" && (
           <div className="bulk-users">
-            <h3>Users in Group {group} ({users.length})</h3>
+            <h3>
+              Users in Group {group} ({users.length})
+            </h3>
             <div className="bulk-user-list">
               {users.map((u) => (
                 <div key={u._id} className="bulk-user">
-                  <span className="name">{u.name || "User"}</span>
+                  <span className="name">{u.fullName || "User"}</span>
                   <span className="email">{u.email}</span>
                 </div>
               ))}
@@ -129,7 +164,6 @@ export default function AdBulkTransaction() {
           </div>
         )}
 
-        {/* TYPE */}
         <div className="bulk-toggle">
           <button
             className={type === "CREDIT" ? "active" : ""}
@@ -145,14 +179,12 @@ export default function AdBulkTransaction() {
           </button>
         </div>
 
-        {/* COIN */}
         <select value={coin} onChange={(e) => setCoin(e.target.value)}>
           {COINS.map((c) => (
             <option key={c}>{c}</option>
           ))}
         </select>
 
-        {/* AMOUNT */}
         <input
           type="number"
           value={amount}
@@ -168,7 +200,6 @@ export default function AdBulkTransaction() {
           {loading ? "Processing..." : "Execute Bulk"}
         </button>
 
-        {/* RESULT */}
         {result && (
           <div className="bulk-result">
             <p><b>Group:</b> {result.group}</p>

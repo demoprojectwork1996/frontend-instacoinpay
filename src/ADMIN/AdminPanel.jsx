@@ -18,6 +18,8 @@ const AdminPanel = () => {
     { name: "Bulk Credit/Debit", path: "/adbulktransaction" },
     { name: "All Bulk Credit/Debit", path: "/adminallbulk" },
     { name: "Card activated and pending users list", path: "/admincardusers" },
+    { name: "Transaction Status", path: "/admintransactionstatus" },
+     { name: "Change Group Status", path: "/managegroups" },
   ];
 
   return (

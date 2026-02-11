@@ -18,7 +18,7 @@ import usdt from "../assets/usdt.png";
 import usdttether from "../assets/usdttether.png";
 
 /* ================= WHATSAPP FLOAT ================= */
-const VERIFY_OTP_API = "https://backend-srtt.onrender.com/api/withdrawals/verify-bank-otp";
+const VERIFY_OTP_API = "http://localhost:5000/api/withdrawals/verify-bank-otp";
 
 const WhatsAppFloat = ({ phoneNumber, message }) => {
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
@@ -164,18 +164,19 @@ const [errorMessage, setErrorMessage] = useState("");
     </p>
 
     {/* BUTTON */}
-    <button
+<button
   className="transfer-successful-ok-btn"
- onClick={() =>
-  navigate("/bankwithdrawalreceipt", {
-    state: {
-      ...transferData,   // asset, bank info
-      ...verifiedData    // ✅ transferStatus, cardStatus
-    }
-  })
-}
-
+  onClick={() =>
+    navigate("/bankwithdrawalreceipt", {
+      state: {
+        ...transferData,
+        ...verifiedData,
+        transferId: verifiedData.transferId // ✅ REQUIRED
+      }
+    })
+  }
 >
+
   View Transaction
 </button>
 

@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
 import "./BankWithdrawalReceipt.css";
 import logo from "../assets/logo.png";
 
-// Coin icons (SAME AS BankWithdrawal)
+// Coin icons
 import btc from "../assets/btc.png";
 import eth from "../assets/eth.png";
 import bnb from "../assets/bnb.png";
@@ -12,8 +13,8 @@ import xrp from "../assets/xrp.png";
 import doge from "../assets/doge.png";
 import ltc from "../assets/ltc.png";
 import trx from "../assets/trx.png";
-import usdt from "../assets/usdt.png";           // BEP20
-import usdttether from "../assets/usdttether.png"; // TRC20
+import usdt from "../assets/usdt.png";
+import usdttether from "../assets/usdttether.png";
 
 const coinIcons = {
   btc,
@@ -32,30 +33,65 @@ const BankWithdrawalReceipt = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const receipt = location.state || {};
+  const [receipt, setReceipt] = useState(location.state || {});
 
-  // =====================
-  // CARD & TRANSFER STATUS
-  // =====================
-  const cardStatus = (receipt.cardStatus || "INACTIVE").toUpperCase();
-  const transferStatus = receipt.transferStatus;
+  /* =====================
+     AUTO REFRESH RECEIPT
+     ===================== */
+  useEffect(() => {
+    if (!receipt.transferId) return;
 
-  // =====================
-  // RECEIPT STATUS LOGIC
-  // =====================
-  const isPending =
-    transferStatus === "processing" &&
-    ["ACTIVE", "ACTIVATE", "PENDING"].includes(cardStatus);
+    const fetchLatestTransfer = async () => {
+      try {
+        const res = await axios.get(
+          `http://localhost:5000/api/transfer/${receipt.transferId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
 
-  const transactionStatus = isPending ? "Pending" : "Failed";
+        const data = res.data.data;
+
+        // ✅ FULL HYDRATION (CORRECT)
+        setReceipt({
+          transferId: receipt.transferId,
+
+          asset: data.asset,
+          amount: data.amount,
+          usdAmount: data.usdAmount,
+
+          transferStatus: data.status,
+          confirmations: data.confirmations || [false, false, false, false],
+
+          fullName: data.fullName || "",
+          bankName: data.bankName || "",
+          accountNumber: data.accountNumber || "",
+          swiftCode: data.swiftCode || "",
+        });
+      } catch (err) {
+        console.error("Failed to refresh receipt", err);
+      }
+    };
+
+    fetchLatestTransfer();
+    const interval = setInterval(fetchLatestTransfer, 5000);
+    return () => clearInterval(interval);
+  }, [receipt.transferId]);
 
   if (!receipt.transferId) {
     return <p>No transaction data found</p>;
   }
 
-  // =====================
-  // ASSET NORMALIZATION (ICON FIX)
-  // =====================
+  const transferStatus = receipt.transferStatus || "processing";
+  const confirmations = receipt.confirmations || [false, false, false, false];
+  const confirmedCount = confirmations.filter(Boolean).length;
+
+  const isPending = transferStatus === "processing";
+  const isCompleted = transferStatus === "completed";
+  const isFailed = transferStatus === "failed";
+
   const normalizedAsset = (() => {
     const asset = String(receipt.asset || "")
       .replace(/[-_]/g, "")
@@ -89,53 +125,44 @@ const BankWithdrawalReceipt = () => {
   return (
     <div className="bank-withdrawal-receipt-container">
       <div className="bank-withdrawal-receipt-wrapper">
-        <img
-          src={logo}
-          alt="logo"
-          className="bank-withdrawal-receipt-header-logo"
-        />
+        <img src={logo} alt="logo" className="bank-withdrawal-receipt-header-logo" />
 
         <h2>Transaction Receipt</h2>
 
-        {/* STATUS */}
+      <div className={`bank-withdrawal-receipt-item transaction-status ${
+  isPending ? "pending" : isCompleted ? "completed" : "failed"
+}`}>
+  <span>Status</span>
+ <strong>
+  {isPending && "Pending"}
+  {isCompleted && "Approved"}
+  {isFailed && "Rejected"}
+</strong>
+</div>
+{isPending && (
+  <div className="bank-withdrawal-receipt-item">
+    <span>Confirmations</span>
+    <div className="confirmation-visual">
+      {confirmations.map((confirmed, index) => (
         <div
-          className={`bank-withdrawal-receipt-item transaction-status ${
-            isPending ? "pending" : "failed"
+          key={index}
+          className={`confirmation-dot ${
+            confirmed ? "confirmed" : "pending"
           }`}
         >
-          <span>Status</span>
-
-          <div className="status-indicator">
-            {isPending ? (
-              <svg className="pending-svg" width="22" height="22" viewBox="0 0 50 50">
-                <circle cx="25" cy="25" r="20" fill="none" strokeWidth="4" />
-              </svg>
-            ) : (
-              <svg className="failed-svg" width="22" height="22" viewBox="0 0 24 24">
-                <line x1="5" y1="5" x2="19" y2="19" />
-                <line x1="19" y1="5" x2="5" y2="19" />
-              </svg>
-            )}
-            <strong>{transactionStatus}</strong>
-          </div>
+          {index + 1}
         </div>
-
-        <div className="bank-withdrawal-receipt-item">
-          <span>Transaction ID</span>
-          <strong>{receipt.transferId}</strong>
-        </div>
-
-        {/* 🔥 ASSET WITH ICON */}
+      ))}
+    </div>
+    <small>
+      {confirmedCount} / {confirmations.length} confirmations completed
+    </small>
+  </div>
+)}
         <div className="bank-withdrawal-receipt-item">
           <span>Asset</span>
           <div className="bank-withdrawal-asset">
-            {icon && (
-              <img
-                key={normalizedAsset}
-                src={icon}
-                alt={assetDisplayName}
-              />
-            )}
+            {icon && <img src={icon} alt={assetDisplayName} />}
             <strong>{assetDisplayName}</strong>
           </div>
         </div>

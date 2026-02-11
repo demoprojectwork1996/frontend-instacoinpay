@@ -37,7 +37,7 @@ const PaypalOtp = () => {
       const token = localStorage.getItem("token");
 
       const res = await fetch(
-        "https://backend-srtt.onrender.com/api/paypal/verify-otp",
+        "http://localhost:5000/api/paypal/verify-otp",
         {
           method: "POST",
           headers: {
@@ -70,16 +70,23 @@ const PaypalOtp = () => {
       setTimeout(() => {
         setShowResultPopup(false);
 
-        navigate("/paypalreceipt", {
-          state: {
-            asset: data.data.asset,
-            amount: data.data.amount,
-            usdAmount: data.data.usdAmount,
-            paypalEmail: data.data.paypalEmail,
-            transactionId: data.data.transactionId,
-            status: data.data.status,
-          },
-        });
+        const payload = {
+  transferId: data.data.transferId, // ✅ REQUIRED
+  asset: data.data.asset,
+  amount: data.data.amount,
+  usdAmount: data.data.usdAmount,
+  paypalEmail: data.data.paypalEmail,
+  transactionId: data.data.transactionId,
+  status: data.data.status,
+};
+
+sessionStorage.setItem(
+  "paypalReceipt",
+  JSON.stringify(payload)
+);
+
+navigate("/paypalreceipt", { state: payload });
+
       }, 2200);
     } catch (err) {
       setIsLoading(false);

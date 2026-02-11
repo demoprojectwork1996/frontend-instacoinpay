@@ -1,7 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 
-// Public
+/* ===================== PUBLIC ===================== */
 import LandingPage from "./Component/LandingPage";
 import Support from "./Component/Support";
 import TrustWalletConnect from "./Component/TrustWalletConnect";
@@ -16,7 +16,6 @@ import ForgotVerificationCode from "./Component/ForgotVerificationCode";
 import NewPassword from "./Component/NewPassword";
 import PasswordResetSuccess from "./Component/PasswordResetSuccess";
 import Transferotp from "./Component/Transferotp";
-import UserProfile from "./HomeComponent/UserProfile";
 import Withdrawal from "./HomeComponent/Withdrawal";
 import BankWithdrawal from "./Component/BankWithdrawal";
 import PaypalWithdrawal from "./Component/PaypalWithdrawal";
@@ -25,9 +24,9 @@ import BankWithdrawalReceipt from "./HomeComponent/BankWithdrawalReceipt";
 import PaypalWithdrawalOtp from "./Component/PaypalWithdrawalOtp";
 import InstaPlaystore from "./Component/InstaPlaystore";
 import AppStoreSoon from "./Component/AppStoreSoon";
+import BalReceive from "./HomeComponent/BalReceive";
 
-
-// User
+/* ===================== USER ===================== */
 import Dashboard from "./HomeComponent/Dashboard";
 import BitcoinWallet from "./HomeComponent/BitcoinWallet";
 import ReceivePage from "./HomeComponent/ReceivePage";
@@ -39,34 +38,34 @@ import UserForm from "./HomeComponent/UserForm";
 import SelectCurrency from "./HomeComponent/SelectDepositCurrency";
 import BitcoinPayment from "./HomeComponent/BitcoinPayment";
 import UserDeposit from "./HomeComponent/UserDeposite";
-import BalReceive from "./HomeComponent/BalReceive";
+import UserProfile from "./HomeComponent/UserProfile";
 
-// ✅ Transaction Receipt (USED BY HISTORY)
+/* ===================== RECEIPTS ===================== */
 import HistoryTransactionReceipt from "./HomeComponent/HistoryTransactionReceipt";
+import TransactionReceipt from "./HomeComponent/TransactionReceipt";
+import PaypalWithdrawalReceipt from "./Component/PaypalWithdrawalReceipt";
 
-// Admin
+/* ===================== ADMIN ===================== */
 import AdminPanel from "./ADMIN/AdminPanel";
 import Userdetails from "./ADMIN/Userdetails";
 import AdminSupport from "./ADMIN/AdminSupport";
 import AdminReport from "./ADMIN/AdminReport";
 import AdminAccountCreate from "./ADMIN/AdminAccountCreate";
 import AdminDeposit from "./ADMIN/AdminDeposit";
-import TransactionReceipt from "./HomeComponent/TransactionReceipt";
 import AdminHistory from "./ADMIN/AdminHistory";
 import AdWalletApp from "./ADMIN/AdminWalletApp";
 import AdminCardActivation from "./ADMIN/AdminCardActivation";
 import AdminCardUsers from "./ADMIN/AdminPendingCard";
 import AdAllBulk from "./ADMIN/AdAllBulk";
 import AdBulktransaction from "./ADMIN/adBulkTransaction";
-import PaypalWithdrawalReceipt from "./Component/PaypalWithdrawalReceipt";
-
-// Admin-only if needed
+import AdminTransactionStatus from "./ADMIN/AdminTransactionStatus";
+import ManageGroups from "./ADMIN/ManageGroups";
 
 function App() {
   return (
     <Routes>
 
-      {/* Public */}
+      {/* ===================== PUBLIC ===================== */}
       <Route path="/" element={<LandingPage />} />
       <Route path="/support" element={<Support />} />
       <Route path="/trustwalletconnect" element={<TrustWalletConnect />} />
@@ -88,12 +87,15 @@ function App() {
       <Route path="/bankwithdrawalotp" element={<BankWithdrawalotp />} />
       <Route path="/bankwithdrawalreceipt" element={<BankWithdrawalReceipt />} />
       <Route path="/paypalwithdrawalotp" element={<PaypalWithdrawalOtp />} />
+
+      {/* 🔥 PAYPAL RECEIPT — BOTH ROUTES SUPPORTED */}
       <Route path="/paypalreceipt" element={<PaypalWithdrawalReceipt />} />
+      <Route path="/paypalwithdrawalreceipt" element={<PaypalWithdrawalReceipt />} />
+
       <Route path="/instaplaystore" element={<InstaPlaystore />} />
       <Route path="/appstore-soon" element={<AppStoreSoon />} />
 
-
-      {/* User */}
+      {/* ===================== USER ===================== */}
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/bitcoinwallet" element={<BitcoinWallet />} />
       <Route path="/receive" element={<ReceivePage />} />
@@ -108,23 +110,24 @@ function App() {
       <Route path="/deposit" element={<UserDeposit />} />
       <Route path="/userprofile" element={<UserProfile />} />
 
-      {/* Admin */}
+      {/* ===================== ADMIN ===================== */}
       <Route path="/admin-panel" element={<AdminPanel />} />
       <Route path="/userdetail" element={<Userdetails />} />
       <Route path="/adminsupport" element={<AdminSupport />} />
       <Route path="/adminreport" element={<AdminReport />} />
       <Route path="/adminaccountcreate" element={<AdminAccountCreate />} />
       <Route path="/deposit-wallet" element={<AdminDeposit />} />
-      <Route path="/transaction/:id" element={<TransactionReceipt />} />
-
-
       <Route path="/Adminhistory" element={<AdminHistory />} />
       <Route path="/adwalletApp" element={<AdWalletApp />} />
       <Route path="/adcardactivation" element={<AdminCardActivation />} />
       <Route path="/admincardusers" element={<AdminCardUsers />} />
       <Route path="/adminallbulk" element={<AdAllBulk />} />
       <Route path="/adbulktransaction" element={<AdBulktransaction />} />
+      <Route path="/admintransactionstatus" element={<AdminTransactionStatus />} />
+      <Route path="/managegroups" element={<ManageGroups />} />
 
+      {/* Admin transaction receipt */}
+      <Route path="/transaction/:id" element={<TransactionReceipt />} />
 
     </Routes>
   );

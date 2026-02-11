@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./Userdetails.css";
 
-const API = "https://backend-srtt.onrender.com/api/admin";
+const API = "http://localhost:5000/api/admin";
 
 const Userdetails = () => {
   const [users, setUsers] = useState([]);
@@ -114,6 +114,7 @@ const Userdetails = () => {
               <th>Name</th>
               <th>Email</th>
               <th>Status</th>
+              <th>Bulk Group</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -134,6 +135,10 @@ const Userdetails = () => {
                     {u.isSuspended ? "Suspended" : "Active"}
                   </span>
                 </td>
+                <td data-label="Bulk Group">
+  {u.bulkGroup || "-"}
+</td>
+
                 <td data-label="Actions">
                   <div className="action-buttons">
                     <button className="btn-edit" onClick={() => handleEditClick(u)}>

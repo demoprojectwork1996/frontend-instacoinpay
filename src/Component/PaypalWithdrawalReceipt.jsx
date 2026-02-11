@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
 import "./PaypalWithdrawalReceipt.css";
 import logo from "../assets/logo.png";
 
@@ -12,12 +13,9 @@ import xrp from "../assets/xrp.png";
 import doge from "../assets/doge.png";
 import ltc from "../assets/ltc.png";
 import trx from "../assets/trx.png";
+import usdt from "../assets/usdt.png";
+import usdttether from "../assets/usdttether.png";
 
-// ✅ SAME ICONS AS PaypalWithdrawal
-import usdt from "../assets/usdt.png";           // BEP20
-import usdttether from "../assets/usdttether.png"; // TRC20
-
-// ✅ SAME ICON MAP AS PaypalWithdrawal
 const coinIcons = {
   btc,
   eth,
@@ -27,8 +25,14 @@ const coinIcons = {
   doge,
   ltc,
   trx,
-  usdtTron: usdttether, // 🔥 TRC20
-  usdtBnb: usdt,        // 🔥 BEP20
+  usdtTron: usdttether,
+  usdtBnb: usdt,
+};
+
+const getConfirmationStatusText = (confirmations = []) => {
+  const count = confirmations.filter(Boolean).length;
+  if (count === confirmations.length) return "Completed";
+  return `Pending (${count}/${confirmations.length})`;
 };
 
 const PaypalWithdrawalReceipt = () => {
@@ -36,7 +40,65 @@ const PaypalWithdrawalReceipt = () => {
   const navigate = useNavigate();
 
   const stored = sessionStorage.getItem("paypalReceipt");
-  const receipt = state || (stored && JSON.parse(stored)) || {};
+  const initial = state || (stored && JSON.parse(stored)) || {};
+
+  const [receipt, setReceipt] = useState(initial);
+  const [loading, setLoading] = useState(true);
+
+  /* =====================
+     AUTO REFRESH
+     ===================== */
+  useEffect(() => {
+    if (!receipt.transferId) return;
+
+    const fetchTransfer = async () => {
+      try {
+        const res = await axios.get(
+          `http://localhost:5000/api/transfer/${receipt.transferId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+
+        const data = res.data.data;
+
+        setReceipt((prev) => ({
+          ...prev,
+          asset: data.asset,
+          amount: data.amount,
+          usdAmount: data.usdAmount,
+          status: data.status,
+          confirmations: data.confirmations || [
+            false,
+            false,
+            false,
+            false,
+          ],
+        }));
+
+        setLoading(false);
+      } catch (err) {
+        console.error("Failed to refresh PayPal receipt", err);
+        setLoading(false);
+      }
+    };
+
+    fetchTransfer();
+    const interval = setInterval(fetchTransfer, 5000);
+    return () => clearInterval(interval);
+  }, [receipt.transferId]);
+
+  if (loading || !receipt.transferId) {
+    return (
+      <div className="paypal-receipt-page">
+        <p style={{ textAlign: "center", marginTop: "40px" }}>
+          Loading PayPal receipt...
+        </p>
+      </div>
+    );
+  }
 
   const data = {
     asset: receipt.asset || "btc",
@@ -47,10 +109,17 @@ const PaypalWithdrawalReceipt = () => {
     status: receipt.status || "processing",
   };
 
-  // ✅ NORMALIZATION (UNCHANGED)
+  const confirmations = receipt.confirmations || [
+    false,
+    false,
+    false,
+    false,
+  ];
+
+  const isPending = data.status === "processing";
+
   const normalizedAsset = (() => {
     const asset = String(data.asset).replace(/[-_]/g, "").toLowerCase();
-
     const map = {
       btc: "btc",
       eth: "eth",
@@ -65,7 +134,6 @@ const PaypalWithdrawalReceipt = () => {
       usdtbnb: "usdtBnb",
       usdtbep20: "usdtBnb",
     };
-
     return map[asset] || asset;
   })();
 
@@ -92,9 +160,33 @@ const PaypalWithdrawalReceipt = () => {
         <div className="paypal-receipt-status">
           Status:
           <span className={`status ${data.status}`}>
-            {data.status.toUpperCase()}
+            {data.status === "processing" && "PENDING"}
+            {data.status === "completed" && "APPROVED"}
+            {data.status === "failed" && "REJECTED"}
           </span>
         </div>
+
+        {/* ✅ SHOW CONFIRMATIONS ONLY WHEN PENDING */}
+        {isPending && (
+          <div className="paypal-receipt-row">
+            <span>Confirmations</span>
+            <div className="confirmation-visual">
+              {confirmations.map((confirmed, i) => (
+                <div
+                  key={i}
+                  className={`confirmation-dot ${
+                    confirmed ? "confirmed" : "pending"
+                  }`}
+                >
+                  {i + 1}
+                </div>
+              ))}
+            </div>
+            <small className="confirmation-text">
+              {getConfirmationStatusText(confirmations)}
+            </small>
+          </div>
+        )}
 
         <div className="paypal-receipt-row">
           <span>Transaction ID</span>
@@ -109,13 +201,7 @@ const PaypalWithdrawalReceipt = () => {
         <div className="paypal-receipt-row">
           <span>Asset</span>
           <div className="paypal-receipt-asset">
-            {icon && (
-              <img
-                key={normalizedAsset} // 🔥 forces correct icon
-                src={icon}
-                alt={assetDisplayName}
-              />
-            )}
+            {icon && <img src={icon} alt={assetDisplayName} />}
             <strong>{assetDisplayName}</strong>
           </div>
         </div>
@@ -132,8 +218,12 @@ const PaypalWithdrawalReceipt = () => {
 
         <div className="paypal-receipt-footer">
           <p>
-            Your PayPal withdrawal is being processed. Funds will be credited
-            after confirmation.
+            {data.status === "processing" &&
+              "Your PayPal withdrawal is being processed."}
+            {data.status === "completed" &&
+              "Your withdrawal has been successfully approved."}
+            {data.status === "failed" &&
+              "Your withdrawal request has been rejected."}
           </p>
 
           <button
