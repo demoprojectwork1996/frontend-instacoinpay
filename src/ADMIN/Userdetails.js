@@ -2,14 +2,12 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./Userdetails.css";
 
-const API = "https://backend-srtt.onrender.com/api/admin";
+const API = "http://localhost:5000/api/admin";
 
 const Userdetails = () => {
   const [users, setUsers] = useState([]);
   const [editingUser, setEditingUser] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  // ✅ SEARCH STATE (NO LOGIC CHANGE)
   const [searchTerm, setSearchTerm] = useState("");
 
   const fetchUsers = async () => {
@@ -76,39 +74,31 @@ const Userdetails = () => {
     setIsModalOpen(false);
   };
 
-  // ✅ FILTER USERS (RENDER ONLY)
   const filteredUsers = users.filter(u =>
     `${u.fullName} ${u.email}`.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
-    <div className="admin-container">
-      <div className="header-section" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+    <div className="userdetails-admin-container">
+      <div className="userdetails-header-section" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <div>
           <h2>User Management</h2>
-          <div className="stats-info">
-            <span className="stat-badge">Total Users: {users.length}</span>
+          <div className="userdetails-stats-info">
+            <span className="userdetails-stat-badge">Total Users: {users.length}</span>
           </div>
         </div>
 
-        {/* ✅ SEARCH BAR (TOP RIGHT) */}
         <input
           type="text"
           placeholder="Search by name or email"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          style={{
-            padding: "10px 14px",
-            borderRadius: "10px",
-            border: "1px solid #d1d5db",
-            fontSize: "14px",
-            width: "240px"
-          }}
+          className="userdetails-search-input"
         />
       </div>
 
-      <div className="table-container">
-        <table className="admin-table">
+      <div className="userdetails-table-container">
+        <table className="userdetails-admin-table">
           <thead>
             <tr>
               <th>Name</th>
@@ -122,40 +112,39 @@ const Userdetails = () => {
             {filteredUsers.map(u => (
               <tr key={u._id}>
                 <td data-label="Name">
-                  <div className="user-info">
-                    <div className="avatar-placeholder">
+                  <div className="userdetails-user-info">
+                    <div className="userdetails-avatar-placeholder">
                       {u.fullName?.charAt(0).toUpperCase() || 'U'}
                     </div>
-                    <span className="user-name">{u.fullName}</span>
+                    <span className="userdetails-user-name">{u.fullName}</span>
                   </div>
                 </td>
                 <td data-label="Email">{u.email}</td>
                 <td data-label="Status">
-                  <span className={`status-badge ${u.isSuspended ? 'suspended' : 'active'}`}>
+                  <span className={`userdetails-status-badge ${u.isSuspended ? 'userdetails-suspended' : 'userdetails-active'}`}>
                     {u.isSuspended ? "Suspended" : "Active"}
                   </span>
                 </td>
                 <td data-label="Bulk Group">
-  {u.bulkGroup || "-"}
-</td>
-
+                  {u.bulkGroup || "-"}
+                </td>
                 <td data-label="Actions">
-                  <div className="action-buttons">
-                    <button className="btn-edit" onClick={() => handleEditClick(u)}>
+                  <div className="userdetails-action-buttons">
+                    <button className="userdetails-btn-edit" onClick={() => handleEditClick(u)}>
                       ✏️ Edit
                     </button>
 
                     {!u.isSuspended ? (
-                      <button className="btn-suspend" onClick={() => suspendUser(u._id)}>
+                      <button className="userdetails-btn-suspend" onClick={() => suspendUser(u._id)}>
                         ⏸️ Suspend
                       </button>
                     ) : (
-                      <button className="btn-unsuspend" onClick={() => unsuspendUser(u._id)}>
+                      <button className="userdetails-btn-unsuspend" onClick={() => unsuspendUser(u._id)}>
                         ▶️ Unsuspend
                       </button>
                     )}
 
-                    <button className="btn-delete" onClick={() => deleteUser(u._id)}>
+                    <button className="userdetails-btn-delete" onClick={() => deleteUser(u._id)}>
                       🗑️ Delete
                     </button>
                   </div>
@@ -165,7 +154,7 @@ const Userdetails = () => {
 
             {filteredUsers.length === 0 && (
               <tr>
-                <td colSpan="4" style={{ textAlign: "center", padding: "20px" }}>
+                <td colSpan="5" style={{ textAlign: "center", padding: "20px" }}>
                   No users found
                 </td>
               </tr>
@@ -175,14 +164,14 @@ const Userdetails = () => {
       </div>
 
       {isModalOpen && editingUser && (
-        <div className="modal-overlay" onClick={handleCloseModal}>
-          <div className="modal" onClick={e => e.stopPropagation()}>
-            <div className="modal-header">
+        <div className="userdetails-modal-overlay" onClick={handleCloseModal}>
+          <div className="userdetails-modal" onClick={e => e.stopPropagation()}>
+            <div className="userdetails-modal-header">
               <h3>Edit User</h3>
-              <button className="modal-close" onClick={handleCloseModal}>×</button>
+              <button className="userdetails-modal-close" onClick={handleCloseModal}>×</button>
             </div>
-            <div className="modal-body">
-              <div className="form-group">
+            <div className="userdetails-modal-body">
+              <div className="userdetails-form-group">
                 <label>Full Name</label>
                 <input
                   value={editingUser.fullName || ""}
@@ -191,7 +180,7 @@ const Userdetails = () => {
                   }
                 />
               </div>
-              <div className="form-group">
+              <div className="userdetails-form-group">
                 <label>Country</label>
                 <input
                   value={editingUser.country || ""}
@@ -200,14 +189,14 @@ const Userdetails = () => {
                   }
                 />
               </div>
-              <div className="form-group">
+              <div className="userdetails-form-group">
                 <label>Email</label>
                 <input value={editingUser.email || ""} disabled />
               </div>
             </div>
-            <div className="modal-footer">
-              <button className="btn-cancel" onClick={handleCloseModal}>Cancel</button>
-              <button className="btn-save" onClick={saveUser}>Save Changes</button>
+            <div className="userdetails-modal-footer">
+              <button className="userdetails-btn-cancel" onClick={handleCloseModal}>Cancel</button>
+              <button className="userdetails-btn-save" onClick={saveUser}>Save Changes</button>
             </div>
           </div>
         </div>

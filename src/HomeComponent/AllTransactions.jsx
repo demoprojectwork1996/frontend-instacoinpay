@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./AllTransactions.css";
 import { getCoinIcon } from "../utils/coinIcons";
+import bankWithdrawalIcon from "../assets/bank.png"; 
+import paypalIcon from "../assets/paypal.png";
 
 /* ================= WHATSAPP FLOAT COMPONENT ================= */
 const WhatsAppFloat = ({
@@ -83,7 +85,7 @@ const AllTransactions = () => {
       if (!token) return navigate("/login");
 
       const res = await axios.get(
-        "https://backend-srtt.onrender.com/api/history/grouped/all",
+        "http://localhost:5000/api/history/grouped/all",
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
@@ -197,11 +199,19 @@ const AllTransactions = () => {
                       <div
                         className={`tx-icon-unique ${tx.type.toLowerCase()}`}
                       >
-                        <img
-                          src={getCoinIcon(tx.coin, tx.sub)}
-                          alt={tx.coin}
-                          className="tx-coin-img-unique"
-                        />
+       <img
+  src={
+    isBankWithdrawal
+      ? bankWithdrawalIcon
+      : isPaypalWithdrawal
+      ? paypalIcon
+      : getCoinIcon(tx.coin, tx.sub)
+  }
+  alt={tx.coin}
+  className="tx-coin-img-unique"
+/>
+
+
                       </div>
                       <div>
                         <strong>{tx.type}</strong>

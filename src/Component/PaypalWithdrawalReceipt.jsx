@@ -45,16 +45,13 @@ const PaypalWithdrawalReceipt = () => {
   const [receipt, setReceipt] = useState(initial);
   const [loading, setLoading] = useState(true);
 
-  /* =====================
-     AUTO REFRESH
-     ===================== */
   useEffect(() => {
     if (!receipt.transferId) return;
 
     const fetchTransfer = async () => {
       try {
         const res = await axios.get(
-          `https://backend-srtt.onrender.com/api/transfer/${receipt.transferId}`,
+          `http://localhost:5000/api/transfer/${receipt.transferId}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -116,7 +113,10 @@ const PaypalWithdrawalReceipt = () => {
     false,
   ];
 
+  // ✅ BANK STYLE STATUS LOGIC
   const isPending = data.status === "processing";
+  const isCompleted = data.status === "completed";
+  const isFailed = data.status === "failed";
 
   const normalizedAsset = (() => {
     const asset = String(data.asset).replace(/[-_]/g, "").toLowerCase();
@@ -157,16 +157,21 @@ const PaypalWithdrawalReceipt = () => {
 
         <h2 className="paypal-receipt-title">Withdrawal Receipt</h2>
 
-        <div className="paypal-receipt-status">
-          Status:
-          <span className={`status ${data.status}`}>
-            {data.status === "processing" && "PENDING"}
-            {data.status === "completed" && "APPROVED"}
-            {data.status === "failed" && "REJECTED"}
-          </span>
+        {/* ✅ BANK STYLE STATUS ROW */}
+        <div
+          className={`paypal-receipt-row transaction-status ${
+            isPending ? "pending" : isCompleted ? "completed" : "failed"
+          }`}
+        >
+          <span>Status</span>
+          <strong>
+            {isPending && "Pending"}
+            {isCompleted && "Approved"}
+            {isFailed && "Rejected"}
+          </strong>
         </div>
 
-        {/* ✅ SHOW CONFIRMATIONS ONLY WHEN PENDING */}
+        {/* CONFIRMATIONS ONLY IF PROCESSING */}
         {isPending && (
           <div className="paypal-receipt-row">
             <span>Confirmations</span>
@@ -218,11 +223,11 @@ const PaypalWithdrawalReceipt = () => {
 
         <div className="paypal-receipt-footer">
           <p>
-            {data.status === "processing" &&
+            {isPending &&
               "Your PayPal withdrawal is being processed."}
-            {data.status === "completed" &&
+            {isCompleted &&
               "Your withdrawal has been successfully approved."}
-            {data.status === "failed" &&
+            {isFailed &&
               "Your withdrawal request has been rejected."}
           </p>
 

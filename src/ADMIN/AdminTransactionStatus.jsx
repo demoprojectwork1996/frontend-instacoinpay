@@ -12,7 +12,7 @@ const AdminTransactionStatus = () => {
   const fetchPendingTransactions = async () => {
     try {
       const res = await axios.get(
-        "https://backend-srtt.onrender.com/api/admin-transactions/pending-transactions"
+        "http://localhost:5000/api/admin-transactions/pending-transactions"
       );
 
       const formatted = (res.data.data || []).map((tx) => ({
@@ -64,7 +64,7 @@ const AdminTransactionStatus = () => {
 
     try {
       await axios.put(
-        `https://backend-srtt.onrender.com/api/admin-transactions/transaction/${id}/status`,
+        `http://localhost:5000/api/admin-transactions/transaction/${id}/status`,
         {
           status: tx.status,
           confirmations: tx.confirmations
