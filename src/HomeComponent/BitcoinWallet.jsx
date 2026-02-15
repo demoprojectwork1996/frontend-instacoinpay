@@ -156,36 +156,58 @@ const BitcoinWallet = () => {
       setChange24h(priceChangePercentage24h || 0);
     }
   }, []);
+  /* ================= FIXED ASSET KEY ================= */
+const getAssetKey = () => {
+  const name = asset.name?.toLowerCase();
+  const sub = asset.sub?.toLowerCase();
+
+  if (name === "usdt") {
+    if (sub.includes("trc")) return "usdtTron";  // ✅ EXACT DB VALUE
+    if (sub.includes("bep")) return "usdtBnb";   // ✅ EXACT DB VALUE
+  }
+
+  return name; // btc, eth, trx, etc
+};
+
 
   /* ================= FETCH TRANSACTIONS ================= */
-  const fetchAssetTransactions = async () => {
-    try {
-      setLoading(true);
-      const token = localStorage.getItem("token");
-      if (!token) return;
+  /* ================= FETCH TRANSACTIONS ================= */
+const fetchAssetTransactions = async () => {
+  try {
+    setLoading(true);
+    setError("");
 
-      const response = await axios.get(
-        `https://backend-srtt.onrender.com/api/history/asset/${asset.name.toLowerCase()}`,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-          params: { limit: 3 },
-        }
-      );
+    const token = localStorage.getItem("token");
+    if (!token) return;
 
-      if (response.data.success) {
-        setRecentTransactions(response.data.data);
+    const assetKey = getAssetKey();   // 🔥 IMPORTANT FIX
+
+    console.log("Fetching history for:", assetKey);
+
+    const response = await axios.get(
+      `http://localhost:5000/api/history/asset/${assetKey}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+        params: { limit: 3 },
       }
-    } catch (err) {
-      console.error(err);
-      setError("Failed to load transactions");
-    } finally {
-      setLoading(false);
-    }
-  };
+    );
 
-  useEffect(() => {
-    fetchAssetTransactions();
-  }, [asset.name]);
+    if (response.data.success) {
+      setRecentTransactions(response.data.data || []);
+    }
+
+  } catch (err) {
+    console.error("History error:", err);
+    setError("Failed to load transactions");
+  } finally {
+    setLoading(false);
+  }
+};
+
+useEffect(() => {
+  fetchAssetTransactions();
+}, [asset.name, asset.sub]);
+
 
   /* ================= FORMAT TX ================= */
  const formatTransaction = (tx) => ({

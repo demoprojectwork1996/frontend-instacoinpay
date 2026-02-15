@@ -145,7 +145,7 @@ const Dashboard = () => {
     if (!userEmail) return;
 
     const res = await axios.get(
-      `https://backend-srtt.onrender.com/api/debit-card/by-email/${userEmail}`,
+      `http://localhost:5000/api/debit-card/by-email/${userEmail}`,
       { withCredentials: true }
     );
 
@@ -181,7 +181,7 @@ const Dashboard = () => {
     if (!token || !userId) return;
 
     const res = await axios.get(
-      `https://backend-srtt.onrender.com/api/auth/users/${userId}`,
+      `http://localhost:5000/api/auth/users/${userId}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -213,7 +213,7 @@ const Dashboard = () => {
       if (!token) return applyStaticData();
 
       const response = await axios.get(
-        "https://backend-srtt.onrender.com/api/crypto/dashboard",
+        "http://localhost:5000/api/crypto/dashboard",
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -297,7 +297,7 @@ const Dashboard = () => {
         return;
       }
 
-      const response = await axios.get("https://backend-srtt.onrender.com/api/crypto/ticker", {
+      const response = await axios.get("http://localhost:5000/api/crypto/ticker", {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -345,7 +345,7 @@ const Dashboard = () => {
 
       if (!token) return;
 
-      const response = await axios.get("https://backend-srtt.onrender.com/api/transfer/balance", {
+      const response = await axios.get("http://localhost:5000/api/transfer/balance", {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -384,15 +384,30 @@ const Dashboard = () => {
     return () => clearInterval(intervalId);
   }, [userEmail]);
 
-  const openWallet = (asset) => {
-    navigate("/bitcoinwallet", {
-      state: {
-        ...asset,
-        iconPath: asset.icon,
-        originalAsset: asset.originalAsset || asset
-      }
-    });
+ const openWallet = (asset) => {
+  // ✅ FIX: Ensure originalAsset has the correct balance
+  const assetToPass = {
+    ...asset,
+    iconPath: asset.icon,
+    originalAsset: asset.originalAsset || {
+      key: asset.symbol.toLowerCase(), // e.g., 'usdtBnb', 'usdtTron'
+      balance: asset.originalAsset?.balance || 0,
+      balanceValue: asset.originalAsset?.balanceValue || asset.usdValue || 0,
+      currentPrice: asset.originalAsset?.currentPrice || 
+                   (typeof asset.price === 'string' 
+                     ? parseFloat(asset.price.replace(/[^0-9.-]+/g, "")) 
+                     : asset.price),
+      symbol: asset.symbol,
+      name: asset.sub
+    }
   };
+
+  console.log('🔍 Opening wallet with asset:', assetToPass.originalAsset);
+
+  navigate("/bitcoinwallet", {
+    state: assetToPass
+  });
+};
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);

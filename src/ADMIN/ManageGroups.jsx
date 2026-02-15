@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./ManageGroups.css";
 
-const API = "https://backend-srtt.onrender.com/api";
+const API = "http://localhost:5000/api";
 
 const ManageGroups = () => {
   const [autoGroups, setAutoGroups] = useState([]);
@@ -60,10 +60,32 @@ const ManageGroups = () => {
 
       alert("User moved successfully 🚀");
 
-      // refresh users
+      /* ✅ 1. Remove user instantly from list */
+      const updatedUsers = users.filter((u) => u._id !== selectedUser);
+      setUsers(updatedUsers);
+
+      /* ✅ 2. Reduce group count instantly in dropdown */
+      const updatedGroups = autoGroups.map((group) => {
+        if (group.value === selectedAutoGroup) {
+          const match = group.label.match(/\d+/g);
+          const currentCount = match ? parseInt(match[match.length - 1]) : 0;
+          const newCount = currentCount - 1;
+
+          return {
+            ...group,
+            label: group.label.replace(
+              /\d+\s*users/,
+              `${newCount} users`
+            ),
+          };
+        }
+        return group;
+      });
+
+      setAutoGroups(updatedGroups);
+
       setSelectedUser(null);
-      setSelectedAutoGroup("");
-      setUsers([]);
+
     } catch (err) {
       alert("Error assigning group");
     }
@@ -94,8 +116,8 @@ const ManageGroups = () => {
         {selectedAutoGroup && (
           <div className="users-section">
             <h4>
-              Users in {selectedAutoGroup}
-              {loading && <span className="loading">Loading...</span>}
+              Users in {selectedAutoGroup} ({users.length})
+              {loading && <span className="loading"> Loading...</span>}
             </h4>
 
             <div className="user-list">

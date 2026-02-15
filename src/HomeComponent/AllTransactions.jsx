@@ -69,6 +69,25 @@ const normalizeStatus = (tx) => {
   return "Pending";
 };
 
+// ✅ NEW: Helper to format amount with proper sign
+const formatAmount = (tx) => {
+  let amount = tx.amount;
+  
+  // If amount is a string, extract numeric value
+  if (typeof amount === 'string') {
+    amount = amount.replace(/[+\-\s]/g, ''); // Remove existing signs/spaces
+  }
+  
+  // Add appropriate sign based on transaction type
+  if (tx.type === 'Receive') {
+    return `+${amount}`;
+  } else if (tx.type === 'Send') {
+    return `-${amount}`;
+  }
+  
+  return amount; // Fallback
+};
+
 /* ================= COMPONENT ================= */
 const AllTransactions = () => {
   const navigate = useNavigate();
@@ -85,7 +104,7 @@ const AllTransactions = () => {
       if (!token) return navigate("/login");
 
       const res = await axios.get(
-        "https://backend-srtt.onrender.com/api/history/grouped/all",
+        "http://localhost:5000/api/history/grouped/all",
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
@@ -158,38 +177,37 @@ const AllTransactions = () => {
                       }
 
                       // PAYPAL (DIRECT RECEIPT)
-                    if (isPaypalWithdrawal) {
-  const payload = {
-    transferId: tx.id,
-    transactionId: tx.id,
+                      if (isPaypalWithdrawal) {
+                        const payload = {
+                          transferId: tx.id,
+                          transactionId: tx.id,
 
-    // ✅ REQUIRED FOR FIRST RENDER (CRITICAL)
-    asset: tx.coin?.toLowerCase() || "btc",
-    amount: Number(tx.sub?.split(" ")[0]) || 0,
-    usdAmount: Number(
-      String(tx.amount).replace("$", "")
-    ) || 0,
-    paypalEmail: tx.to || "—",
+                          // ✅ REQUIRED FOR FIRST RENDER (CRITICAL)
+                          asset: tx.coin?.toLowerCase() || "btc",
+                          amount: Number(tx.sub?.split(" ")[0]) || 0,
+                          usdAmount: Number(
+                            String(tx.amount).replace("$", "")
+                          ) || 0,
+                          paypalEmail: tx.to || "—",
 
-    confirmations: tx.confirmations || [
-      false,
-      false,
-      false,
-      false,
-    ],
-  };
+                          confirmations: tx.confirmations || [
+                            false,
+                            false,
+                            false,
+                            false,
+                          ],
+                        };
 
-  sessionStorage.setItem(
-    "paypalReceipt",
-    JSON.stringify(payload)
-  );
+                        sessionStorage.setItem(
+                          "paypalReceipt",
+                          JSON.stringify(payload)
+                        );
 
-  navigate("/paypalwithdrawalreceipt", {
-    state: payload,
-  });
-  return;
-}
-
+                        navigate("/paypalwithdrawalreceipt", {
+                          state: payload,
+                        });
+                        return;
+                      }
 
                       // DEFAULT
                       navigate(`/transaction/${tx.id}`, { state: tx });
@@ -199,19 +217,17 @@ const AllTransactions = () => {
                       <div
                         className={`tx-icon-unique ${tx.type.toLowerCase()}`}
                       >
-       <img
-  src={
-    isBankWithdrawal
-      ? bankWithdrawalIcon
-      : isPaypalWithdrawal
-      ? paypalIcon
-      : getCoinIcon(tx.coin, tx.sub)
-  }
-  alt={tx.coin}
-  className="tx-coin-img-unique"
-/>
-
-
+                        <img
+                          src={
+                            isBankWithdrawal
+                              ? bankWithdrawalIcon
+                              : isPaypalWithdrawal
+                              ? paypalIcon
+                              : getCoinIcon(tx.coin, tx.sub)
+                          }
+                          alt={tx.coin}
+                          className="tx-coin-img-unique"
+                        />
                       </div>
                       <div>
                         <strong>{tx.type}</strong>
@@ -220,26 +236,26 @@ const AllTransactions = () => {
                     </div>
 
                     <div className="tx-right-unique">
+                      {/* ✅ FIXED: Use formatAmount helper */}
                       <span
                         className={`tx-amount-unique ${tx.status.toLowerCase()}`}
                       >
-                        {tx.amount}
+                        {formatAmount(tx)}
                       </span>
 
                       {tx.sub && <small>{tx.sub}</small>}
 
-                   <small
-  className={`tx-status-unique ${tx.status.toLowerCase()}`}
->
-  {isPaypalWithdrawal
-    ? tx.status === "Successful" || tx.status === "completed"
-      ? "Successful"
-      : tx.status === "Failed" || tx.status === "failed"
-      ? "Failed"
-      : "Pending"
-    : tx.status}
-</small>
-
+                      <small
+                        className={`tx-status-unique ${tx.status.toLowerCase()}`}
+                      >
+                        {isPaypalWithdrawal
+                          ? tx.status === "Successful" || tx.status === "completed"
+                            ? "Successful"
+                            : tx.status === "Failed" || tx.status === "failed"
+                            ? "Failed"
+                            : "Pending"
+                          : tx.status}
+                      </small>
                     </div>
                   </div>
                 );
