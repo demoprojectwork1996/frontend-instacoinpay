@@ -44,7 +44,7 @@ const BankWithdrawalReceipt = () => {
     const fetchLatestTransfer = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:5000/api/transfer/${receipt.transferId}`,
+          `https://backend-instacoinpay-1.onrender.com/api/transfer/${receipt.transferId}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,

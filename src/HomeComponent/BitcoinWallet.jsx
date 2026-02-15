@@ -185,7 +185,7 @@ const fetchAssetTransactions = async () => {
     console.log("Fetching history for:", assetKey);
 
     const response = await axios.get(
-      `http://localhost:5000/api/history/asset/${assetKey}`,
+      `https://backend-instacoinpay-1.onrender.com/api/history/asset/${assetKey}`,
       {
         headers: { Authorization: `Bearer ${token}` },
         params: { limit: 3 },

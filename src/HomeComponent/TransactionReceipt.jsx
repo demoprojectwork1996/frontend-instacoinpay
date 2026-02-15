@@ -131,7 +131,7 @@
 
           const res = await axios.get(
 
-            `http://localhost:5000/api/transfer/${id}`,
+            `https://backend-instacoinpay-1.onrender.com/api/transfer/${id}`,
 
             {
 
