@@ -34,8 +34,8 @@ export default function AdWalletApp() {
 
       const updated = balances.map((coin) => ({
         ...coin,
-        value: walletBalances?.[coin.key] ?? 0,
-        original: walletBalances?.[coin.key] ?? 0,
+        value: Number((walletBalances?.[coin.key] ?? 0).toFixed(4)), // ✅ FIX
+        original: Number((walletBalances?.[coin.key] ?? 0).toFixed(4)), // ✅ FIX
         editing: false,
       }));
 
@@ -58,38 +58,38 @@ export default function AdWalletApp() {
      CONFIRM CREDIT / DEBIT
   ========================= */
   const confirmUpdate = async (index) => {
-  const coin = balances[index];
+    const coin = balances[index];
 
-  try {
-    setLoadingIndex(index);
+    try {
+      setLoadingIndex(index);
 
-    await axios.post(API, {
-      email,
-      asset: coin.key,
-      amount: coin.value, // FINAL BALANCE
-      // No need to pass original balance as backend calculates it
-    });
+      await axios.post(API, {
+        email,
+        asset: coin.key,
+        amount: Number(coin.value.toFixed(4)), // ✅ FIX
+      });
 
-    const updated = [...balances];
-    updated[index].original = coin.value;
-    updated[index].editing = false;
-    setBalances(updated);
-  } catch {
-    alert("Failed to update balance");
-  } finally {
-    setLoadingIndex(null);
-  }
-};
+      const updated = [...balances];
+      updated[index].original = Number(coin.value.toFixed(4)); // ✅ FIX
+      updated[index].editing = false;
+      setBalances(updated);
+    } catch {
+      alert("Failed to update balance");
+    } finally {
+      setLoadingIndex(null);
+    }
+  };
 
   const changeValue = (index, enteredAmount) => {
     const updated = [...balances];
     const coin = updated[index];
 
-    // enteredAmount is the CREDIT/DEBIT amount
-    coin.value =
+    let newValue =
       coin.mode === "credit"
         ? coin.original + enteredAmount
         : coin.original - enteredAmount;
+
+    coin.value = Number(newValue.toFixed(4)); // ✅ FIX
 
     setBalances(updated);
   };
@@ -98,7 +98,7 @@ export default function AdWalletApp() {
     const updated = [...balances];
     updated[index].editing = true;
     updated[index].mode = "credit";
-    updated[index].value = updated[index].original;
+    updated[index].value = Number(updated[index].original.toFixed(4)); // ✅ FIX
     setBalances(updated);
   };
 
@@ -106,7 +106,7 @@ export default function AdWalletApp() {
     const updated = [...balances];
     updated[index].editing = true;
     updated[index].mode = "debit";
-    updated[index].value = updated[index].original;
+    updated[index].value = Number(updated[index].original.toFixed(4)); // ✅ FIX
     setBalances(updated);
   };
 
@@ -144,13 +144,14 @@ export default function AdWalletApp() {
                 {coin.editing ? (
                   <input
                     type="number"
+                    step="0.0001" // ✅ FIX
                     placeholder={`Enter amount to ${coin.mode}`}
                     onChange={(e) =>
                       changeValue(index, Number(e.target.value))
                     }
                   />
                 ) : (
-                  <h3>{coin.value}</h3>
+                  <h3>{Number(coin.value).toFixed(4)}</h3> // ✅ FIX
                 )}
 
                 <div className="action-buttons">

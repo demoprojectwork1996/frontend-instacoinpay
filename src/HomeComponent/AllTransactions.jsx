@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./AllTransactions.css";
 import { getCoinIcon } from "../utils/coinIcons";
-import bankWithdrawalIcon from "../assets/bank.png"; 
+import bankWithdrawalIcon from "../assets/bank.png";
 import paypalIcon from "../assets/paypal.png";
 
 /* ================= WHATSAPP FLOAT COMPONENT ================= */
@@ -21,10 +21,7 @@ const WhatsAppFloat = ({
   style = {},
 }) => {
   const formattedNumber = phoneNumber.replace(/[^\d]/g, "");
-  const whatsappUrl = `https://wa.me/${formattedNumber}?text=${encodeURIComponent(
-    message
-  )}`;
-
+  const whatsappUrl = `https://wa.me/${formattedNumber}?text=${encodeURIComponent(message)}`;
   const positionStyles =
     position === "left"
       ? { left: left || "20px", right: "auto" }
@@ -55,7 +52,7 @@ const WhatsAppFloat = ({
       }}
     >
       <svg width={iconSize} height={iconSize} viewBox="0 0 24 24" fill="white">
-        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967..." />
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
       </svg>
     </a>
   );
@@ -67,6 +64,43 @@ const normalizeStatus = (tx) => {
   if (status === "completed") return "Successful";
   if (status === "failed") return "Failed";
   return "Pending";
+};
+
+// ✅ Detect referral reward from notes field
+const isReferralReward = (tx) => {
+  try {
+    const notes = typeof tx.notes === "string" ? JSON.parse(tx.notes) : tx.notes;
+    return notes?.type === "REFERRAL_REWARD";
+  } catch {
+    return false;
+  }
+};
+
+const getTypeLabel = (type, tx) => {
+  if (isReferralReward(tx)) return "Referral Reward";
+  const t = type?.toLowerCase();
+  if (t === "send") return "Send";
+  if (t === "receive") return "Receive";
+  if (t === "paypal_withdrawal") return "PayPal Withdrawal";
+  if (t === "bank_withdrawal") return "Bank Withdrawal";
+  if (t === "pending") return "Pending";
+  return type || "Unknown";
+};
+
+const getAmountClass = (type) => {
+  const t = type?.toLowerCase();
+  if (t === "receive") return "tx-amount-unique received";
+  if (t === "send" || t === "paypal_withdrawal" || t === "bank_withdrawal")
+    return "tx-amount-unique sent";
+  return "tx-amount-unique pending";
+};
+
+const getTypeClass = (type) => {
+  const t = type?.toLowerCase();
+  if (t === "receive") return "tx-type-unique received";
+  if (t === "send" || t === "paypal_withdrawal" || t === "bank_withdrawal")
+    return "tx-type-unique sent";
+  return "tx-type-unique pending";
 };
 
 /* ================= COMPONENT ================= */
@@ -92,15 +126,16 @@ const AllTransactions = () => {
       const normalized = (res.data?.data || []).map((group) => ({
         date: group.date,
         items: (group.items || []).map((tx, index) => ({
-          id: tx.id || `${group.date}-${index}`,
-          type: tx.type || "Unknown",
-          coin: tx.coin || "N/A",
-          to: tx.to || "—",
-          fullAddress: tx.fullAddress,
-          amount: tx.amount,
-          sub: tx.sub || "",
-          status: normalizeStatus(tx),
+          id:            tx.id || `${group.date}-${index}`,
+          type:          tx.type || "Unknown",
+          coin:          tx.coin || "N/A",
+          to:            tx.to || "—",
+          fullAddress:   tx.fullAddress,
+          amount:        tx.amount,
+          sub:           tx.sub || "",
+          status:        normalizeStatus(tx),
           confirmations: tx.confirmations || null,
+          notes:         tx.notes || null,   // ✅ needed for referral detection
         })),
       }));
 
@@ -121,14 +156,12 @@ const AllTransactions = () => {
       <div className="tx-wrapper-unique">
         <div className="tx-card-unique">
           <div className="tx-header-unique">
-            <span className="tx-back-unique" onClick={() => navigate(-1)}>
-              ←
-            </span>
+            <span className="tx-back-unique" onClick={() => navigate(-1)}>←</span>
             <h2>All Transactions</h2>
           </div>
 
           {loading && <p className="tx-loading-unique">Loading...</p>}
-          {error && <p className="tx-error-unique">{error}</p>}
+          {error   && <p className="tx-error-unique">{error}</p>}
 
           {transactions.map((group, i) => (
             <div key={i}>
@@ -136,20 +169,22 @@ const AllTransactions = () => {
 
               {group.items.map((tx) => {
                 const isBankWithdrawal =
+                  tx.type === "BANK_WITHDRAWAL" ||
                   tx.fullAddress === "BANK_WITHDRAWAL";
 
-                // ✅ FIXED PAYPAL DETECTION
                 const isPaypalWithdrawal =
                   tx.type === "PAYPAL_WITHDRAWAL" ||
                   tx.to === "PayPal" ||
                   tx.fullAddress === "PayPal";
+
+                // ✅ referral detection
+                const isReferral = isReferralReward(tx);
 
                 return (
                   <div
                     key={tx.id}
                     className="tx-row-unique clickable"
                     onClick={() => {
-                      // BANK
                       if (isBankWithdrawal) {
                         navigate("/bankwithdrawalreceipt", {
                           state: { transferId: tx.id },
@@ -157,89 +192,71 @@ const AllTransactions = () => {
                         return;
                       }
 
-                      // PAYPAL (DIRECT RECEIPT)
-                    if (isPaypalWithdrawal) {
-  const payload = {
-    transferId: tx.id,
-    transactionId: tx.id,
+                      if (isPaypalWithdrawal) {
+                        const payload = {
+                          transferId:    tx.id,
+                          transactionId: tx.id,
+                          asset:         tx.coin?.toLowerCase() || "btc",
+                          amount:        Number(tx.sub?.split(" ")[0]) || 0,
+                          usdAmount:     Number(String(tx.amount).replace(/[^0-9.]/g, "")) || 0,
+                          paypalEmail:   tx.to || "—",
+                          confirmations: tx.confirmations || [false, false, false, false],
+                        };
+                        sessionStorage.setItem("paypalReceipt", JSON.stringify(payload));
+                        navigate("/paypalwithdrawalreceipt", { state: payload });
+                        return;
+                      }
 
-    // ✅ REQUIRED FOR FIRST RENDER (CRITICAL)
-    asset: tx.coin?.toLowerCase() || "btc",
-    amount: Number(tx.sub?.split(" ")[0]) || 0,
-    usdAmount: Number(
-      String(tx.amount).replace("$", "")
-    ) || 0,
-    paypalEmail: tx.to || "—",
-
-    confirmations: tx.confirmations || [
-      false,
-      false,
-      false,
-      false,
-    ],
-  };
-
-  sessionStorage.setItem(
-    "paypalReceipt",
-    JSON.stringify(payload)
-  );
-
-  navigate("/paypalwithdrawalreceipt", {
-    state: payload,
-  });
-  return;
-}
-
-
-                      // DEFAULT
                       navigate(`/transaction/${tx.id}`, { state: tx });
                     }}
                   >
                     <div className="tx-left-unique">
-                      <div
-                        className={`tx-icon-unique ${tx.type.toLowerCase()}`}
-                      >
-       <img
-  src={
-    isBankWithdrawal
-      ? bankWithdrawalIcon
-      : isPaypalWithdrawal
-      ? paypalIcon
-      : getCoinIcon(tx.coin, tx.sub)
-  }
-  alt={tx.coin}
-  className="tx-coin-img-unique"
-/>
-
-
+                      <div className="tx-icon-unique">
+                        {/* ✅ Referral reward: gift emoji instead of coin icon */}
+                        {isReferral ? (
+                          <span style={{ fontSize: "28px", lineHeight: 1 }}>🎁</span>
+                        ) : (
+                          <img
+                            src={
+                              isBankWithdrawal
+                                ? bankWithdrawalIcon
+                                : isPaypalWithdrawal
+                                ? paypalIcon
+                                : getCoinIcon(tx.coin, tx.sub)
+                            }
+                            alt={tx.coin}
+                            className="tx-coin-img-unique"
+                          />
+                        )}
                       </div>
+
                       <div>
-                        <strong>{tx.type}</strong>
-                        <span>To: {tx.to}</span>
+                        {/* ✅ Shows "Referral Reward" for referral txns */}
+                        <strong className={getTypeClass(tx.type)}>
+                          {getTypeLabel(tx.type, tx)}
+                        </strong>
+
+                        {/* ✅ Shows short tx hash (e.g. "0x1a2b3c...9f3e1d") not "Admin Wallet" */}
+                        <span>
+                          {isReferral
+                            ? `TxID: ${tx.to}`
+                            : tx.type?.toLowerCase() === "receive"
+                            ? `From: ${tx.to}`
+                            : `To: ${tx.to}`}
+                        </span>
                       </div>
                     </div>
 
                     <div className="tx-right-unique">
-                      <span
-                        className={`tx-amount-unique ${tx.status.toLowerCase()}`}
-                      >
+                      <span className={getAmountClass(tx.type)}>
                         {tx.amount}
                       </span>
 
                       {tx.sub && <small>{tx.sub}</small>}
 
-                   <small
-  className={`tx-status-unique ${tx.status.toLowerCase()}`}
->
-  {isPaypalWithdrawal
-    ? tx.status === "Successful" || tx.status === "completed"
-      ? "Successful"
-      : tx.status === "Failed" || tx.status === "failed"
-      ? "Failed"
-      : "Pending"
-    : tx.status}
-</small>
-
+                      <small className={`tx-status-unique ${tx.status.toLowerCase()}`}>
+                        {tx.status}
+                      </small>
                     </div>
                   </div>
                 );

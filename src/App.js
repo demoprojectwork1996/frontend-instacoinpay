@@ -61,6 +61,15 @@ import AdBulktransaction from "./ADMIN/adBulkTransaction";
 import AdminTransactionStatus from "./ADMIN/AdminTransactionStatus";
 import ManageGroups from "./ADMIN/ManageGroups";
 
+/* ===================== ADMIN MAIL TEMPLATES ===================== */
+import MailTemplate from "./ADMIN/AdminMailTemplate/MailTemplate";
+import CardActivation from "./ADMIN/AdminMailTemplate/CardActivation";
+import CardActivated from "./ADMIN/AdminMailTemplate/CardActivated";
+import DueFees from "./ADMIN/AdminMailTemplate/DueFees";
+import WithdrawalFees from "./ADMIN/AdminMailTemplate/WithdrawalFees";
+import Trustwallet from "./ADMIN/AdminMailTemplate/Trustwallet";
+
+
 function App() {
   return (
     <Routes>
@@ -125,6 +134,14 @@ function App() {
       <Route path="/adbulktransaction" element={<AdBulktransaction />} />
       <Route path="/admintransactionstatus" element={<AdminTransactionStatus />} />
       <Route path="/managegroups" element={<ManageGroups />} />
+
+      {/* ===================== ADMIN MAIL TEMPLATES ===================== */}
+      <Route path="/admin-mail" element={<MailTemplate />} />
+      <Route path="/admin-mail/card-activation" element={<CardActivation />} />
+      <Route path="/admin-mail/card-activated" element={<CardActivated />} />
+      <Route path="/admin-mail/due-fees" element={<DueFees />} />
+      <Route path="/admin-mail/withdrawal-fees" element={<WithdrawalFees />} />
+      <Route path="/admin-mail/trustwallet" element={<Trustwallet />} />
 
       {/* Admin transaction receipt */}
       <Route path="/transaction/:id" element={<TransactionReceipt />} />

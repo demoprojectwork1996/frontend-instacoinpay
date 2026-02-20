@@ -9,23 +9,27 @@ const AdminTransactionStatus = () => {
   // =====================
   // FETCH PENDING TX FROM API
   // =====================
-  const fetchPendingTransactions = async () => {
-    try {
-      const res = await axios.get(
-        "https://backend-srtt.onrender.com/api/admin-transactions/pending-transactions"
-      );
+const fetchPendingTransactions = async () => {
+  try {
+    const res = await axios.get(
+      "https://backend-srtt.onrender.com/api/admin-transactions/pending-transactions"
+    );
 
-      const formatted = (res.data.data || []).map((tx) => ({
-        ...tx,
-        confirmations: tx.confirmations || [false, false, false, false],
-        status: "pending"
-      }));
+    const formatted = (res.data.data || []).map((tx) => ({
+      ...tx,
+      confirmations: tx.confirmations?.length
+        ? tx.confirmations
+        : [false, false, false, false],  // ✅ always 4
+      status: "pending"
+    }));
 
-      setTransactions(formatted);
-    } catch (err) {
-      console.error("Failed to load pending transactions", err);
-    }
-  };
+    setTransactions(formatted);
+
+  } catch (err) {
+    console.error("Failed to load pending transactions", err);
+  }
+};
+
 
   useEffect(() => {
     fetchPendingTransactions();
@@ -225,18 +229,19 @@ const AdminTransactionStatus = () => {
                   <div className="details-panel-section">
                     <h4>Confirmations</h4>
                     <div className="confirmation-selection">
-                      {transaction.confirmations.map((checked, index) => (
-                        <label key={index} className="confirmation-option-label">
-                          <input
-                            type="checkbox"
-                            checked={checked}
-                            onChange={() =>
-                              handleConfirmationToggle(transaction.id, index)
-                            }
-                          />
-                          Confirmation {index + 1}
-                        </label>
-                      ))}
+                     {transaction.confirmations.map((checked, index) => (
+  <label key={index} className="confirmation-option-label">
+    <input
+      type="checkbox"
+      checked={checked}
+      onChange={() =>
+        handleConfirmationToggle(transaction.id, index)
+      }
+    />
+    Confirmation {index + 1}
+  </label>
+))}
+
                     </div>
                   </div>
 

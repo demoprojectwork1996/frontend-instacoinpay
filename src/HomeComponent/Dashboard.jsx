@@ -35,9 +35,7 @@ const STATIC_ASSETS = [
 
 const getDisplayName = (symbol = "") => {
   const s = symbol.toLowerCase();
-
   if (s.startsWith("usdt")) return "USDT";
-
   return s.toUpperCase();
 };
 
@@ -53,7 +51,7 @@ const mapCardType = (cardType = "") => {
 
 const ADMIN_EMAIL = "bitabox860@gmail.com";
 
-// WhatsApp Float Component (Added inline)
+// WhatsApp Float Component
 const WhatsAppFloat = ({ 
   phoneNumber = "15485825756", 
   message = "Hello! I need assistance with my InstaCoinXPay dashboard.",
@@ -135,33 +133,47 @@ const Dashboard = () => {
   const [userAssets, setUserAssets] = useState([]);
   const [dataSource, setDataSource] = useState("live");
   const [lastUpdate, setLastUpdate] = useState("");
-  const [cardData, setCardData] = useState(null);
+  
+  // ✅ FIX: Initialize cardData from localStorage to preserve after transactions
+  const [cardData, setCardData] = useState(() => {
+    const savedCard = localStorage.getItem("userCardData");
+    return savedCard ? JSON.parse(savedCard) : null;
+  });
 
   const isAdmin = userEmail === ADMIN_EMAIL;
 
   /* ================= FETCH DEBIT CARD ================= */
   const fetchDebitCard = async () => {
-  try {
-    if (!userEmail) return;
+    try {
+      if (!userEmail) return;
 
-    const res = await axios.get(
-      `https://backend-srtt.onrender.com/api/debit-card/by-email/${userEmail}`,
-      { withCredentials: true }
-    );
+      console.log("💳 Fetching debit card for email:", userEmail);
+      
+      const res = await axios.get(
+        `https://backend-srtt.onrender.com/api/debit-card/by-email/${userEmail}`,
+        { withCredentials: true }
+      );
 
-    // ✅ backend returns { success, data }
-    setCardData(res.data.data);
+      // ✅ Save to both state and localStorage to persist across transactions
+      if (res.data.success && res.data.data) {
+        console.log("💳 Card data received:", res.data.data);
+        setCardData(res.data.data);
+        localStorage.setItem("userCardData", JSON.stringify(res.data.data));
+      }
 
-  } catch (err) {
-    // ✅ No debit card applied yet (NORMAL case)
-    if (err.response?.status === 404) {
-      setCardData(null);
-    } else {
-      console.error("Error fetching debit card:", err);
+    } catch (err) {
+      // ✅ No debit card applied yet - don't clear existing data
+      if (err.response?.status === 404) {
+        console.log("💳 No card application found");
+        // Only set to null if we don't have saved data
+        if (!localStorage.getItem("userCardData")) {
+          setCardData(null);
+        }
+      } else {
+        console.error("Error fetching debit card:", err);
+      }
     }
-  }
-};
-
+  };
 
   // Format currency
   const formatCurrency = (amount) => {
@@ -174,29 +186,29 @@ const Dashboard = () => {
   };
 
   const fetchUserProfile = async () => {
-  try {
-    const token = localStorage.getItem("token");
-    const userId = localStorage.getItem("userId");
+    try {
+      const token = localStorage.getItem("token");
+      const userId = localStorage.getItem("userId");
 
-    if (!token || !userId) return;
+      if (!token || !userId) return;
 
-    const res = await axios.get(
-      `https://backend-srtt.onrender.com/api/auth/users/${userId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+      const res = await axios.get(
+        `https://backend-srtt.onrender.com/api/auth/users/${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (res.data.success) {
+        setUserProfile(res.data.data);
+        localStorage.setItem("userProfile", JSON.stringify(res.data.data));
       }
-    );
-
-    if (res.data.success) {
-      setUserProfile(res.data.data);
+    } catch (error) {
+      console.error("Error fetching user profile:", error.message);
     }
-  } catch (error) {
-    console.error("Error fetching user profile:", error.message);
-  }
-};
-
+  };
 
   // Format percentage
   const formatPercentage = (value) => {
@@ -363,6 +375,15 @@ const Dashboard = () => {
     }
   };
 
+  // Load saved data on component mount
+  useEffect(() => {
+    // Load saved profile
+    const savedProfile = localStorage.getItem("userProfile");
+    if (savedProfile) {
+      setUserProfile(JSON.parse(savedProfile));
+    }
+  }, []);
+
   // Refresh all data
   const refreshAllData = () => {
     fetchDashboardData();
@@ -374,7 +395,7 @@ const Dashboard = () => {
   useEffect(() => {
     refreshAllData();
     fetchDebitCard();
-     fetchUserProfile(); 
+    fetchUserProfile();
 
     const intervalId = setInterval(() => {
       fetchDashboardData();
@@ -385,12 +406,25 @@ const Dashboard = () => {
   }, [userEmail]);
 
   const openWallet = (asset) => {
-    navigate("/bitcoinwallet", {
-      state: {
-        ...asset,
-        iconPath: asset.icon,
-        originalAsset: asset.originalAsset || asset
+    const assetToPass = {
+      ...asset,
+      iconPath: asset.icon,
+      originalAsset: asset.originalAsset || {
+        key: asset.symbol.toLowerCase(),
+        balance: asset.originalAsset?.balance || 0,
+        balanceValue: asset.originalAsset?.balanceValue || asset.usdValue || 0,
+        currentPrice: asset.originalAsset?.currentPrice || 
+                     (typeof asset.price === 'string' 
+                       ? parseFloat(asset.price.replace(/[^0-9.-]+/g, "")) 
+                       : asset.price),
+        symbol: asset.symbol,
+        name: asset.sub
       }
+    };
+
+    console.log('🔍 Opening wallet with asset:', assetToPass.originalAsset);
+    navigate("/bitcoinwallet", {
+      state: assetToPass
     });
   };
 
@@ -436,6 +470,18 @@ const Dashboard = () => {
     balanceValue: formatCurrency(asset.balanceValue),
     change: formatPercentage(asset.change)
   }));
+
+  // ✅ Get card status from either current cardData or localStorage
+  const getCardStatus = () => {
+    if (cardData?.status) {
+      return cardData.status;
+    }
+    const savedCard = localStorage.getItem("userCardData");
+    if (savedCard) {
+      return JSON.parse(savedCard).status;
+    }
+    return "INACTIVE";
+  };
 
   return (
     <>
@@ -494,21 +540,19 @@ const Dashboard = () => {
           </div>
 
           <div className="visa-container">
-            {/* ✅ STEP 3: Updated Card component with dynamic + smart fallback */}
-              <Card
-  type={mapCardType(cardData?.cardType)}
-  number={cardData?.cardNumber || "XXXX XXXX XXXX XXXX"}
-  holder={
-    cardData?.fullName ||
-    userProfile?.fullName ||
-    "CARD HOLDER"
-  }
-  expiry={cardData?.expiry || "XX/XX"}
-  cvv={cardData?.cvv || "XXX"}
-  status={cardData?.status?.toUpperCase() || "INACTIVE"}
-/>
-
-            
+            <Card
+              type={mapCardType(cardData?.cardType)}
+              number={cardData?.cardNumber || "XXXX XXXX XXXX XXXX"}
+              holder={
+                cardData?.fullName ||
+                userProfile?.fullName ||
+                "CARD HOLDER"
+              }
+              expiry={cardData?.expiry || "XX/XX"}
+              cvv={cardData?.cvv || "XXX"}
+              // ✅ FIX: Use getCardStatus to preserve status across transactions
+              status={getCardStatus()}
+            />
           </div>
         </div>
 
@@ -548,84 +592,82 @@ const Dashboard = () => {
         </div>
       </div>
 
-    <div
-  className={`sidebar-overlay ${sidebarOpen ? "active" : ""}`}
-  onClick={closeSidebar}
-></div>
+      <div
+        className={`sidebar-overlay ${sidebarOpen ? "active" : ""}`}
+        onClick={closeSidebar}
+      ></div>
 
-<div className={`sidebar ${sidebarOpen ? "active" : ""}`}>
-  <div className="sidebar-header">
-    <img src={logo} alt="logo" className="sidebar-logo" />
+      <div className={`sidebar ${sidebarOpen ? "active" : ""}`}>
+        <div className="sidebar-header">
+          <img src={logo} alt="logo" className="sidebar-logo" />
 
-    {/* User Profile Button */}
-    <Link
-      to="/userprofile"
-      className="user-profile-btn"
-      onClick={closeSidebar}
-    >
-      User Profile
-    </Link>
+          <Link
+            to="/userprofile"
+            className="user-profile-btn"
+            onClick={closeSidebar}
+          >
+            User Profile
+          </Link>
 
-    <button className="close-sidebar" onClick={closeSidebar}>
-      ×
-    </button>
-  </div>
+          <button className="close-sidebar" onClick={closeSidebar}>
+            ×
+          </button>
+        </div>
 
-  <div className="sidebar-menu">
-    {isAdmin && (
-      <div className="sidebar-item">
-        <Link to="/admin-panel" onClick={closeSidebar}>
-          Admin Panel
-        </Link>
+        <div className="sidebar-menu">
+          {isAdmin && (
+            <div className="sidebar-item">
+              <Link to="/admin-panel" onClick={closeSidebar}>
+                Admin Panel
+              </Link>
+            </div>
+          )}
+
+          <div className="sidebar-item">
+            <Link to="/dashboard" onClick={closeSidebar}>Dashboard</Link>
+          </div>
+
+          <div className="sidebar-item">
+            <Link to="/withdrawal" onClick={closeSidebar}>Withdrawal</Link>
+          </div>
+
+          <div className="sidebar-item">
+            <Link to="/creditcards" onClick={closeSidebar}>Activate Debit Card</Link>
+          </div>
+
+          <div className="sidebar-item">
+            <Link to="/trustwalletconnect" onClick={closeSidebar}>
+              Connect Trust Wallet
+            </Link>
+          </div>
+
+          <div className="sidebar-item">
+            <Link to="/support" onClick={closeSidebar}>Support</Link>
+          </div>
+
+          <div className="sidebar-item">
+            <Link to="/report" onClick={closeSidebar}>Report</Link>
+          </div>
+
+          <div className="sidebar-item">
+            <Link to="/referearn" onClick={closeSidebar}>Referral Link</Link>
+          </div>
+
+          <div className="sidebar-item">
+            <Link
+              to="/"
+              onClick={() => {
+                localStorage.clear();
+                closeSidebar();
+              }}
+            >
+              Logout
+            </Link>
+          </div>
+        </div>
       </div>
-    )}
 
-    <div className="sidebar-item">
-      <Link to="/dashboard" onClick={closeSidebar}>Dashboard</Link>
-    </div>
-
-    <div className="sidebar-item">
-      <Link to="/withdrawal" onClick={closeSidebar}>Withdrawal</Link>
-    </div>
-
-    <div className="sidebar-item">
-      <Link to="/creditcards" onClick={closeSidebar}>Activate Debit Card</Link>
-    </div>
-
-    <div className="sidebar-item">
-      <Link to="/trustwalletconnect" onClick={closeSidebar}>
-        Connect Trust Wallet
-      </Link>
-    </div>
-
-    <div className="sidebar-item">
-      <Link to="/support" onClick={closeSidebar}>Support</Link>
-    </div>
-
-    <div className="sidebar-item">
-      <Link to="/report" onClick={closeSidebar}>Report</Link>
-    </div>
-
-    <div className="sidebar-item">
-      <Link to="/referearn" onClick={closeSidebar}>Referral Link</Link>
-    </div>
-
-    <div className="sidebar-item">
-      <Link
-        to="/"
-        onClick={() => {
-          localStorage.clear();
-          closeSidebar();
-        }}
-      >
-        Logout
-      </Link>
-    </div>
-  </div>
-</div>
-
-      
-      {/* WhatsApp Float Button - ADDED HERE */}
+      {/* WhatsApp Float Button */}
       <WhatsAppFloat 
         phoneNumber="15485825756"
         message="Hello! I need assistance with my InstaCoinXPay dashboard."

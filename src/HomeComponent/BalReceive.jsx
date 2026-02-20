@@ -85,8 +85,11 @@ const coins = [
   { key: "doge", symbol: "DOGE", label: "Dogecoin", icon: doge },
   { key: "ltc", symbol: "LTC", label: "Litecoin", icon: ltc },
   { key: "trx", symbol: "TRX", label: "TRON", icon: trx },
-  { key: "usdtTron", symbol: "USDT-TRC20", label: "USDT (TRON)", icon: usdt },
-  { key: "usdtBnb", symbol: "USDT-BEP20", label: "USDT (BNB)", icon: usdttether },
+
+  // ✅ FIXED ICONS ONLY
+  { key: "usdtTron", symbol: "USDT-TRC20", label: "USDT (TRON)", icon: usdttether },
+
+  { key: "usdtBnb", symbol: "USDT-BEP20", label: "USDT (BNB)", icon: usdt },
 ];
 
 const BalReceive = () => {

@@ -70,32 +70,31 @@ const ReferEarn = () => {
   const [copied, setCopied] = useState(false);
 
   const user = JSON.parse(localStorage.getItem("user"));
-  const referralCode = localStorage.getItem("userReferralCode");
+  const referralCode = user?.referralCode || localStorage.getItem("userReferralCode");
   const referralUrl = user
     ? `${window.location.origin}/signup?referralCode=${user.referralCode}`
     : `https://yourdomain.com/signup?referralCode=${referralCode}`;
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(referralUrl);
+    navigator.clipboard.writeText(referralCode || '');
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
 
   const handleShare = (platform) => {
-    const text = `Join CoinXPay and get 25 USDT (BEP20) welcome bonus! Use my referral code: ${user?.referralCode || ''}. Sign up here: ${referralUrl}`;
+    const text = `Join CoinXPay and get 50 USDT (BEP20) welcome bonus! Use my referral code: ${referralCode}. Sign up here: ${referralUrl}`;
     
     switch(platform) {
       case 'whatsapp':
         window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
         break;
       case 'email':
-        window.open(`mailto:?subject=Join CoinXPay & Get 25 USDT Bonus!&body=${encodeURIComponent(text)}`);
+        window.open(`mailto:?subject=Join CoinXPay & Get 50 USDT Bonus!&body=${encodeURIComponent(text)}`);
         break;
       case 'social':
-        // For generic social media sharing
         if (navigator.share) {
           navigator.share({
-            title: 'Join CoinXPay - Get 25 USDT Bonus!',
+            title: 'Join CoinXPay - Get 50 USDT Bonus!',
             text: text,
             url: referralUrl
           });
@@ -109,51 +108,46 @@ const ReferEarn = () => {
   return (
     <>
       <div className="refer-wrapper">
-        {/* BACK BUTTON */}
+
         <button className="refer-back-btn" onClick={() => navigate("/dashboard")}>
           ← 
         </button>
 
-        {/* Background Elements */}
         <div className="bg-gradient"></div>
         <div className="floating-shape shape1"></div>
         <div className="floating-shape shape2"></div>
         <div className="floating-shape shape3"></div>
         
-        {/* Header */}
         <header className="refer-header">
           <img src={logo} alt="CoinXPay" className="logo" />
           <div className="header-badge">
-            <span className="badge-text">Earn 25 USDT per Referral</span>
+            <span className="badge-text">Earn 50 USDT per Referral</span>
           </div>
         </header>
 
-        {/* Main Content */}
         <main className="refer-content">
           <div className="refer-card">
-            {/* Left Section with Visual Appeal */}
+
             <div className="left-section">
               <div className="dollar-container">
                 <div className="dollar-symbol">$</div>
                 <div className="dollar-glow"></div>
               </div>
               <div className="reward-count">
-                <div className="count-number">250 USDTBNB</div>
+                <div className="count-number">500 USDTBNB</div>
                 <div className="count-label">= 10 Friends Referred</div>
               </div>
             </div>
 
-            {/* Right Section with Details */}
             <div className="right-section">
               <div className="badge">HOT OFFER</div>
               <h1 className="title">
-                <span className="title-gradient">REFER AND EARN 25 USDT</span>
+                <span className="title-gradient">REFER AND EARN 50 USDT</span>
               </h1>
               <p className="subtitle">
-                Invite friends to join CoinXPay. Both you and your friend get 25 USDT (BEP20) bonus!
+                Invite friends to join CoinXPay. Both you and your friend get 50 USDT (BEP20) bonus!
               </p>
 
-              {/* Reward Section */}
               <div className="reward-section">
                 <div className="reward-card">
                   <div className="reward-icon">💰</div>
@@ -161,7 +155,7 @@ const ReferEarn = () => {
                     <div className="reward-label">PER USER REFERRAL</div>
                     <div className="reward-amount">
                       <span className="currency"></span>
-                      <span className="amount">25 USDTBNB</span>
+                      <span className="amount">50 USDTBNB</span>
                     </div>
                   </div>
                 </div>
@@ -169,7 +163,7 @@ const ReferEarn = () => {
                 <div className="steps">
                   <div className="step">
                     <div className="step-number">1</div>
-                    <div className="step-text">Share your referral link</div>
+                    <div className="step-text">Share your referral code</div>
                   </div>
                   <div className="step">
                     <div className="step-number">2</div>
@@ -177,68 +171,42 @@ const ReferEarn = () => {
                   </div>
                   <div className="step">
                     <div className="step-number">3</div>
-                    <div className="step-text">Get 25 USDTBNB credited to your wallet</div>
+                    <div className="step-text">Get 50 USDTBNB credited to your wallet</div>
                   </div>
                 </div>
               </div>
 
-              {/* Referral Code Section */}
               <div className="referral-section">
                 <div className="section-header">
-                  <h3>Your Personal Referral Link</h3>
-                  <div className="share-buttons">
-                    <button 
-                      className="share-btn" 
-                      title="Share via WhatsApp"
-                      onClick={() => handleShare('whatsapp')}
-                    >
-                      📱
-                    </button>
-                    <button 
-                      className="share-btn" 
-                      title="Share via Email"
-                      onClick={() => handleShare('email')}
-                    >
-                      ✉️
-                    </button>
-                    <button 
-                      className="share-btn" 
-                      title="Share on Social Media"
-                      onClick={() => handleShare('social')}
-                    >
-                      📢
-                    </button>
-                  </div>
+                  <h3>Your Personal Referral Code</h3>
                 </div>
                 
                 <div className="code-container">
                   <div className="code-input">
                     <input
                       type="text"
-                      value={referralUrl}
+                      value={referralCode || ''}
                       readOnly
                       className="referral-input"
                     />
                     <button
                       className={`copy-btn-1 ${copied ? 'copied' : ''}`}
                       onClick={handleCopy}
-                      aria-label="Copy referral link"
                     >
                       {copied ? '✓ Copied!' : '📋 Copy'}
                     </button>
                   </div>
                   <p className="code-hint">
-                    Share this link with friends. When they sign up using your link, both of you get 25 USDTBNB !
+                    Share this code with friends. When they sign up using your code, both of you get 50 USDTBNB!
                   </p>
                 </div>
               </div>
 
-              {/* Bonus Information */}
               <div className="bonus-info">
                 <h4>🎁 Bonus Information</h4>
                 <ul>
-                  <li>✓ Every new user gets 25 USDT (BEP20) welcome bonus</li>
-                  <li>✓ Referrer gets additional 25 USDT per successful referral</li>
+                  <li>✓ Every new user gets 50 USDT (BEP20) welcome bonus</li>
+                  <li>✓ Referrer gets additional 50 USDT per successful referral</li>
                   <li>✓ No limit on number of referrals</li>
                   <li>✓ Bonuses are credited instantly after verification</li>
                   <li>✓ USDT can be traded, withdrawn, or used for payments</li>
@@ -251,7 +219,6 @@ const ReferEarn = () => {
         </main>
       </div>
       
-      {/* WhatsApp Float Button - ADDED HERE */}
       <WhatsAppFloat 
         phoneNumber="15485825756"
         message="Hello! I need assistance with the referral program on InstaCoinXPay."

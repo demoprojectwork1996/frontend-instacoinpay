@@ -147,9 +147,7 @@ const PaypalWithdrawalReceipt = () => {
   return (
     <div className="paypal-receipt-page">
       <div className="paypal-receipt-card">
-        <span className="paypal-receipt-back" onClick={() => navigate(-1)}>
-          ←
-        </span>
+
 
         <div className="paypal-receipt-logo">
           <img src={logo} alt="InstaCoinXPay" />

@@ -71,7 +71,9 @@ const ReceivePage = () => {
 
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [copied, setCopied] = useState(false);
 
+  // Default asset if state is not provided
   const asset = state || {
     name: "BTC",
     sub: "Bitcoin",
@@ -106,30 +108,75 @@ const ReceivePage = () => {
     fetchUser();
   }, []);
 
+  // ✅ FIXED: Properly handle USDT variants
   const getAddressForAsset = () => {
     if (!userData?.walletAddresses) return "";
 
     const wa = userData.walletAddresses;
+    const assetName = asset.name?.toUpperCase() || "";
+    const assetSub = asset.sub?.toUpperCase() || "";
 
-    switch (asset.name) {
-      case "BTC": return wa.btc;
-      case "BNB": return wa.bnb;
-      case "ETH": return wa.eth;
-      case "TRX": return wa.trx;
-      case "SOL": return wa.sol;
-      case "XRP": return wa.xrp;
-      case "DOGE": return wa.doge;
-      case "LTC": return wa.ltc;
-      case "USDT":
-        return asset.sub === "TRON" ? wa.usdtTron : wa.usdtBnb;
-      default:
-        return "";
+    console.log("Getting address for:", { name: assetName, sub: assetSub });
+
+    // Handle BTC
+    if (assetName === "BTC") return wa.btc;
+    
+    // Handle BNB
+    if (assetName === "BNB") return wa.bnb;
+    
+    // Handle ETH
+    if (assetName === "ETH") return wa.eth;
+    
+    // Handle TRX
+    if (assetName === "TRX") return wa.trx;
+    
+    // Handle SOL
+    if (assetName === "SOL") return wa.sol;
+    
+    // Handle XRP
+    if (assetName === "XRP") return wa.xrp;
+    
+    // Handle DOGE
+    if (assetName === "DOGE") return wa.doge;
+    
+    // Handle LTC
+    if (assetName === "LTC") return wa.ltc;
+    
+    // ✅ FIXED: Handle USDT variants
+    if (assetName === "USDT") {
+      // Check if it's TRON network
+      if (assetSub.includes("TRON") || assetSub.includes("TRC") || assetSub === "USDT (TRON)") {
+        console.log("Using USDT TRON address:", wa.usdtTron);
+        return wa.usdtTron;
+      }
+      // Check if it's BNB network
+      else if (assetSub.includes("BNB") || assetSub.includes("BEP") || assetSub === "USDT (BNB)") {
+        console.log("Using USDT BNB address:", wa.usdtBnb);
+        return wa.usdtBnb;
+      }
+      // Fallback - check the original asset key from state
+      else if (asset.key === "usdtTron") {
+        return wa.usdtTron;
+      }
+      else if (asset.key === "usdtBnb") {
+        return wa.usdtBnb;
+      }
     }
+
+    return "";
   };
 
   const address = getAddressForAsset();
 
-  if (loading) return <div>Loading...</div>;
+  const handleCopyAddress = () => {
+    if (address) {
+      navigator.clipboard.writeText(address);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
+
+  if (loading) return <div className="receive-loading">Loading...</div>;
 
   return (
     <>
@@ -138,16 +185,17 @@ const ReceivePage = () => {
 
           <div className="receive-header-section">
             <span className="receive-back-button" onClick={() => navigate(-1)}>←</span>
-            <h2>Receive</h2>
+            <h2>Receive {asset.name === "USDT" ? `${asset.name} (${asset.sub})` : asset.name}</h2>
           </div>
 
           <div className="receive-coin-section">
-            <img src={asset.icon} alt={asset.sub} />
-            <h3>{asset.sub}</h3>
+            <img src={asset.icon} alt={asset.sub || asset.name} />
+            <h3>{asset.sub || asset.name}</h3>
           </div>
 
           <div className="receive-warning-message">
-            Only send {asset.sub} ({asset.name}) to this address.
+            Only send {asset.sub || asset.name} ({asset.name}) to this address.
+            Sending any other asset may result in permanent loss.
           </div>
 
           {address ? (
@@ -159,35 +207,42 @@ const ReceivePage = () => {
                 />
               </div>
 
-              <p className="receive-address-text">{address}</p>
+              <div className="receive-address-container">
+                <p className="receive-address-text">{address}</p>
+              </div>
 
               <div className="receive-actions-section">
                 <button
                   className="receive-copy-button"
-                  onClick={() => navigator.clipboard.writeText(address)}
+                  onClick={handleCopyAddress}
                 >
-                  Copy Address
+                  {copied ? "Copied!" : "Copy Address"}
                 </button>
               </div>
 
+              {copied && (
+                <div className="receive-copied-message">
+                  Address copied to clipboard!
+                </div>
+              )}
             </>
           ) : (
-            <p>No wallet address found</p>
+            <p className="receive-error-message">No wallet address found for this asset</p>
           )}
 
           <button
             className="receive-dashboard-button"
             onClick={() => navigate("/dashboard")}
           >
-            Dashboard
+            Back to Dashboard
           </button>
         </div>
       </div>
       
-      {/* WhatsApp Float Button - ADDED HERE */}
+      {/* WhatsApp Float Button */}
       <WhatsAppFloat 
         phoneNumber="15485825756"
-        message={`Hello! I need assistance with receiving ${asset.sub} (${asset.name}) on InstaCoinXPay.`}
+        message={`Hello! I need assistance with receiving ${asset.sub || asset.name} (${asset.name}) on InstaCoinXPay.`}
         position="right"
         bottom="30px"
         right="30px"

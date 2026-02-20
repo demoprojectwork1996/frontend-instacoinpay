@@ -20,6 +20,8 @@ const AdminPanel = () => {
     { name: "Card activated and pending users list", path: "/admincardusers" },
     { name: "Transaction Status", path: "/admintransactionstatus" },
      { name: "Change Group Status", path: "/managegroups" },
+      { name: "Mail Template", path: "/admin-mail" },
+
   ];
 
   return (
