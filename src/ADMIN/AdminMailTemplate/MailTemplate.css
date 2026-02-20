@@ -1,0 +1,709 @@
+.tl-mail-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  height: auto;
+  padding: 20px;
+  background: #f4f6f9;
+  box-sizing: border-box;
+}
+
+.tl-mail-card {
+  width: 100%;
+  max-width: 600px;
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  margin: 20px auto;
+  box-sizing: border-box;
+}
+
+.tl-mail-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+/* Permanent back button - no animations */
+.tl-back-btn {
+  border: none;
+  background: #f0f0f0;
+  font-size: 18px;
+  cursor: pointer;
+  margin-right: 10px;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  color: #333;
+  transition: none;
+  opacity: 1;
+  visibility: visible;
+}
+
+.tl-back-btn:hover {
+  background-color: #e0e0e0;
+}
+
+.tl-back-btn:active {
+  transform: none;
+}
+
+/* Remove any hover effects that might cause animation */
+.tl-back-btn::after,
+.tl-back-btn::before {
+  display: none;
+}
+
+.tl-mail-header h2 {
+  margin: 0;
+  font-size: clamp(1.2rem, 4vw, 1.5rem);
+}
+
+.tl-email-section,
+.tl-template-editor {
+  width: 100%;
+}
+
+.tl-email-info {
+  background: #f0f8ff;
+  padding: 12px 15px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  border-left: 4px solid #007bff;
+}
+
+.tl-email-info p {
+  margin: 0;
+  font-size: 16px;
+  color: #333;
+}
+
+.tl-email-value {
+  font-weight: bold;
+  color: #007bff;
+}
+
+.tl-input,
+.tl-select,
+.tl-form-input,
+.tl-form-select,
+.tl-email-input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.tl-select {
+  background-color: white;
+  cursor: pointer;
+}
+
+.tl-form-group {
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+.tl-form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.tl-send-btn {
+  width: 100%;
+  padding: 14px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 15px;
+  transition: background-color 0.3s ease;
+}
+
+.tl-send-btn:hover {
+  background: #0056b3;
+}
+
+.tl-send-btn:active {
+  transform: scale(0.98);
+}
+
+.tl-category-box {
+  width: 100%;
+}
+
+.tl-category-box h3 {
+  margin-bottom: 15px;
+  font-size: clamp(1.1rem, 3.5vw, 1.3rem);
+}
+
+.tl-category-box ul {
+  padding-left: 0;
+  list-style: none;
+  margin: 0;
+}
+
+.tl-category-box li {
+  cursor: pointer;
+  padding: 12px 15px;
+  margin-bottom: 8px;
+  border-radius: 5px;
+  transition: background-color 0.2s ease;
+  font-size: 16px;
+  border: 1px solid transparent;
+}
+
+.tl-category-box li:hover {
+  background: #eee;
+  border-color: #ddd;
+}
+
+.tl-category-box li:active {
+  background: #e0e0e0;
+}
+
+.tl-preview {
+  background: #f9f9f9;
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.tl-preview-text {
+  margin: 10px 0;
+  line-height: 1.6;
+  font-size: 16px;
+  word-wrap: break-word;
+}
+
+.tl-red {
+  color: red;
+  font-weight: bold;
+}
+
+/* Preview Modal Styles */
+.tl-preview-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.tl-preview-box {
+  background: white;
+  width: 100%;
+  max-width: 600px;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.tl-preview-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.tl-preview-header h3 {
+  margin: 0;
+  font-size: 1.3rem;
+  color: #333;
+}
+
+.tl-close-btn {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.tl-close-btn:hover {
+  background: #c82333;
+}
+
+.tl-preview-body {
+  padding: 10px 0;
+}
+
+.tl-preview-body p {
+  margin: 12px 0;
+  line-height: 1.6;
+  font-size: 16px;
+  color: #333;
+}
+
+/* Tablet Styles */
+@media screen and (max-width: 768px) {
+  .tl-mail-wrapper {
+    padding: 15px;
+    align-items: flex-start;
+  }
+
+  .tl-mail-card {
+    padding: 20px;
+    margin: 10px auto;
+  }
+
+  .tl-input,
+  .tl-select,
+  .tl-form-input,
+  .tl-form-select,
+  .tl-email-input {
+    padding: 11px;
+    font-size: 15px;
+  }
+
+  .tl-category-box li {
+    padding: 10px 12px;
+    font-size: 15px;
+  }
+
+  .tl-preview {
+    padding: 15px;
+  }
+  
+  .tl-preview-box {
+    padding: 20px;
+    max-width: 90%;
+  }
+  
+  .tl-preview-header h3 {
+    font-size: 1.2rem;
+  }
+  
+  .tl-close-btn {
+    padding: 6px 12px;
+    font-size: 14px;
+  }
+}
+
+/* Mobile Styles */
+@media screen and (max-width: 480px) {
+  .tl-mail-wrapper {
+    padding: 10px;
+  }
+
+  .tl-mail-card {
+    padding: 15px;
+    border-radius: 8px;
+  }
+
+  .tl-mail-header {
+    margin-bottom: 15px;
+  }
+
+  .tl-back-btn {
+    font-size: 16px;
+    padding: 6px 10px;
+  }
+
+  .tl-input,
+  .tl-select,
+  .tl-form-input,
+  .tl-form-select,
+  .tl-email-input {
+    padding: 10px;
+    font-size: 14px;
+    margin-bottom: 12px;
+  }
+
+  .tl-form-group label {
+    font-size: 13px;
+  }
+
+  .tl-send-btn {
+    padding: 12px;
+    font-size: 15px;
+    margin-top: 12px;
+  }
+
+  .tl-category-box h3 {
+    margin-bottom: 12px;
+  }
+
+  .tl-category-box li {
+    padding: 10px;
+    font-size: 14px;
+    margin-bottom: 6px;
+  }
+
+  .tl-preview {
+    padding: 12px;
+    margin-top: 15px;
+  }
+
+  .tl-preview-text {
+    font-size: 14px;
+    margin: 8px 0;
+  }
+  
+  .tl-preview-box {
+    padding: 15px;
+  }
+  
+  .tl-preview-body p {
+    font-size: 14px;
+    margin: 10px 0;
+  }
+  
+  .tl-preview-header h3 {
+    font-size: 1.1rem;
+  }
+}
+
+/* Small Mobile Styles */
+@media screen and (max-width: 320px) {
+  .tl-mail-card {
+    padding: 12px;
+  }
+
+  .tl-input,
+  .tl-select,
+  .tl-form-input,
+  .tl-form-select,
+  .tl-email-input {
+    padding: 8px;
+    font-size: 13px;
+  }
+
+  .tl-send-btn {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .tl-category-box li {
+    padding: 8px;
+    font-size: 13px;
+  }
+
+  .tl-preview-text {
+    font-size: 13px;
+  }
+  
+  .tl-preview-box {
+    padding: 12px;
+  }
+  
+  .tl-preview-body p {
+    font-size: 13px;
+  }
+}
+
+/* Landscape Mode for Mobile */
+@media screen and (max-height: 480px) and (orientation: landscape) {
+  .tl-mail-wrapper {
+    min-height: auto;
+    padding: 10px;
+  }
+
+  .tl-mail-card {
+    margin: 5px auto;
+  }
+
+  .tl-input,
+  .tl-select,
+  .tl-form-input,
+  .tl-form-select,
+  .tl-email-input {
+    margin-bottom: 8px;
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .tl-category-box li,
+  .tl-send-btn,
+  .tl-back-btn {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .tl-category-box li:active {
+    background: #e0e0e0;
+  }
+}
+
+/* High-resolution screens */
+@media screen and (min-width: 1200px) {
+  .tl-mail-card {
+    max-width: 650px;
+  }
+
+  .tl-input,
+  .tl-select,
+  .tl-form-input,
+  .tl-form-select,
+  .tl-email-input {
+    padding: 14px;
+    font-size: 16px;
+  }
+
+  .tl-send-btn {
+    padding: 16px;
+    font-size: 18px;
+  }
+}
+
+/* Ensure proper box sizing for all elements */
+* {
+  box-sizing: border-box;
+}
+
+/* Fix for iOS input zoom */
+@media screen and (max-width: 768px) {
+  .tl-input, 
+  .tl-select, 
+  .tl-form-input,
+  .tl-form-select,
+  .tl-email-input,
+  textarea {
+    font-size: 16px !important;
+  }
+}
+
+/* Improve readability on all devices */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+/* Card Activated Styles */
+.ca-form-group,
+.cac-form-group,
+.df-form-group,
+.tw-form-group,
+.wf-form-group {
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+.ca-form-group label,
+.cac-form-group label,
+.df-form-group label,
+.tw-form-group label,
+.wf-form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.ca-form-input,
+.cac-form-input,
+.df-form-input,
+.tw-form-input,
+.wf-form-input,
+.df-form-select,
+.wf-form-select {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.df-form-select,
+.wf-form-select {
+  background-color: white;
+  cursor: pointer;
+}
+
+/* Preview Sections */
+.ca-preview,
+.cac-preview,
+.df-preview,
+.tw-preview,
+.wf-preview {
+  background: #f9f9f9;
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.ca-preview-text,
+.cac-preview-text,
+.df-preview-text,
+.tw-preview-text,
+.wf-preview-text {
+  margin: 10px 0;
+  line-height: 1.6;
+  font-size: 16px;
+  word-wrap: break-word;
+}
+
+.ca-red,
+.cac-red,
+.df-red,
+.tw-red,
+.wf-red {
+  color: red;
+  font-weight: bold;
+}
+
+/* Responsive styles for all templates */
+@media screen and (max-width: 768px) {
+  .ca-form-input,
+  .cac-form-input,
+  .df-form-input,
+  .tw-form-input,
+  .wf-form-input,
+  .df-form-select,
+  .wf-form-select {
+    padding: 11px;
+    font-size: 15px;
+  }
+  
+  .ca-preview,
+  .cac-preview,
+  .df-preview,
+  .tw-preview,
+  .wf-preview {
+    padding: 15px;
+  }
+  
+  .ca-preview-text,
+  .cac-preview-text,
+  .df-preview-text,
+  .tw-preview-text,
+  .wf-preview-text {
+    font-size: 15px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .ca-form-group label,
+  .cac-form-group label,
+  .df-form-group label,
+  .tw-form-group label,
+  .wf-form-group label {
+    font-size: 13px;
+  }
+  
+  .ca-form-input,
+  .cac-form-input,
+  .df-form-input,
+  .tw-form-input,
+  .wf-form-input,
+  .df-form-select,
+  .wf-form-select {
+    padding: 10px;
+    font-size: 14px;
+    margin-bottom: 12px;
+  }
+  
+  .ca-preview,
+  .cac-preview,
+  .df-preview,
+  .tw-preview,
+  .wf-preview {
+    padding: 12px;
+    margin-top: 15px;
+  }
+  
+  .ca-preview-text,
+  .cac-preview-text,
+  .df-preview-text,
+  .tw-preview-text,
+  .wf-preview-text {
+    font-size: 14px;
+    margin: 8px 0;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .ca-form-input,
+  .cac-form-input,
+  .df-form-input,
+  .tw-form-input,
+  .wf-form-input,
+  .df-form-select,
+  .wf-form-select {
+    padding: 8px;
+    font-size: 13px;
+  }
+  
+  .ca-preview-text,
+  .cac-preview-text,
+  .df-preview-text,
+  .tw-preview-text,
+  .wf-preview-text {
+    font-size: 13px;
+  }
+}
+/* Add to your existing MailTemplate.css */
+.tl-email-info {
+  background: #f0f8ff;
+  padding: 12px 15px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  border-left: 4px solid #007bff;
+}
+
+.tl-email-info p {
+  margin: 0;
+  font-size: 16px;
+  color: #333;
+}
+
+.tl-email-value {
+  font-weight: bold;
+  color: #007bff;
+}
+
+/* Style for the Change Email button */
+.tl-mail-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.tl-mail-header h2 {
+  margin: 0;
+}
+
+.tl-back-btn.small {
+  padding: 6px 12px;
+  font-size: 14px;
+  background: #6c757d;
+}
+
+.tl-back-btn.small:hover {
+  background: #5a6268;
+}

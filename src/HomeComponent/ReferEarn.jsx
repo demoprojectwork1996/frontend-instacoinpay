@@ -70,19 +70,20 @@ const ReferEarn = () => {
   const [copied, setCopied] = useState(false);
 
   const user = JSON.parse(localStorage.getItem("user"));
-  const referralCode = localStorage.getItem("userReferralCode");
+  const referralCode = user?.referralCode || localStorage.getItem("userReferralCode");
   const referralUrl = user
     ? `${window.location.origin}/signup?referralCode=${user.referralCode}`
     : `https://yourdomain.com/signup?referralCode=${referralCode}`;
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(referralUrl);
+    // Copy only the referral code to clipboard
+    navigator.clipboard.writeText(referralCode || '');
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
 
   const handleShare = (platform) => {
-    const text = `Join CoinXPay and get 25 USDT (BEP20) welcome bonus! Use my referral code: ${user?.referralCode || ''}. Sign up here: ${referralUrl}`;
+    const text = `Join CoinXPay and get 25 USDT (BEP20) welcome bonus! Use my referral code: ${referralCode}. Sign up here: ${referralUrl}`;
     
     switch(platform) {
       case 'whatsapp':
@@ -169,7 +170,7 @@ const ReferEarn = () => {
                 <div className="steps">
                   <div className="step">
                     <div className="step-number">1</div>
-                    <div className="step-text">Share your referral link</div>
+                    <div className="step-text">Share your referral code</div>
                   </div>
                   <div className="step">
                     <div className="step-number">2</div>
@@ -185,7 +186,7 @@ const ReferEarn = () => {
               {/* Referral Code Section */}
               <div className="referral-section">
                 <div className="section-header">
-                  <h3>Your Personal Referral Link</h3>
+                  <h3>Your Personal Referral Code</h3>
                   <div className="share-buttons">
                     <button 
                       className="share-btn" 
@@ -215,20 +216,20 @@ const ReferEarn = () => {
                   <div className="code-input">
                     <input
                       type="text"
-                      value={referralUrl}
+                      value={referralCode || ''}
                       readOnly
                       className="referral-input"
                     />
                     <button
                       className={`copy-btn-1 ${copied ? 'copied' : ''}`}
                       onClick={handleCopy}
-                      aria-label="Copy referral link"
+                      aria-label="Copy referral code"
                     >
                       {copied ? '✓ Copied!' : '📋 Copy'}
                     </button>
                   </div>
                   <p className="code-hint">
-                    Share this link with friends. When they sign up using your link, both of you get 25 USDTBNB !
+                    Share this code with friends. When they sign up using your code, both of you get 25 USDTBNB!
                   </p>
                 </div>
               </div>

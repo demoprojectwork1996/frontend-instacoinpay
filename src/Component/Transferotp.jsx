@@ -115,6 +115,7 @@ const Transferotp = () => {
   const [userEmail, setUserEmail] = useState("");
   const [showReceipt, setShowReceipt] = useState(false);
   const [completedTransfer, setCompletedTransfer] = useState(null);
+  const [resendTimer, setResendTimer] = useState(0);
   const [receiptDetails, setReceiptDetails] = useState({
     amount: 0,
     usdAmount: 0,
@@ -125,6 +126,17 @@ const Transferotp = () => {
     date: new Date().toLocaleDateString(),
     time: new Date().toLocaleTimeString(),
   });
+
+  // Timer for resend button
+  useEffect(() => {
+    let interval;
+    if (resendTimer > 0) {
+      interval = setInterval(() => {
+        setResendTimer((prev) => prev - 1);
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [resendTimer]);
 
   // Get data from location state
   useEffect(() => {
@@ -213,20 +225,18 @@ const Transferotp = () => {
 
     setIsLoading(true);
     try {
-      // Use the correct API endpoint for transfer OTP verification
-    const res = await API.post(
-  "/transfer/verify-otp",
-  {
-    otp: otpCode,
-    transferId: transferData.transferId,
-  },
-  {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-    },
-  }
-);
-
+      const res = await API.post(
+        "/transfer/verify-otp",
+        {
+          otp: otpCode,
+          transferId: transferData.transferId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
 
       setCompletedTransfer(res.data.data);
       
@@ -236,15 +246,11 @@ const Transferotp = () => {
           ...prev,
           txId: res.data.data._id || prev.txId,
           status: res.data.data.status || "completed",
-          // Add any other details from the response
         }));
       }
       
       // DIRECTLY SHOW RECEIPT AFTER SUCCESSFUL VERIFICATION
       setShowReceipt(true);
-      
-      // Clear OTP data from localStorage
-      localStorage.removeItem("userEmail");
 
     } catch (error) {
       setPopup({
@@ -263,31 +269,62 @@ const Transferotp = () => {
       return;
     }
 
+    // Check if timer is active
+    if (resendTimer > 0) {
+      setPopup({
+        show: true,
+        message: `Please wait ${resendTimer} seconds before requesting again`,
+        success: false,
+      });
+      return;
+    }
+
     setIsLoading(true);
     try {
-      // Use the correct API endpoint for resending transfer OTP
-    await API.post(
-  "/transfer/resend-otp",
-  {
-    transferId: transferData.transferId,
-  },
-  {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-    },
-  }
-);
+      console.log("🔄 Resending OTP for transfer:", transferData.transferId);
+      
+      const response = await API.post(
+        "/transfer/resend-otp",
+        {
+          transferId: transferData.transferId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
 
+      console.log("✅ Resend OTP response:", response.data);
 
+      // Show success message - BUT DO NOT REDIRECT
       setPopup({
         show: true,
-        message: "New OTP sent to your email",
+        message: response.data.message || "New OTP sent to your email",
         success: true,
       });
+
+      // Start 60 second timer
+      setResendTimer(60);
+
+      // Clear OTP inputs for new code
+      setOtp(["", "", "", "", "", ""]);
+      
+      // Focus first input
+      setTimeout(() => {
+        document.getElementById(`otp-0`)?.focus();
+      }, 100);
+
     } catch (error) {
+      console.error("❌ Resend OTP error:", error);
+      
+      const errorMessage = error.response?.data?.error || 
+                          error.response?.data?.message || 
+                          "Failed to resend OTP. Please try again.";
+      
       setPopup({
         show: true,
-        message: "Failed to resend OTP",
+        message: errorMessage,
         success: false,
       });
     } finally {
@@ -305,8 +342,9 @@ const Transferotp = () => {
     }
   };
 
-  const handleGoToDashboard = () => {
-    navigate("/dashboard");
+  const handleClosePopup = () => {
+    setPopup({ ...popup, show: false });
+    // DO NOT navigate to dashboard - stay on OTP page
   };
 
   // If showReceipt is true, directly show the receipt (no OTP input)
@@ -318,14 +356,12 @@ const Transferotp = () => {
     return (
       <>
         <div className="btc-send-page">
-
           <div className="btc-send-logo">
             <img src={logo} alt="logo" />
           </div>
 
           <div className="stx-popup-overlay">
             <div className="stx-popup stx-success">
-              {/* ✅ ICON */}
               <div className="stx-icon-box stx-success">
                 <svg viewBox="0 0 100 100" className="stx-icon">
                   <circle cx="50" cy="50" r="45" className="stx-circle" />
@@ -336,17 +372,14 @@ const Transferotp = () => {
                 </svg>
               </div>
 
-              {/* TITLE */}
               <h2 className="stx-popup-title">
                 Transaction Successful!
               </h2>
 
-              {/* MESSAGE */}
               <p className="stx-popup-text">
                 Your amount will be credited after successful network confirmation
               </p>
 
-              {/* BUTTON */}
               <button
                 className="stx-popup-btn"
                 onClick={handleViewTransaction}
@@ -357,7 +390,6 @@ const Transferotp = () => {
           </div>
         </div>
         
-        {/* WhatsApp Float Button */}
         <WhatsAppFloat 
           phoneNumber="15485825756"
           message="Hello! I need assistance with transfer verification on InstaCoinXPay."
@@ -370,18 +402,17 @@ const Transferotp = () => {
     );
   }
 
-  // Original OTP input page (only shown if showReceipt is false)
+  // Original OTP input page
   return (
     <>
       <div className="transfer-successful-container">
         <div className="transfer-successful-card">
           <span className="transferotp-back" onClick={() => navigate(-1)}>←</span> 
-          {/* Logo */}
+          
           <div className="transfer-successful-logo">
             <img src={logo} alt="logo" />
           </div>
 
-          {/* Coin Image */}
           <div className="transfer-successful-coin-wrapper">
             <img src={coin} alt="bitcoin" />
           </div>
@@ -389,9 +420,8 @@ const Transferotp = () => {
           <h2 className="transfer-successful-title">Transfer Verification</h2>
           <p className="transfer-successful-text">
             We have sent the verification code <br />
-            to your email address.Please check your Spam or Junk folder if it doesn't appear shortly.
+            to your email address. Please check your Spam or Junk folder if it doesn't appear shortly.
           </p>
-          
 
           {/* Email display */}
           {userEmail && (
@@ -435,14 +465,14 @@ const Transferotp = () => {
             <button 
               className="transfer-successful-resend-btn" 
               onClick={handleResendCode}
-              disabled={isLoading}
+              disabled={isLoading || resendTimer > 0}
             >
-              Resend Code
+              {resendTimer > 0 ? `Resend in ${resendTimer}s` : "Resend Code"}
             </button>
           </p>
         </div>
 
-        {/* ANIMATED POPUP (only for errors now) */}
+        {/* ANIMATED POPUP */}
         {popup.show && (
           <div className="transfer-successful-popup-overlay">
             <div className="transfer-successful-popup-card">
@@ -464,12 +494,7 @@ const Transferotp = () => {
 
               <button
                 className="transfer-successful-ok-btn"
-                onClick={() => {
-                  setPopup({ ...popup, show: false });
-                  if (popup.success) {
-                    setTimeout(() => navigate("/dashboard"), 500);
-                  }
-                }}
+                onClick={handleClosePopup}
                 disabled={isLoading}
               >
                 OK
@@ -479,7 +504,6 @@ const Transferotp = () => {
         )}
       </div>
       
-      {/* WhatsApp Float Button */}
       <WhatsAppFloat 
         phoneNumber="15485825756"
         message="Hello! I need assistance with transfer verification on InstaCoinXPay."

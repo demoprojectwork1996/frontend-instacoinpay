@@ -23,6 +23,8 @@ const BACK = {
   platinum: platinumBack,
 };
 
+// In Card.js - Add better status handling
+
 const Card = ({
   type = "classic",
   number = "**** **** **** 1234",
@@ -35,13 +37,41 @@ const Card = ({
 
   const handleFlip = () => {
     if (flipped) return;
-
     setFlipped(true);
-
     setTimeout(() => {
       setFlipped(false);
     }, 2000);
   };
+
+  // ✅ FIX: Normalize status and ensure it's never lost
+  const normalizedStatus = (() => {
+    // If status is empty or undefined, check localStorage
+    if (!status || status === "INACTIVE") {
+      const savedCard = localStorage.getItem("userCardData");
+      if (savedCard) {
+        const savedStatus = JSON.parse(savedCard).status;
+        if (savedStatus && savedStatus !== "INACTIVE") {
+          return savedStatus;
+        }
+      }
+    }
+    
+    // Normalize the status
+    const statusUpper = String(status).toUpperCase();
+    
+    if (statusUpper === "ACTIVATE" || statusUpper === "ACTIVE" || statusUpper === "ACTIVATED") {
+      return "ACTIVATE";
+    }
+    if (statusUpper === "PENDING") {
+      return "PENDING";
+    }
+    return "INACTIVE";
+  })();
+
+  console.log('🎴 Card rendering with status:', { 
+    original: status, 
+    normalized: normalizedStatus 
+  });
 
   return (
     <div className="card-page">
@@ -58,19 +88,19 @@ const Card = ({
             {/* STATUS */}
             <div
               className={`card-status ${
-                status === "ACTIVATE"
+                normalizedStatus === "ACTIVATE"
                   ? "card-active"
-                  : status === "PENDING"
+                  : normalizedStatus === "PENDING"
                   ? "card-pending"
                   : "card-inactive"
               }`}
             >
-              {status}
+              {normalizedStatus}
             </div>
 
-            {/* ✅ CARD NUMBER - MASKED WHEN NOT ACTIVATE */}
+            {/* CARD NUMBER */}
             <div className="card-number">
-              {status === "ACTIVATE" ? number : "XXXX XXXX XXXX XXXX"}
+              {normalizedStatus === "ACTIVATE" ? number : "XXXX XXXX XXXX XXXX"}
             </div>
 
             <div className="card-holder-name">Card Holder</div>
@@ -78,9 +108,8 @@ const Card = ({
 
             <div className="card-expiry">
               <div className="expiry-label">Expiry Date</div>
-              {/* ✅ EXPIRY - MASKED WHEN NOT ACTIVATE */}
               <div className="expiry-value">
-                {status === "ACTIVATE" ? expiry : "XX/XX"}
+                {normalizedStatus === "ACTIVATE" ? expiry : "XX/XX"}
               </div>
             </div>
           </div>
@@ -94,9 +123,8 @@ const Card = ({
               For customer service, contact WhatsApp Support.
             </div>
 
-            {/* ✅ CVV - MASKED WHEN NOT ACTIVATE */}
             <div className="cvv-box">
-              {status === "ACTIVATE" ? cvv : "***"}
+              {normalizedStatus === "ACTIVATE" ? cvv : "***"}
             </div>
 
             <div className="card-disclaimer">
@@ -111,5 +139,4 @@ const Card = ({
     </div>
   );
 };
-
 export default Card;

@@ -51,7 +51,7 @@ const PaypalWithdrawalReceipt = () => {
     const fetchTransfer = async () => {
       try {
         const res = await axios.get(
-          `https://backend-srtt.onrender.com/api/transfer/${receipt.transferId}`,
+          `https://backend-instacoinpay-1.onrender.com/api/transfer/${receipt.transferId}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -147,9 +147,7 @@ const PaypalWithdrawalReceipt = () => {
   return (
     <div className="paypal-receipt-page">
       <div className="paypal-receipt-card">
-        <span className="paypal-receipt-back" onClick={() => navigate(-1)}>
-          ←
-        </span>
+
 
         <div className="paypal-receipt-logo">
           <img src={logo} alt="InstaCoinXPay" />

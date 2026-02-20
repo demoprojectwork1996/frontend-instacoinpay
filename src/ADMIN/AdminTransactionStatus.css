@@ -447,3 +447,105 @@
     padding: 15px;
   }
 }
+/* Pending count badge */
+.pending-count {
+  background-color: #ff9800;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  margin-left: 15px;
+}
+
+/* Confirmations column */
+.header-cell.confirmations {
+  flex: 0.8;
+}
+
+.summary-cell.confirmations-info {
+  flex: 0.8;
+  display: flex;
+  align-items: center;
+}
+
+.confirmations-badge {
+  background-color: #e3f2fd;
+  color: #1976d2;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* Status indicator colors */
+.status-indicator.pending {
+  background-color: #fff3e0;
+  color: #f57c00;
+}
+
+.status-indicator.processing {
+  background-color: #e3f2fd;
+  color: #1976d2;
+}
+
+/* Confirmation help text */
+.confirmation-help-text {
+  font-size: 12px;
+  color: #666;
+  margin-top: 8px;
+  font-style: italic;
+}
+
+/* Adjust table header to accommodate new column */
+.table-header-row {
+  display: flex;
+  padding: 12px 16px;
+  background-color: #f5f5f5;
+  border-bottom: 2px solid #ddd;
+  font-weight: 600;
+}
+
+.transaction-summary-row {
+  display: flex;
+  padding: 12px 16px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.transaction-summary-row:hover {
+  background-color: #f9f9f9;
+}
+
+/* Column widths */
+.header-cell.user-name,
+.summary-cell.user-info {
+  flex: 1.5;
+}
+
+.header-cell.user-email,
+.summary-cell.email-address {
+  flex: 2;
+}
+
+.header-cell.transaction-datetime,
+.summary-cell.date-time-info {
+  flex: 1.2;
+}
+
+.header-cell.transaction-status,
+.summary-cell.status-info {
+  flex: 0.8;
+}
+
+.header-cell.confirmations,
+.summary-cell.confirmations-info {
+  flex: 0.8;
+}
+
+.header-cell.view-actions,
+.summary-cell.toggle-actions {
+  flex: 0.5;
+  text-align: center;
+}

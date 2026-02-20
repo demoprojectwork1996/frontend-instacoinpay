@@ -234,3 +234,65 @@
     transform: rotate(360deg);
   }
 }
+/* Confirmations styling */
+.confirmations-row {
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: 10px !important;
+}
+
+.confirmations-visual {
+  width: 100%;
+}
+
+.confirmation-dots {
+  display: flex;
+  gap: 15px;
+  margin: 10px 0;
+  justify-content: center;
+}
+
+.confirmation-dot {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.confirmation-dot.confirmed {
+  background-color: #4caf50;
+  color: white;
+  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+}
+
+.confirmation-dot.pending {
+  background-color: #ff9800;
+  color: white;
+  box-shadow: 0 2px 8px rgba(255, 152, 0, 0.3);
+  opacity: 0.7;
+}
+
+.confirmations-count {
+  display: block;
+  text-align: center;
+  color: #666;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+/* Make receipt row flexible for confirmations */
+.receipt-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.receipt-row.confirmations-row {
+  border-bottom: 1px solid #eee;
+}

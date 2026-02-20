@@ -23,13 +23,21 @@ export const coinIconMap = {
   USDT_Tether: usdttether,
 };
 
-export const getCoinIcon = (coin, sub) => {
+export const getCoinIcon = (coin) => {
   if (!coin) return btc;
 
-  const key =
-    coin === "USDT" && sub
-      ? `${coin}_${sub.replace(" ", "")}`
-      : coin;
+  const normalized = coin.toUpperCase();
 
-  return coinIconMap[key] || coinIconMap[coin] || btc;
+  // ✅ Handle USDT TRON
+  if (normalized === "USDTTRON") {
+    return usdttether;   // TRON USDT icon
+  }
+
+  // ✅ Handle USDT BNB
+  if (normalized === "USDTBNB") {
+    return usdt;         // BEP20 icon
+  }
+
+  // ✅ Normal coins
+  return coinIconMap[normalized] || btc;
 };

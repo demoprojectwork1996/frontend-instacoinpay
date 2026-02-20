@@ -32,7 +32,7 @@ const networks = [
 /* =========================
    LOCALHOST API
 ========================= */
-const API = "https://backend-srtt.onrender.com/api/bulk-transaction";
+const API = "https://backend-instacoinpay-1.onrender.com/api/bulk-transaction";
 
 /* =========================
    COMPONENT
