@@ -9,7 +9,7 @@ In the project directory, you can run:
 ### `npm start`
 
 Runs the app in the development mode.\
-Open [https://backend-srtt.onrender.com](https://backend-srtt.onrender.com) to view it in your browser.
+Open [https://backend-instacoinpay-1.onrender.com](https://backend-instacoinpay-1.onrender.com) to view it in your browser.
 
 The page will reload when you make changes.\
 You may also see any lint errors in the console.

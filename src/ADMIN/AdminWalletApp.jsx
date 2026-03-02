@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import "./AdminWalletApp.css";
 
-const API = "https://backend-srtt.onrender.com/api/addcoin";
+const API = "https://backend-instacoinpay-1.onrender.com/api/addcoin";
 
 export default function AdWalletApp() {
   const [email, setEmail] = useState("");

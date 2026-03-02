@@ -17,7 +17,7 @@ import trx from "../assets/trx.png";
 import usdt from "../assets/usdt.png";
 import usdttether from "../assets/usdttether.png";
 
-const VERIFY_OTP_API = "https://backend-srtt.onrender.com/api/withdrawals/verify-bank-otp";
+const VERIFY_OTP_API = "https://backend-instacoinpay-1.onrender.com/api/withdrawals/verify-bank-otp";
 
 /* ================= WHATSAPP FLOAT ================= */
 const WhatsAppFloat = ({

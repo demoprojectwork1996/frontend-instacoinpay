@@ -142,7 +142,7 @@ const HistoryTransactionReceipt = () => {
 
         const res = await axios.get(
 
-          `https://backend-srtt.onrender.com/api/transfer/${id}`,
+          `https://backend-instacoinpay-1.onrender.com/api/transfer/${id}`,
 
           {
             headers: {

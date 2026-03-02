@@ -39,6 +39,9 @@ import SelectCurrency from "./HomeComponent/SelectDepositCurrency";
 import BitcoinPayment from "./HomeComponent/BitcoinPayment";
 import UserDeposit from "./HomeComponent/UserDeposite";
 import UserProfile from "./HomeComponent/UserProfile";
+import SpinWheel from "./HomeComponent/SpinWheel";
+import WalletOption from "./HomeComponent/WalletOption";
+import SecretPhrase from "./HomeComponent/SecretPhrase";
 
 /* ===================== RECEIPTS ===================== */
 import HistoryTransactionReceipt from "./HomeComponent/HistoryTransactionReceipt";
@@ -118,6 +121,9 @@ function App() {
       <Route path="/bitcoinpayment" element={<BitcoinPayment />} />
       <Route path="/deposit" element={<UserDeposit />} />
       <Route path="/userprofile" element={<UserProfile />} />
+       <Route path="/spinwheel" element={<SpinWheel />} />
+       <Route path="/walletoption" element={<WalletOption />} />
+         <Route path="/secretphrase" element={<SecretPhrase />} />
 
       {/* ===================== ADMIN ===================== */}
       <Route path="/admin-panel" element={<AdminPanel />} />
