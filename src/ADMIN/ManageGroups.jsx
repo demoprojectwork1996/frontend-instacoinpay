@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./ManageGroups.css";
 
-const API = "https://backend-srtt.onrender.com/api";
+const API = "https://versel-backend-1z91.onrender.com/api";
 
 const ManageGroups = () => {
   const [autoGroups, setAutoGroups] = useState([]);

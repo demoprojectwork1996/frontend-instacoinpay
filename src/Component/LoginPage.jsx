@@ -93,7 +93,7 @@ const LoginPage = () => {
 
     try {
       const res = await axios.post(
-        "https://backend-srtt.onrender.com/api/auth/login",
+        "https://versel-backend-1z91.onrender.com/api/auth/login",
         { email, password }
       );
 

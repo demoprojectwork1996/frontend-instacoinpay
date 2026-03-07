@@ -23,7 +23,7 @@ export default function AdminAccountCreate() {
 
     try {
       const res = await axios.post(
-        'https://backend-srtt.onrender.com/api/admin/users',
+        'https://versel-backend-1z91.onrender.com/api/admin/users',
         singleUser,
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -45,7 +45,7 @@ export default function AdminAccountCreate() {
 
     try {
       const res = await axios.post(
-        'https://backend-srtt.onrender.com/api/admin/users/upload',
+        'https://versel-backend-1z91.onrender.com/api/admin/users/upload',
         formData,
         { 
           headers: { 

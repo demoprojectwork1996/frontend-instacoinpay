@@ -94,7 +94,7 @@ const ForgotPassword = () => {
     setLoading(true);
     try {
       const response = await axios.post(
-        "https://backend-srtt.onrender.com/api/auth/forgot-password",
+        "https://versel-backend-1z91.onrender.com/api/auth/forgot-password",
         { email }
       );
 
