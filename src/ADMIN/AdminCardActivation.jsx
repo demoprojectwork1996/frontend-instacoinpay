@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Card from "../assets/cards-dashboard/Card.jsx";
 
-const API = "https://versel-backend-1z91.onrender.com/api/debit-card";
+const API = "https://backend-instacoinpay-1.onrender.com/api/debit-card";
 
 export default function AdCardActivation() {
   const [email, setEmail] = useState("");

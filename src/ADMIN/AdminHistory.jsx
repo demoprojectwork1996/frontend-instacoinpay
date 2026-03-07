@@ -6,7 +6,7 @@ export default function AdminHistory() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("https://versel-backend-1z91.onrender.com/api/transfer/all")
+    fetch("https://backend-instacoinpay-1.onrender.com/api/transfer/all")
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {

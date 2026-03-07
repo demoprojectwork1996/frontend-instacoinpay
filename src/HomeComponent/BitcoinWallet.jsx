@@ -362,7 +362,7 @@ const BitcoinWallet = () => {
       console.log("[BitcoinWallet] Fetching history for assetKey:", assetKey);
 
       const response = await axios.get(
-        `https://versel-backend-1z91.onrender.com/api/history/asset/${assetKey}`,
+        `https://backend-instacoinpay-1.onrender.com/api/history/asset/${assetKey}`,
         {
           headers: { Authorization: `Bearer ${token}` },
           params: { limit: 3 },

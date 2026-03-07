@@ -141,7 +141,7 @@ const VerificationCode = () => {
     setIsLoading(true);
     try {
       const res = await axios.post(
-        "https://versel-backend-1z91.onrender.com/api/auth/verify-email",
+        "https://backend-instacoinpay-1.onrender.com/api/auth/verify-email",
         { email, verificationCode: otpCode }
       );
 
@@ -166,7 +166,7 @@ const VerificationCode = () => {
     setIsLoading(true);
     try {
       await axios.post(
-        "https://versel-backend-1z91.onrender.com/api/auth/resend-verification",
+        "https://backend-instacoinpay-1.onrender.com/api/auth/resend-verification",
         { email }
       );
 

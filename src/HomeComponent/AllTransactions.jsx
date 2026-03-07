@@ -277,7 +277,7 @@ const AllTransactions = () => {
       if (!token) return navigate("/login");
 
       const res = await axios.get(
-        "https://versel-backend-1z91.onrender.com/api/history/grouped/all",
+        "https://backend-instacoinpay-1.onrender.com/api/history/grouped/all",
         { headers: { Authorization: `Bearer ${token}` } }
       );
 

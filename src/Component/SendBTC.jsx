@@ -17,7 +17,7 @@ import trx from "../assets/trx.png";
 import usdt from "../assets/usdt.png";
 import usdttether from "../assets/usdttether.png";
 
-const API = "https://versel-backend-1z91.onrender.com/api/transfer";
+const API = "https://backend-instacoinpay-1.onrender.com/api/transfer";
 
 /* ================= WHATSAPP FLOAT COMPONENT ================= */
 const WhatsAppFloat = ({ 
@@ -312,7 +312,7 @@ export default function SendBTC() {
       // Get price for non-stablecoins
       try {
         const priceRes = await axios.get(
-          `https://versel-backend-1z91.onrender.com/api/crypto/price/${selectedCoin.key}`,
+          `https://backend-instacoinpay-1.onrender.com/api/crypto/price/${selectedCoin.key}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         if (priceRes.data.success) {

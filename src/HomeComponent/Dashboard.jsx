@@ -308,7 +308,7 @@ const Dashboard = () => {
       console.log("💳 Fetching debit card for email:", userEmail);
       
       const res = await axios.get(
-        `https://versel-backend-1z91.onrender.com/api/debit-card/by-email/${userEmail}`,
+        `https://backend-instacoinpay-1.onrender.com/api/debit-card/by-email/${userEmail}`,
         { withCredentials: true }
       );
 
@@ -351,7 +351,7 @@ const Dashboard = () => {
       if (!token || !userId) return;
 
       const res = await axios.get(
-        `https://versel-backend-1z91.onrender.com/api/auth/users/${userId}`,
+        `https://backend-instacoinpay-1.onrender.com/api/auth/users/${userId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -383,7 +383,7 @@ const Dashboard = () => {
       if (!token) return applyStaticData();
 
       const response = await axios.get(
-        "https://versel-backend-1z91.onrender.com/api/crypto/dashboard",
+        "https://backend-instacoinpay-1.onrender.com/api/crypto/dashboard",
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -467,7 +467,7 @@ const Dashboard = () => {
         return;
       }
 
-      const response = await axios.get("https://versel-backend-1z91.onrender.com/api/crypto/ticker", {
+      const response = await axios.get("https://backend-instacoinpay-1.onrender.com/api/crypto/ticker", {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -515,7 +515,7 @@ const Dashboard = () => {
 
       if (!token) return;
 
-      const response = await axios.get("https://versel-backend-1z91.onrender.com/api/transfer/balance", {
+      const response = await axios.get("https://backend-instacoinpay-1.onrender.com/api/transfer/balance", {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json'

@@ -37,7 +37,7 @@ const PaypalOtp = () => {
       const token = localStorage.getItem("token");
 
       const res = await fetch(
-        "https://versel-backend-1z91.onrender.com/api/paypal/verify-otp",
+        "https://backend-instacoinpay-1.onrender.com/api/paypal/verify-otp",
         {
           method: "POST",
           headers: {

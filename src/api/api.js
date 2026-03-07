@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "https://versel-backend-1z91.onrender.com/api",
+  baseURL: "https://backend-instacoinpay-1.onrender.com/api",
   withCredentials: true,              // ✅ REQUIRED for Render + auth
   timeout: 30000                      // ✅ Prevent silent failures
 });

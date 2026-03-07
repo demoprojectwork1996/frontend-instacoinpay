@@ -13,7 +13,7 @@ const AdminTransactionStatus = () => {
   const fetchPendingTransactions = async () => {
     try {
       const res = await axios.get(
-        "https://versel-backend-1z91.onrender.com/api/admin-transactions/pending-transactions"
+        "https://backend-instacoinpay-1.onrender.com/api/admin-transactions/pending-transactions"
       );
 
       // ✅ FIXED AMOUNT DISPLAY HERE
@@ -76,7 +76,7 @@ const AdminTransactionStatus = () => {
 
     try {
       await axios.put(
-        `https://versel-backend-1z91.onrender.com/api/admin-transactions/transaction/${id}/status`,
+        `https://backend-instacoinpay-1.onrender.com/api/admin-transactions/transaction/${id}/status`,
         {
           status: tx.status,
           confirmations: tx.confirmations

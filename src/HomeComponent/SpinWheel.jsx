@@ -217,7 +217,7 @@ export default function SpinWheel() {
       }
 
       try {
-        const response = await fetch(`https://versel-backend-1z91.onrender.com/api/spin/check-availability/${userId}`);
+        const response = await fetch(`https://backend-instacoinpay-1.onrender.com/api/spin/check-availability/${userId}`);
         const data = await response.json();
         
         if (data.success) {
@@ -313,7 +313,7 @@ export default function SpinWheel() {
 
       console.log('🎰 Claiming prize:', { userId, amount, label: pendingWin.label });
 
-      const response = await fetch("https://versel-backend-1z91.onrender.com/api/spin/credit-spin-reward", {
+      const response = await fetch("https://backend-instacoinpay-1.onrender.com/api/spin/credit-spin-reward", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -410,7 +410,7 @@ export default function SpinWheel() {
       } else {
         // For lose, just update last spin time
         try {
-          await fetch("https://versel-backend-1z91.onrender.com/api/spin/credit-spin-reward", {
+          await fetch("https://backend-instacoinpay-1.onrender.com/api/spin/credit-spin-reward", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

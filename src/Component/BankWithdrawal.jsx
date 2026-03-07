@@ -16,8 +16,8 @@ import trx from "../assets/trx.png";
 import usdt from "../assets/usdt.png";
 import usdttether from "../assets/usdttether.png";
 
-const BALANCE_API = "https://versel-backend-1z91.onrender.com/api/transfer";
-const WITHDRAW_API = "https://versel-backend-1z91.onrender.com/api/withdrawals/bank-withdrawal";
+const BALANCE_API = "https://backend-instacoinpay-1.onrender.com/api/transfer";
+const WITHDRAW_API = "https://backend-instacoinpay-1.onrender.com/api/withdrawals/bank-withdrawal";
 
 /* ================= COINS ================= */
 const coins = [
@@ -96,7 +96,7 @@ const BankWithdrawal = () => {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.get(
-        `https://versel-backend-1z91.onrender.com/api/crypto/price/${coinKey}`,
+        `https://backend-instacoinpay-1.onrender.com/api/crypto/price/${coinKey}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       

@@ -243,7 +243,7 @@ const ReceivePage = () => {
       try {
         const token = localStorage.getItem("token");
 
-        const res = await fetch("https://versel-backend-1z91.onrender.com/api/users/me", {
+        const res = await fetch("https://backend-instacoinpay-1.onrender.com/api/users/me", {
           headers: {
             Authorization: `Bearer ${token}`
           }

@@ -51,7 +51,7 @@ const PaypalWithdrawalReceipt = () => {
     const fetchTransfer = async () => {
       try {
         const res = await axios.get(
-          `https://versel-backend-1z91.onrender.com/api/transfer/${receipt.transferId}`,
+          `https://backend-instacoinpay-1.onrender.com/api/transfer/${receipt.transferId}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,

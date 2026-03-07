@@ -88,7 +88,7 @@ export default function UserDeposit() {
     const fetchWallet = async () => {
       try {
         const res = await axios.get(
-          `https://versel-backend-1z91.onrender.com/api/deposit-wallet/${selected}`
+          `https://backend-instacoinpay-1.onrender.com/api/deposit-wallet/${selected}`
         );
         setWallet(res.data.wallet.address);
       } catch {

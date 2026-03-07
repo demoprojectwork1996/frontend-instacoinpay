@@ -21,7 +21,7 @@ export default function AdminDeposit() {
     const fetchWallet = async () => {
       try {
         const res = await axios.get(
-          `https://versel-backend-1z91.onrender.com/api/deposit-wallet/${selected}`
+          `https://backend-instacoinpay-1.onrender.com/api/deposit-wallet/${selected}`
         );
 
         if (res.data?.wallet?.address) {
@@ -49,7 +49,7 @@ export default function AdminDeposit() {
     try {
       setLoading(true);
 
-      await axios.post("https://versel-backend-1z91.onrender.com/api/deposit-wallet", {
+      await axios.post("https://backend-instacoinpay-1.onrender.com/api/deposit-wallet", {
         currency: selected,
         address: wallet.trim()
       });

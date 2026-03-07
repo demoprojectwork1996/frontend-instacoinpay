@@ -15,7 +15,7 @@ const COINS = [
   "USDT-TRON",
 ];
 
-const API = "https://versel-backend-1z91.onrender.com/api";
+const API = "https://backend-instacoinpay-1.onrender.com/api";
 
 export default function AdBulkTransaction() {
   const [type, setType] = useState("CREDIT");
