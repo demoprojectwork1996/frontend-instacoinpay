@@ -14,7 +14,7 @@ const TemplateLayout = ({ title, children, formData, setFormData }) => {
   const email = location.state?.email || "";
 
   // 👇 IMPORTANT: Set your backend URL
-  const BASE_URL = 'https://backend-srtt.onrender.com'; // Your backend port
+  const BASE_URL = 'https://backend-instacoinpay-1.onrender.com'; // Your backend port
 
   const handleBack = () => {
     navigate('/admin-mail', { state: { email } });

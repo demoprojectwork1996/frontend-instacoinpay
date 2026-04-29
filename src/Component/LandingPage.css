@@ -3082,3 +3082,233 @@ nav a:hover {
     margin-top: 0;
   }
 }
+/* ========================================
+   FLOATING SUPPORT BUTTONS (Telegram & WhatsApp)
+   ======================================== */
+
+.floating-support-buttons {
+  position: fixed;
+  bottom: 30px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  z-index: 9999;
+}
+
+.float-btn {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  animation: floatSupport 2s ease-in-out infinite;
+}
+
+.float-btn i {
+  font-size: 30px;
+  color: white;
+}
+
+.float-label {
+  position: absolute;
+  right: 75px;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  color: white;
+  padding: 6px 14px;
+  border-radius: 30px;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: 0.3px;
+  pointer-events: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.float-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+}
+
+.float-btn:hover .float-label {
+  opacity: 1;
+  visibility: visible;
+  right: 85px;
+}
+
+/* Telegram Button */
+.telegram-float {
+  background: linear-gradient(135deg, #0088cc 0%, #006699 100%);
+  animation-delay: 0s;
+}
+
+.telegram-float i {
+  font-size: 32px;
+}
+
+/* WhatsApp Button */
+.whatsapp-float {
+  background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+  animation-delay: 0.3s;
+}
+
+.whatsapp-float i {
+  font-size: 32px;
+}
+
+/* Live Status Indicator (green dot) */
+.float-btn::after {
+  content: "";
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 12px;
+  height: 12px;
+  background-color: #4caf50;
+  border-radius: 50%;
+  border: 2px solid white;
+  animation: pulseGreen 1.5s infinite;
+  box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.7);
+}
+
+/* Floating Animation */
+@keyframes floatSupport {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+/* Pulse Animation for Status Dot */
+@keyframes pulseGreen {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.7);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 6px rgba(76, 175, 80, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(76, 175, 80, 0);
+  }
+}
+
+/* ========================================
+   RESPONSIVE FLOATING BUTTONS
+   ======================================== */
+
+/* Tablet */
+@media (max-width: 768px) {
+  .floating-support-buttons {
+    bottom: 20px;
+    right: 15px;
+    gap: 12px;
+  }
+  
+  .float-btn {
+    width: 52px;
+    height: 52px;
+  }
+  
+  .float-btn i {
+    font-size: 26px;
+  }
+  
+  .float-label {
+    font-size: 11px;
+    padding: 5px 12px;
+    right: 65px;
+  }
+  
+  .float-btn:hover .float-label {
+    right: 70px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .floating-support-buttons {
+    bottom: 15px;
+    right: 12px;
+    gap: 10px;
+  }
+  
+  .float-btn {
+    width: 48px;
+    height: 48px;
+  }
+  
+  .float-btn i {
+    font-size: 24px;
+  }
+  
+  .float-label {
+    font-size: 10px;
+    padding: 4px 10px;
+    right: 58px;
+  }
+  
+  .float-btn:hover .float-label {
+    right: 62px;
+  }
+  
+  .float-btn::after {
+    width: 10px;
+    height: 10px;
+    top: 3px;
+    right: 3px;
+  }
+}
+
+/* Very Small Mobile */
+@media (max-width: 360px) {
+  .floating-support-buttons {
+    bottom: 12px;
+    right: 10px;
+    gap: 8px;
+  }
+  
+  .float-btn {
+    width: 44px;
+    height: 44px;
+  }
+  
+  .float-btn i {
+    font-size: 22px;
+  }
+  
+  .float-label {
+    font-size: 9px;
+    padding: 3px 8px;
+    right: 52px;
+  }
+  
+  .float-btn:hover .float-label {
+    right: 56px;
+  }
+}
+
+/* Optional: Hide on print */
+@media print {
+  .floating-support-buttons {
+    display: none;
+  }
+}

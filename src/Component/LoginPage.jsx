@@ -1,72 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./LoginPage.css";
 import logo from "../assets/logo.png";
 import coin from "../assets/Cam3.png";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-
-/* ================= WHATSAPP FLOAT COMPONENT ================= */
-const WhatsAppFloat = ({ 
-  phoneNumber = "15485825756", 
-  message = "Hello! I need assistance with logging into my InstaCoinXPay account.",
-  position = "right",
-  bottom = "30px",
-  right = "30px",
-  left = "auto",
-  size = "54px",
-  iconSize = "28px",
-  pulseEffect = true,
-  className = "",
-  style = {}
-}) => {
-  const formattedNumber = phoneNumber.replace(/[^\d]/g, '');
-  const whatsappUrl = `https://wa.me/${formattedNumber}?text=${encodeURIComponent(message)}`;
-  
-  const positionStyles = position === "left" 
-    ? { left: left || "20px", right: "auto" }
-    : { right: right || "20px", left: "auto" };
-
-  const combinedStyles = {
-    position: 'fixed',
-    bottom: bottom,
-    width: size,
-    height: size,
-    borderRadius: '50%',
-    backgroundColor: '#25d366',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.2)',
-    zIndex: 10000,
-    cursor: 'pointer',
-    transition: 'all 0.3s ease',
-    textDecoration: 'none',
-    ...positionStyles,
-    ...style
-  };
-
-  return (
-    <a
-      href={whatsappUrl}
-      target="_blank"
-      rel="noopener noreferrer nofollow"
-      className={`whatsapp-float ${pulseEffect ? 'pulse' : ''} ${className}`}
-      style={combinedStyles}
-      aria-label="Chat on WhatsApp"
-      title="Chat on WhatsApp"
-    >
-      <svg 
-        width={iconSize} 
-        height={iconSize} 
-        viewBox="0 0 24 24"
-        fill="white"
-      >
-        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.074-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.074-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.76.982.998-3.677-.236-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.826 9.826 0 012.9 6.994c-.004 5.45-4.438 9.88-9.888 9.88m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.333.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.333 11.893-11.893 0-3.18-1.24-6.162-3.495-8.411" />
-      </svg>
-    </a>
-  );
-};
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -81,6 +19,53 @@ const LoginPage = () => {
     success: false,
   });
 
+  // ✅ Crisp Chat Integration
+  useEffect(() => {
+    // IMPORTANT: $crisp array and WEBSITE_ID must be set BEFORE the script tag loads
+    window.$crisp = window.$crisp || [];
+    window.CRISP_WEBSITE_ID = "b5635951-f13a-4b92-95d7-c1e3666f3abf";
+
+    // Queue chat:show BEFORE script loads — Crisp reads this queue on init
+    window.$crisp.push(["do", "chat:show"]);
+
+    if (!document.querySelector('script[src="https://client.crisp.chat/l.js"]')) {
+      const script = document.createElement("script");
+      script.src = "https://client.crisp.chat/l.js";
+      script.async = true;
+      document.head.appendChild(script);
+    }
+
+    // Hide bubble when navigating away from this page
+    return () => {
+      if (window.$crisp) {
+        window.$crisp.push(["do", "chat:hide"]);
+      }
+    };
+  }, []);
+
+  // ✅ Pass user email to Crisp if user is already logged in
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser && window.$crisp) {
+      try {
+        const userData = JSON.parse(storedUser);
+        if (userData.email) {
+          window.$crisp.push(["set", "user:email", userData.email]);
+          if (userData.name) {
+            window.$crisp.push(["set", "user:nickname", userData.name]);
+          }
+        }
+      } catch (e) {
+        console.error("Error parsing user data", e);
+      }
+    }
+  }, []);
+
+  // Telegram handler
+  const handleTelegramClick = () => {
+    window.open("https://t.me/Instacoinxpayteam", "_blank");
+  };
+
   const handleLogin = async () => {
     if (!email || !password) {
       setPopup({
@@ -93,7 +78,7 @@ const LoginPage = () => {
 
     try {
       const res = await axios.post(
-        "https://backend-srtt.onrender.com/api/auth/login",
+        "https://backend-instacoinpay-1.onrender.com/api/auth/login",
         { email, password }
       );
 
@@ -106,6 +91,12 @@ const LoginPage = () => {
         localStorage.setItem("userName", user.name);
         localStorage.setItem("userId", user.id);
         localStorage.setItem("userReferralCode", user.referralCode);
+
+        // ✅ Pass user email to Crisp after successful login
+        if (window.$crisp) {
+          window.$crisp.push(["set", "user:email", user.email]);
+          window.$crisp.push(["set", "user:nickname", user.name]);
+        }
       }
 
       setPopup({
@@ -235,15 +226,15 @@ const LoginPage = () => {
         )}
       </div>
 
-      {/* WhatsApp Float Button - Added for Login Assistance */}
-      <WhatsAppFloat 
-        phoneNumber="15485825756"
-        message="Hello! I need assistance with logging into my InstaCoinXPay account."
-        position="right"
-        bottom="30px"
-        right="30px"
-        pulseEffect={true}
-      />
+      {/* FLOATING SUPPORT BUTTON - Telegram Only */}
+      <div className="floating-support-buttons">
+        <button className="float-btn telegram-float" onClick={handleTelegramClick} aria-label="Telegram Support">
+          <svg className="float-icon" viewBox="0 0 24 24" width="28" height="28" fill="white">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.66-.35-1.02.22-1.61.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.06-.2-.07-.06-.18-.04-.26-.02-.11.02-1.86 1.18-5.26 3.48-.5.34-.95.51-1.35.5-.44-.01-1.3-.25-1.93-.46-.78-.26-1.4-.4-1.35-.84.03-.23.35-.47.96-.72 3.76-1.64 6.27-2.72 7.53-3.23 3.58-1.46 4.33-1.71 4.81-1.72.11 0 .35.02.51.16.13.11.17.26.19.4.01.06.02.19-.01.33z"/>
+          </svg>
+          <span className="float-label">Telegram Support</span>
+        </button>
+      </div>
     </>
   );
 };

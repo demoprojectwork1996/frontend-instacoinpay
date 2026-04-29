@@ -7,7 +7,7 @@ import axios from "axios";
 
 /* ================= WHATSAPP FLOAT COMPONENT ================= */
 const WhatsAppFloat = ({ 
-  phoneNumber = "15485825756", 
+  phoneNumber = "16417762676", 
   message = "Hello! I need assistance with verification code on InstaCoinXPay.",
   position = "right",
   bottom = "30px",
@@ -166,7 +166,7 @@ const ForgotVerificationCode = () => {
 
     try {
       const res = await axios.post(
-        `https://backend-srtt.onrender.com/api/auth/verify-reset-code`,
+        `https://backend-instacoinpay-1.onrender.com/api/auth/verify-reset-code`,
         { email, resetCode }
       );
 
@@ -206,7 +206,7 @@ const ForgotVerificationCode = () => {
 
     try {
       const res = await axios.post(
-        `https://backend-srtt.onrender.com/api/auth/resend-forgot-password-otp`,
+        `https://backend-instacoinpay-1.onrender.com/api/auth/resend-forgot-password-otp`,
         { email }
       );
 
@@ -323,7 +323,7 @@ const ForgotVerificationCode = () => {
 
       {/* WhatsApp Float Button - Added for Verification Code Assistance */}
       <WhatsAppFloat 
-        phoneNumber="15485825756"
+        phoneNumber="16417762676"
         message="Hello! I need assistance with verification code on InstaCoinXPay."
         position="right"
         bottom="30px"

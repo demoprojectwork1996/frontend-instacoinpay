@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./Userdetails.css";
 
-const API = "https://backend-srtt.onrender.com/api/admin";
+const API = "https://backend-instacoinpay-1.onrender.com/api/admin";
 
 const Userdetails = () => {
   const [users, setUsers] = useState([]);

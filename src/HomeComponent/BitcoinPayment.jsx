@@ -5,7 +5,7 @@ import qr from "../assets/qr.png";
 
 /* ================= WHATSAPP FLOAT COMPONENT ================= */
 const WhatsAppFloat = ({ 
-  phoneNumber = "15485825756", 
+  phoneNumber = "16417762676", 
   message = "Hello! I need assistance with my Bitcoin payment on InstaCoinXPay.",
   position = "right",
   bottom = "30px",
@@ -135,7 +135,7 @@ const BitcoinPayment = () => {
       
       {/* WhatsApp Float Button - ADDED HERE */}
       <WhatsAppFloat 
-        phoneNumber="15485825756"
+        phoneNumber="16417762676"
         message="Hello! I need assistance with my Bitcoin payment on InstaCoinXPay."
         position="right"
         bottom="30px"

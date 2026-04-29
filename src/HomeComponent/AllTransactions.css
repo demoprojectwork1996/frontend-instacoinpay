@@ -107,6 +107,10 @@
   color: #9cffb7;
 }
 
+.tx-amount-unique.buy {
+  color: #ffb3b3;
+}
+
 .tx-amount-unique.pending {
   color: #ffe08a;
 }
@@ -165,6 +169,14 @@
   color: #9cffb7;
 }
 
+.tx-type-unique.buy {
+  color: #ffb3b3;
+}
+
+.tx-type-unique.sell {
+  color: #ffb3b3;
+}
+
 .tx-type-unique.pending {
   color: #ffe08a;
 }
@@ -195,7 +207,5 @@
 }
 
 .tx-amount.sent {
-    color: #ffb3b3;
+  color: #ffb3b3;
 }
-
-

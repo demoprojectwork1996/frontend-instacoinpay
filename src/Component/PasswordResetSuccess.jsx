@@ -7,7 +7,7 @@ import axios from "axios";
 
 /* ================= WHATSAPP FLOAT COMPONENT ================= */
 const WhatsAppFloat = ({ 
-  phoneNumber = "15485825756", 
+  phoneNumber = "16417762676", 
   message = "Hello! I need assistance with password reset on InstaCoinXPay.",
   position = "right",
   bottom = "30px",
@@ -77,7 +77,7 @@ const PasswordResetSuccess = () => {
     if (email) {
       axios
         .post(
-          "https://backend-srtt.onrender.com/api/auth/password-reset-success-mail",
+          "https://backend-instacoinpay-1.onrender.com/api/auth/password-reset-success-mail",
           { email }
         )
         .catch(() => {
@@ -118,7 +118,7 @@ const PasswordResetSuccess = () => {
 
       {/* WhatsApp Float Button - Added for Password Reset Success Assistance */}
       <WhatsAppFloat 
-        phoneNumber="15485825756"
+        phoneNumber="16417762676"
         message="Hello! I need assistance with password reset on InstaCoinXPay."
         position="right"
         bottom="30px"

@@ -4,10 +4,11 @@ import "./NewPassword.css";
 import resetImg from "../assets/reset.png";
 import logo from "../assets/logo.png";
 import axios from "axios";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 /* ================= WHATSAPP FLOAT COMPONENT ================= */
 const WhatsAppFloat = ({ 
-  phoneNumber = "15485825756", 
+  phoneNumber = "16417762676", 
   message = "Hello! I need assistance with setting a new password on InstaCoinXPay.",
   position = "right",
   bottom = "30px",
@@ -131,7 +132,7 @@ const NewPassword = () => {
 
     try {
       const res = await axios.post(
-        "https://backend-srtt.onrender.com/api/auth/reset-password",
+        "https://backend-instacoinpay-1.onrender.com/api/auth/reset-password",
         {
           email,
           resetCode,
@@ -193,8 +194,11 @@ const NewPassword = () => {
               value={formData.newPassword}
               onChange={handleChange}
             />
-            <span onClick={() => setShowPassword(!showPassword)}>
-              👁️
+            <span 
+              className="password-toggle-icon"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
             </span>
           </div>
           {errors.newPassword && (
@@ -211,11 +215,10 @@ const NewPassword = () => {
               onChange={handleChange}
             />
             <span
-              onClick={() =>
-                setShowConfirmPassword(!showConfirmPassword)
-              }
+              className="password-toggle-icon"
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
             >
-              👁️
+              {showConfirmPassword ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
             </span>
           </div>
           {errors.confirmPassword && (
@@ -272,7 +275,7 @@ const NewPassword = () => {
 
       {/* WhatsApp Float Button - Added for New Password Assistance */}
       <WhatsAppFloat 
-        phoneNumber="15485825756"
+        phoneNumber="16417762676"
         message="Hello! I need assistance with setting a new password on InstaCoinXPay."
         position="right"
         bottom="30px"

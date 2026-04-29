@@ -93,8 +93,8 @@ export default function LandingPage() {
   const updateIntervalRef = useRef(null);
   const blogUpdateIntervalRef = useRef(null);
   const initialDataRef = useRef(null);
+
   // Fetch live crypto news
-  // Fetch live crypto news (REAL FIXED VERSION)
   const fetchCryptoNews = async () => {
     try {
       setBlogLoading(true);
@@ -119,7 +119,6 @@ export default function LandingPage() {
         .map((item, index) => {
           let imageUrl = item.image_url;
 
-          // ✅ Validate API image
           if (!imageUrl || !imageUrl.startsWith("http")) {
             imageUrl = fallbackImages[index % fallbackImages.length];
           }
@@ -145,7 +144,6 @@ export default function LandingPage() {
     } catch (err) {
       console.error(err);
 
-      // fallback content
       setBlogArticles([
         {
           id: "1",
@@ -179,8 +177,6 @@ export default function LandingPage() {
     }
   };
 
-
-
   // Time formatter
   const formatBlogTimeAgo = (date) => {
     const diff = Math.floor((new Date() - date) / 1000);
@@ -190,20 +186,16 @@ export default function LandingPage() {
     return `${Math.floor(diff / 86400)}d ago`;
   };
 
-  // Auto refresh
+  // Auto refresh news
   useEffect(() => {
     fetchCryptoNews();
-    const interval = setInterval(fetchCryptoNews, 5 * 60 * 1000); // every 5 min
+    const interval = setInterval(fetchCryptoNews, 5 * 60 * 1000);
     return () => clearInterval(interval);
   }, []);
 
   const handleBlogRefresh = () => {
     fetchCryptoNews();
   };
-
-
-
-
 
   // Helper function to get random author role
   const getRandomRole = () => {
@@ -237,7 +229,6 @@ export default function LandingPage() {
       const transformedData = data.map((crypto, index) => {
         const priceChange24h = crypto.price_change_percentage_24h || 0;
         const priceChange7d = crypto.price_change_percentage_7d_in_currency || 0;
-
         const sparkline = crypto.sparkline_in_7d?.price || Array(12).fill(0);
 
         let trend = "mixed";
@@ -310,13 +301,10 @@ export default function LandingPage() {
 
         const fluctuation = (Math.random() * 0.008 - 0.004);
         const newPrice = original.price * (1 + fluctuation);
-
         const newChange24h = original.change24h + (Math.random() * 0.1 - 0.05);
 
         const newSparkline = [...crypto.sparkline];
-        if (newSparkline.length > 10) {
-          newSparkline.shift();
-        }
+        if (newSparkline.length > 10) newSparkline.shift();
         newSparkline.push(newPrice);
 
         let newTrend = crypto.trend;
@@ -345,217 +333,47 @@ export default function LandingPage() {
     setLastUpdated(new Date());
   };
 
-  // Fallback data in case API fails
+  // Fallback data
   const getFallbackData = () => {
     return [
-      {
-        id: 1,
-        rank: 1,
-        name: "Bitcoin",
-        symbol: "BTC",
-        price: 50964.19,
-        priceFormatted: "$50,964.19",
-        change24h: 4.72,
-        change24hFormatted: "+4.72%",
-        change7d: 8.57,
-        change7dFormatted: "+8.57%",
-        marketCap: 1056191721301,
-        marketCapFormatted: "$1,056.19B",
-        trend: "up",
-        sparkline: [50000, 50200, 50500, 50300, 50800, 51000, 51200, 51500, 51200, 51000, 51300, 51500],
-        logoColor: "#F7931A"
-      },
-      {
-        id: 2,
-        rank: 2,
-        name: "Ethereum",
-        symbol: "ETH",
-        price: 2890.45,
-        priceFormatted: "$2,890.45",
-        change24h: -3.45,
-        change24hFormatted: "-3.45%",
-        change7d: -2.15,
-        change7dFormatted: "-2.15%",
-        marketCap: 347625891234,
-        marketCapFormatted: "$347.63B",
-        trend: "down",
-        sparkline: [3000, 2950, 2900, 2850, 2900, 2950, 3000, 2950, 2900, 2850, 2900, 2850],
-        logoColor: "#627EEA"
-      },
-      {
-        id: 3,
-        rank: 3,
-        name: "Binance Coin",
-        symbol: "BNB",
-        price: 325.67,
-        priceFormatted: "$325.67",
-        change24h: 1.85,
-        change24hFormatted: "+1.85%",
-        change7d: 5.42,
-        change7dFormatted: "+5.42%",
-        marketCap: 52349178912,
-        marketCapFormatted: "$52.35B",
-        trend: "up",
-        sparkline: [310, 315, 320, 318, 322, 325, 328, 330, 328, 330, 332, 335],
-        logoColor: "#F0B90B"
-      },
-      {
-        id: 4,
-        rank: 4,
-        name: "Tether",
-        symbol: "USDT",
-        price: 1.00,
-        priceFormatted: "$1.00",
-        change24h: -0.02,
-        change24hFormatted: "-0.02%",
-        change7d: 0.01,
-        change7dFormatted: "+0.01%",
-        marketCap: 95123456789,
-        marketCapFormatted: "$95.12B",
-        trend: "mixed",
-        sparkline: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        logoColor: "#26A17B"
-      },
-      {
-        id: 5,
-        rank: 5,
-        name: "Cardano",
-        symbol: "ADA",
-        price: 0.52,
-        priceFormatted: "$0.52",
-        change24h: 2.34,
-        change24hFormatted: "+2.34%",
-        change7d: 12.67,
-        change7dFormatted: "+12.67%",
-        marketCap: 18456123456,
-        marketCapFormatted: "$18.46B",
-        trend: "up",
-        sparkline: [0.48, 0.49, 0.50, 0.49, 0.51, 0.52, 0.53, 0.54, 0.55, 0.56, 0.57, 0.58],
-        logoColor: "#0033AD"
-      },
-      {
-        id: 6,
-        rank: 6,
-        name: "Solana",
-        symbol: "SOL",
-        price: 102.45,
-        priceFormatted: "$102.45",
-        change24h: 8.92,
-        change24hFormatted: "+8.92%",
-        change7d: 23.45,
-        change7dFormatted: "+23.45%",
-        marketCap: 42123456789,
-        marketCapFormatted: "$42.12B",
-        trend: "up",
-        sparkline: [90, 92, 95, 98, 100, 102, 105, 108, 110, 112, 115, 118],
-        logoColor: "#00FFA3"
-      },
-      {
-        id: 7,
-        rank: 7,
-        name: "XRP",
-        symbol: "XRP",
-        price: 0.55,
-        priceFormatted: "$0.55",
-        change24h: -1.23,
-        change24hFormatted: "-1.23%",
-        change7d: 3.45,
-        change7dFormatted: "+3.45%",
-        marketCap: 29456789123,
-        marketCapFormatted: "$29.46B",
-        trend: "mixed",
-        sparkline: [0.53, 0.54, 0.55, 0.54, 0.56, 0.55, 0.57, 0.56, 0.58, 0.57, 0.59, 0.58],
-        logoColor: "#23292F"
-      },
-      {
-        id: 8,
-        rank: 8,
-        name: "Polkadot",
-        symbol: "DOT",
-        price: 7.89,
-        priceFormatted: "$7.89",
-        change24h: 3.21,
-        change24hFormatted: "+3.21%",
-        change7d: 15.67,
-        change7dFormatted: "+15.67%",
-        marketCap: 10234567890,
-        marketCapFormatted: "$10.23B",
-        trend: "up",
-        sparkline: [6.5, 6.8, 7.0, 7.2, 7.4, 7.6, 7.8, 8.0, 8.2, 8.4, 8.6, 8.8],
-        logoColor: "#E6007A"
-      },
-      {
-        id: 9,
-        rank: 9,
-        name: "Dogecoin",
-        symbol: "DOGE",
-        price: 0.085,
-        priceFormatted: "$0.085",
-        change24h: -5.67,
-        change24hFormatted: "-5.67%",
-        change7d: -12.34,
-        change7dFormatted: "-12.34%",
-        marketCap: 12345678901,
-        marketCapFormatted: "$12.35B",
-        trend: "down",
-        sparkline: [0.10, 0.095, 0.09, 0.085, 0.08, 0.075, 0.07, 0.065, 0.06, 0.055, 0.05, 0.045],
-        logoColor: "#C2A633"
-      }
+      { id: 1, rank: 1, name: "Bitcoin", symbol: "BTC", price: 50964.19, priceFormatted: "$50,964.19", change24h: 4.72, change24hFormatted: "+4.72%", change7d: 8.57, change7dFormatted: "+8.57%", marketCap: 1056191721301, marketCapFormatted: "$1,056.19B", trend: "up", sparkline: [50000,50200,50500,50300,50800,51000,51200,51500,51200,51000,51300,51500], logoColor: "#F7931A" },
+      { id: 2, rank: 2, name: "Ethereum", symbol: "ETH", price: 2890.45, priceFormatted: "$2,890.45", change24h: -3.45, change24hFormatted: "-3.45%", change7d: -2.15, change7dFormatted: "-2.15%", marketCap: 347625891234, marketCapFormatted: "$347.63B", trend: "down", sparkline: [3000,2950,2900,2850,2900,2950,3000,2950,2900,2850,2900,2850], logoColor: "#627EEA" },
+      { id: 3, rank: 3, name: "Binance Coin", symbol: "BNB", price: 325.67, priceFormatted: "$325.67", change24h: 1.85, change24hFormatted: "+1.85%", change7d: 5.42, change7dFormatted: "+5.42%", marketCap: 52349178912, marketCapFormatted: "$52.35B", trend: "up", sparkline: [310,315,320,318,322,325,328,330,328,330,332,335], logoColor: "#F0B90B" },
+      { id: 4, rank: 4, name: "Tether", symbol: "USDT", price: 1.00, priceFormatted: "$1.00", change24h: -0.02, change24hFormatted: "-0.02%", change7d: 0.01, change7dFormatted: "+0.01%", marketCap: 95123456789, marketCapFormatted: "$95.12B", trend: "mixed", sparkline: [1,1,1,1,1,1,1,1,1,1,1,1], logoColor: "#26A17B" },
+      { id: 5, rank: 5, name: "Cardano", symbol: "ADA", price: 0.52, priceFormatted: "$0.52", change24h: 2.34, change24hFormatted: "+2.34%", change7d: 12.67, change7dFormatted: "+12.67%", marketCap: 18456123456, marketCapFormatted: "$18.46B", trend: "up", sparkline: [0.48,0.49,0.50,0.49,0.51,0.52,0.53,0.54,0.55,0.56,0.57,0.58], logoColor: "#0033AD" },
+      { id: 6, rank: 6, name: "Solana", symbol: "SOL", price: 102.45, priceFormatted: "$102.45", change24h: 8.92, change24hFormatted: "+8.92%", change7d: 23.45, change7dFormatted: "+23.45%", marketCap: 42123456789, marketCapFormatted: "$42.12B", trend: "up", sparkline: [90,92,95,98,100,102,105,108,110,112,115,118], logoColor: "#00FFA3" },
+      { id: 7, rank: 7, name: "XRP", symbol: "XRP", price: 0.55, priceFormatted: "$0.55", change24h: -1.23, change24hFormatted: "-1.23%", change7d: 3.45, change7dFormatted: "+3.45%", marketCap: 29456789123, marketCapFormatted: "$29.46B", trend: "mixed", sparkline: [0.53,0.54,0.55,0.54,0.56,0.55,0.57,0.56,0.58,0.57,0.59,0.58], logoColor: "#23292F" },
+      { id: 8, rank: 8, name: "Polkadot", symbol: "DOT", price: 7.89, priceFormatted: "$7.89", change24h: 3.21, change24hFormatted: "+3.21%", change7d: 15.67, change7dFormatted: "+15.67%", marketCap: 10234567890, marketCapFormatted: "$10.23B", trend: "up", sparkline: [6.5,6.8,7.0,7.2,7.4,7.6,7.8,8.0,8.2,8.4,8.6,8.8], logoColor: "#E6007A" },
+      { id: 9, rank: 9, name: "Dogecoin", symbol: "DOGE", price: 0.085, priceFormatted: "$0.085", change24h: -5.67, change24hFormatted: "-5.67%", change7d: -12.34, change7dFormatted: "-12.34%", marketCap: 12345678901, marketCapFormatted: "$12.35B", trend: "down", sparkline: [0.10,0.095,0.09,0.085,0.08,0.075,0.07,0.065,0.06,0.055,0.05,0.045], logoColor: "#C2A633" }
     ];
   };
 
-  // Generate random color for crypto logos
   const getRandomColor = () => {
-    const colors = [
-      "#F7931A", "#627EEA", "#F0B90B", "#26A17B", "#0033AD",
-      "#00FFA3", "#23292F", "#E6007A", "#C2A633", "#FF6B35",
-      "#00D1B2", "#3273DC", "#FF3860", "#FFDD57", "#23D160"
-    ];
+    const colors = ["#F7931A","#627EEA","#F0B90B","#26A17B","#0033AD","#00FFA3","#23292F","#E6007A","#C2A633","#FF6B35","#00D1B2","#3273DC","#FF3860","#FFDD57","#23D160"];
     return colors[Math.floor(Math.random() * colors.length)];
   };
 
-  // Start/stop live updates
-  const toggleLiveUpdates = () => {
-    setLiveUpdates(!liveUpdates);
-  };
+  const toggleLiveUpdates = () => setLiveUpdates(!liveUpdates);
+  const toggleMobileMenu = () => setMobileMenuOpen(!mobileMenuOpen);
 
-
-  // Handle mobile menu toggle
-  const toggleMobileMenu = () => {
-    setMobileMenuOpen(!mobileMenuOpen);
-  };
-
-  // Format time ago
   const formatTimeAgo = (date) => {
     const seconds = Math.floor((new Date() - date) / 1000);
-
     if (seconds < 60) return `${seconds} seconds ago`;
     const minutes = Math.floor(seconds / 60);
     if (minutes === 1) return "1 minute ago";
     return `${minutes} minutes ago`;
   };
 
-
   useEffect(() => {
     fetchCryptoData();
-
-
     const apiInterval = setInterval(fetchCryptoData, 30000);
-
-
     return () => {
       clearInterval(apiInterval);
-
-      if (updateIntervalRef.current) {
-        clearInterval(updateIntervalRef.current);
-      }
-      if (blogUpdateIntervalRef.current) {
-        clearInterval(blogUpdateIntervalRef.current);
-      }
+      if (updateIntervalRef.current) clearInterval(updateIntervalRef.current);
+      if (blogUpdateIntervalRef.current) clearInterval(blogUpdateIntervalRef.current);
     };
   }, []);
 
-  // Start/stop live simulation interval
   useEffect(() => {
     if (liveUpdates) {
       updateIntervalRef.current = setInterval(simulateLiveUpdates, 1000);
@@ -565,11 +383,8 @@ export default function LandingPage() {
         updateIntervalRef.current = null;
       }
     }
-
     return () => {
-      if (updateIntervalRef.current) {
-        clearInterval(updateIntervalRef.current);
-      }
+      if (updateIntervalRef.current) clearInterval(updateIntervalRef.current);
     };
   }, [liveUpdates]);
 
@@ -609,20 +424,13 @@ export default function LandingPage() {
   };
 
   const formatMarketCap = (marketCap) => {
-    if (marketCap >= 1e12) {
-      return `$${(marketCap / 1e12).toFixed(2)}T`;
-    } else if (marketCap >= 1e9) {
-      return `$${(marketCap / 1e9).toFixed(2)}B`;
-    } else if (marketCap >= 1e6) {
-      return `$${(marketCap / 1e6).toFixed(2)}M`;
-    } else {
-      return `$${marketCap.toFixed(2)}`;
-    }
+    if (marketCap >= 1e12) return `$${(marketCap / 1e12).toFixed(2)}T`;
+    if (marketCap >= 1e9) return `$${(marketCap / 1e9).toFixed(2)}B`;
+    if (marketCap >= 1e6) return `$${(marketCap / 1e6).toFixed(2)}M`;
+    return `$${marketCap.toFixed(2)}`;
   };
 
-  const handleRefresh = () => {
-    fetchCryptoData();
-  };
+  const handleRefresh = () => fetchCryptoData();
 
   if (loading && cryptoData.length === 0) {
     return (
@@ -640,8 +448,6 @@ export default function LandingPage() {
         <div className="logo">
           <img src={logo} alt="InstaCoinXPay Logo" />
         </div>
-
-
         <div className="auth">
           <button className="btn-outline" onClick={() => navigate("/login")}>Login</button>
           <button className="btn-signup" onClick={() => navigate("/getstarted")}>Signup</button>
@@ -665,7 +471,6 @@ export default function LandingPage() {
             <Link to="/instaplaystore" className="google-play-btn">
               <img src={googlePlayBadge} alt="Get it on Google Play" />
             </Link>
-
           </div>
         </div>
         <div className="crypto-container">
@@ -689,12 +494,8 @@ export default function LandingPage() {
                 <h1>Trending in Market</h1>
                 <div className="live-indicator">
                   <div className={`live-dot ${liveUpdates ? 'active' : ''}`}></div>
-                  <span className="live-text">
-                    {liveUpdates ? 'LIVE DATA' : 'PAUSED'}
-                  </span>
-                  <span className="update-count">
-                    Updates: {updateCount}
-                  </span>
+                  <span className="live-text">{liveUpdates ? 'LIVE DATA' : 'PAUSED'}</span>
+                  <span className="update-count">Updates: {updateCount}</span>
                   <span className="last-updated">
                     <Clock size={14} />
                     {formatTimeAgo(lastUpdated)}
@@ -704,14 +505,8 @@ export default function LandingPage() {
               <h2>Ranking Cryptocurrency</h2>
             </div>
             <div className="header-right">
-              <button className="filter-btn">
-                <Filter size={18} />
-                Filter
-              </button>
-              <button
-                className={`live-toggle-btn ${liveUpdates ? 'active' : ''}`}
-                onClick={toggleLiveUpdates}
-              >
+              <button className="filter-btn"><Filter size={18} />Filter</button>
+              <button className={`live-toggle-btn ${liveUpdates ? 'active' : ''}`} onClick={toggleLiveUpdates}>
                 <Zap size={18} className={liveUpdates ? "pulse" : ""} />
                 {liveUpdates ? 'Live ON' : 'Live OFF'}
               </button>
@@ -721,7 +516,6 @@ export default function LandingPage() {
               </button>
             </div>
           </div>
-
 
           <div className="market-table-container">
             <div className="table-wrapper">
@@ -747,16 +541,9 @@ export default function LandingPage() {
                       <td className="name-cell">
                         <div className="crypto-info">
                           {crypto.image ? (
-                            <img
-                              src={crypto.image}
-                              alt={crypto.name}
-                              className="crypto-logo-img"
-                            />
+                            <img src={crypto.image} alt={crypto.name} className="crypto-logo-img" />
                           ) : (
-                            <div
-                              className="crypto-logo"
-                              style={{ backgroundColor: crypto.logoColor }}
-                            >
+                            <div className="crypto-logo" style={{ backgroundColor: crypto.logoColor }}>
                               {crypto.symbol.charAt(0)}
                             </div>
                           )}
@@ -783,52 +570,27 @@ export default function LandingPage() {
                         </div>
                       </td>
                       <td className="change-cell">
-                        <div
-                          className={`change-badge ${crypto.change24h > 0 ? 'positive' : 'negative'} ${liveUpdates ? 'pulse' : ''}`}
-                        >
-                          {crypto.change24h > 0 ? (
-                            <ArrowUpRight size={14} />
-                          ) : (
-                            <ArrowDownRight size={14} />
-                          )}
+                        <div className={`change-badge ${crypto.change24h > 0 ? 'positive' : 'negative'} ${liveUpdates ? 'pulse' : ''}`}>
+                          {crypto.change24h > 0 ? <ArrowUpRight size={14} /> : <ArrowDownRight size={14} />}
                           {crypto.change24hFormatted}
                         </div>
                       </td>
                       <td className="change-cell">
-                        <div
-                          className={`change-badge ${crypto.change7d > 0 ? 'positive' : 'negative'}`}
-                        >
-                          {crypto.change7d > 0 ? (
-                            <ArrowUpRight size={14} />
-                          ) : (
-                            <ArrowDownRight size={14} />
-                          )}
+                        <div className={`change-badge ${crypto.change7d > 0 ? 'positive' : 'negative'}`}>
+                          {crypto.change7d > 0 ? <ArrowUpRight size={14} /> : <ArrowDownRight size={14} />}
                           {crypto.change7dFormatted}
                         </div>
                       </td>
-                      <td className="market-cap-cell">
-                        {crypto.marketCapFormatted}
-                      </td>
+                      <td className="market-cap-cell">{crypto.marketCapFormatted}</td>
                       <td className="chart-cell">
                         <div className="sparkline-container">
-                          <svg
-                            className="sparkline"
-                            viewBox="0 0 100 100"
-                            preserveAspectRatio="none"
-                          >
-                            <path
-                              d={getSparklinePath(crypto.sparkline)}
-                              fill="none"
-                              stroke={getTrendColor(crypto.trend)}
-                              strokeWidth="2"
-                            />
+                          <svg className="sparkline" viewBox="0 0 100 100" preserveAspectRatio="none">
+                            <path d={getSparklinePath(crypto.sparkline)} fill="none" stroke={getTrendColor(crypto.trend)} strokeWidth="2" />
                           </svg>
                         </div>
                       </td>
                       <td className="action-cell">
-                        <button className="more-options-btn">
-                          <MoreVertical size={18} />
-                        </button>
+                        <button className="more-options-btn"><MoreVertical size={18} /></button>
                       </td>
                     </tr>
                   ))}
@@ -837,22 +599,8 @@ export default function LandingPage() {
             </div>
 
             <div className="show-more-container">
-              <button
-                className="show-more-btn"
-                onClick={() => setShowAll(!showAll)}
-                disabled={cryptoData.length === 0}
-              >
-                {showAll ? (
-                  <>
-                    Show Less
-                    <ChevronUp size={16} />
-                  </>
-                ) : (
-                  <>
-                    Show More
-                    <ChevronDown size={16} />
-                  </>
-                )}
+              <button className="show-more-btn" onClick={() => setShowAll(!showAll)} disabled={cryptoData.length === 0}>
+                {showAll ? (<>Show Less <ChevronUp size={16} /></>) : (<>Show More <ChevronDown size={16} /></>)}
               </button>
             </div>
           </div>
@@ -864,12 +612,8 @@ export default function LandingPage() {
               </div>
               <div className="stats-content">
                 <div className="stats-label">Top Gainer (24h)</div>
-                <div className="stats-value">
-                  {topGainer ? `${topGainer.name} (${topGainer.symbol.toUpperCase()})` : 'Loading...'}
-                </div>
-                <div className="stats-change positive">
-                  {topGainer ? `+${topGainer.price_change_percentage_24h?.toFixed(2) || '0.00'}%` : '+0.00%'}
-                </div>
+                <div className="stats-value">{topGainer ? `${topGainer.name} (${topGainer.symbol.toUpperCase()})` : 'Loading...'}</div>
+                <div className="stats-change positive">{topGainer ? `+${topGainer.price_change_percentage_24h?.toFixed(2) || '0.00'}%` : '+0.00%'}</div>
               </div>
               {liveUpdates && <div className="live-badge">LIVE</div>}
             </div>
@@ -880,12 +624,8 @@ export default function LandingPage() {
               </div>
               <div className="stats-content">
                 <div className="stats-label">Top Loser (24h)</div>
-                <div className="stats-value">
-                  {topLoser ? `${topLoser.name} (${topLoser.symbol.toUpperCase()})` : 'Loading...'}
-                </div>
-                <div className="stats-change negative">
-                  {topLoser ? `${topLoser.price_change_percentage_24h?.toFixed(2) || '0.00'}%` : '0.00%'}
-                </div>
+                <div className="stats-value">{topLoser ? `${topLoser.name} (${topLoser.symbol.toUpperCase()})` : 'Loading...'}</div>
+                <div className="stats-change negative">{topLoser ? `${topLoser.price_change_percentage_24h?.toFixed(2) || '0.00'}%` : '0.00%'}</div>
               </div>
               {liveUpdates && <div className="live-badge">LIVE</div>}
             </div>
@@ -896,12 +636,8 @@ export default function LandingPage() {
               </div>
               <div className="stats-content">
                 <div className="stats-label">Total Market Cap</div>
-                <div className="stats-value">
-                  {totalMarketCap > 0 ? formatMarketCap(totalMarketCap) : '$2.1T'}
-                </div>
-                <div className="stats-change positive">
-                  {cryptoData.length > 0 ? '+3.2%' : '+0.00%'}
-                </div>
+                <div className="stats-value">{totalMarketCap > 0 ? formatMarketCap(totalMarketCap) : '$2.1T'}</div>
+                <div className="stats-change positive">{cryptoData.length > 0 ? '+3.2%' : '+0.00%'}</div>
               </div>
               {liveUpdates && <div className="live-badge">LIVE</div>}
             </div>
@@ -916,27 +652,20 @@ export default function LandingPage() {
             <h4>Secure Storage</h4>
             <p>We safely store your crypto using industry-leading technology.</p>
           </div>
-
           <div className="info-card-2">
             <h4>Protected by insurance</h4>
             <p>Your funds are covered with an extra layer of protection.</p>
           </div>
-
           <div className="info-card-1">
             <h4>24/7 Monitoring</h4>
             <p>Continuous system monitoring to prevent threats.</p>
           </div>
         </div>
-
         <div className="trusted-text">
-          <h2>
-            The Most Trusted <br />
-            <span>Cryptocurrency</span> Platform
-          </h2>
+          <h2>The Most Trusted <br /><span>Cryptocurrency</span> Platform</h2>
           <p>Explore the top reasons customers trust.</p>
         </div>
       </div>
-
 
       {/* HOW IT WORKS */}
       <section className="how-wrapper">
@@ -944,17 +673,12 @@ export default function LandingPage() {
           <h2>How It Works</h2>
           <p>Crypters supports a variety of the most popular digital currencies</p>
         </div>
-
         <div className="how-title">
           <div>
-            <h3>
-              We Will <span>Help You to Start</span> <br />
-              Crypto Investment ✨
-            </h3>
+            <h3>We Will <span>Help You to Start</span> <br />Crypto Investment ✨</h3>
           </div>
           <button className="btn-primary" onClick={() => navigate("/getstarted")}>Get Started</button>
         </div>
-
         <div className="how-cards">
           <div className="how-card active">
             <div className="step">
@@ -962,41 +686,30 @@ export default function LandingPage() {
               <span className="number">1</span>
             </div>
             <h4>Create an Account</h4>
-            <p>
-              Set up a secure account to begin using our platform and keep your
-              information protected.
-            </p>
+            <p>Set up a secure account to begin using our platform and keep your information protected.</p>
             <button className="btn-outline" onClick={() => navigate("/getstarted")}>Create New Account</button>
           </div>
-
           <div className="how-card">
             <div className="step">
               <span className="icon">🏦</span>
               <span className="number">2</span>
             </div>
             <h4>Link Your crypto wallet</h4>
-            <p>
-              Securely link your crypto wallet to enable fiat deposits and
-              withdrawals for your crypto trades.
-            </p>
+            <p>Securely link your crypto wallet to enable fiat deposits and withdrawals for your crypto trades.</p>
           </div>
-
           <div className="how-card">
             <div className="step">
               <span className="icon">📈</span>
               <span className="number">3</span>
             </div>
             <h4>Start Buying & Selling</h4>
-            <p>
-              Start building your crypto portfolio with fast, intuitive, and
-              secure transactions.
-            </p>
+            <p>Start building your crypto portfolio with fast, intuitive, and secure transactions.</p>
           </div>
         </div>
       </section>
+
       <section className="bitcoin_img">
         <img src={bitcoin} alt="Bitcoin Background" />
-
         <div className="hero-overlay">
           <h1>InstaCoinXPay</h1>
           <p>
@@ -1011,15 +724,11 @@ export default function LandingPage() {
       {/* CTA */}
       <section className="cta-section">
         <div className="cta-left">
-          <h2>
-            Let's Start Your <br />
-            <span>Crypto Investment</span> Now!
-          </h2>
+          <h2>Let's Start Your <br /><span>Crypto Investment</span> Now!</h2>
           <div className="cta-buttons">
             <button className="btn-primary" onClick={() => navigate("/getstarted")}>Let's Begin</button>
           </div>
         </div>
-
         <div className="cta-right">
           <img src={globe} alt="Crypto Globe" />
         </div>
@@ -1030,53 +739,23 @@ export default function LandingPage() {
         <div className="footer-top">
           <div className="footer-col">
             <img src={logo} alt="Logo" className="footer-logo" />
-            <div className="store-buttons">
-              {/* App store buttons can be added here */}
-            </div>
           </div>
-
           <div className="footer-col center">
             <h4>Join Our Telegram Channel</h4>
-
-            <a
-              href="https://t.me/instacoinxpay"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-telegram"
-            >
-              Join
-            </a>
+            <a href="https://t.me/instacoinxpay" target="_blank" rel="noopener noreferrer" className="btn-telegram">Join</a>
           </div>
-
-
           <div className="footer-col right">
             <h4>Contact</h4>
             <p>instacoinxpay.com</p>
             <p>Tel: +1 (548) 582-5756</p>
-            <p>
-              Main Office - 82 Richmond St E, <br />
-              Toronto, ON M5C 1P1, Canada
-            </p>
+            <p>Main Office - 82 Richmond St E, <br />Toronto, ON M5C 1P1, Canada</p>
           </div>
         </div>
-
         <div className="footer-bottom">
           <p>Copyright © InstaCoinXPay. All Rights Reserved.</p>
           <p>Privacy Policy | Terms & Conditions</p>
         </div>
       </footer>
-      {/* WhatsApp Floating Button */}
-      <a
-        href="https://wa.me/15485825756"   // 🔴 replace with your real WhatsApp number
-        target="_blank"
-        rel="noopener noreferrer"
-        className="whatsapp-float"
-      >
-        <img
-          src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
-          alt="WhatsApp"
-        />
-      </a>
     </div>
   );
 }

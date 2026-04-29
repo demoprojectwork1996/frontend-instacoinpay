@@ -1,0 +1,400 @@
+/* TradingReceipt.css - Updated with unique classnames */
+.tr-trading-receipt-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0a0e1a 0%, #1a1f2e 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+}
+
+.tr-receipt-card {
+  background: rgba(30, 35, 48, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 24px;
+  padding: 32px;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.tr-receipt-card:hover {
+  transform: translateY(-5px);
+}
+
+.tr-receipt-title {
+  text-align: center;
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 24px;
+  letter-spacing: -0.5px;
+}
+
+.tr-receipt-amount {
+  text-align: center;
+  font-size: 36px;
+  font-weight: 700;
+  margin: 20px 0;
+  padding: 16px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.tr-receipt-amount.tr-buy {
+  color: #10b981;
+}
+
+.tr-receipt-amount.tr-sell {
+  color: #ef4444;
+}
+
+/* Status Styles */
+.tr-status-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 20px 0;
+  padding: 12px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.tr-status-wrapper.completed {
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.tr-status-wrapper.pending {
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.tr-status-wrapper.failed {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.tr-status-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.tr-status-icon.tr-success {
+  background: #10b981;
+  color: white;
+}
+
+.tr-status-icon.tr-failed {
+  background: #ef4444;
+  color: white;
+}
+
+.tr-loader {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #f59e0b;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: tr-spin 1s linear infinite;
+}
+
+@keyframes tr-spin {
+  to { transform: rotate(360deg); }
+}
+
+.tr-status-text {
+  font-size: 16px;
+  font-weight: 500;
+  color: #ffffff;
+}
+
+.tr-receipt-info {
+  text-align: center;
+  color: #9ca3af;
+  font-size: 14px;
+  margin: 16px 0;
+  line-height: 1.5;
+}
+
+.tr-receipt-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 20px 0;
+}
+
+.tr-receipt-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  color: #9ca3af;
+  font-size: 14px;
+}
+
+.tr-receipt-row:last-child {
+  border-bottom: none;
+}
+
+.tr-receipt-row strong {
+  color: #ffffff;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  word-break: break-all;
+  text-align: right;
+  max-width: 60%;
+}
+
+.tr-receipt-row button {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 6px;
+  padding: 4px 8px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.2s ease;
+}
+
+.tr-receipt-row button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+}
+
+.tr-copy-toast {
+  position: absolute;
+  background: #10b981;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  white-space: nowrap;
+  animation: tr-fadeInOut 1.2s ease;
+}
+
+@keyframes tr-fadeInOut {
+  0% { opacity: 0; transform: translateY(10px); }
+  20% { opacity: 1; transform: translateY(0); }
+  80% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-10px); }
+}
+
+/* Trade Type Row */
+.tr-trade-type-row {
+  margin-top: 8px;
+}
+
+.tr-buy-type {
+  color: #10b981 !important;
+  background: rgba(16, 185, 129, 0.1);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.tr-sell-type {
+  color: #ef4444 !important;
+  background: rgba(239, 68, 68, 0.1);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* Zero Fee Notice */
+.tr-zero-fee-notice {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 20px 0;
+  padding: 12px;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(16, 185, 129, 0.05));
+  border-radius: 12px;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  text-align: center;
+}
+
+.tr-zero-fee-icon {
+  font-size: 18px;
+  animation: tr-sparkle 2s ease-in-out infinite;
+}
+
+@keyframes tr-sparkle {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.2); opacity: 0.8; }
+}
+
+.tr-zero-fee-text {
+  color: #10b981;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+/* Buttons */
+.tr-receipt-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.tr-receipt-back-btn,
+.tr-receipt-history-btn {
+  flex: 1;
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.tr-receipt-back-btn {
+  background: linear-gradient(135deg, #f7931a, #c8930a);
+  color: white;
+}
+
+.tr-receipt-back-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(247, 147, 26, 0.3);
+}
+
+.tr-receipt-history-btn {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.tr-receipt-history-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+/* Floating Support Buttons */
+.tr-floating-support-buttons {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 1000;
+}
+
+.tr-float-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 40px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  animation: tr-slideInRight 0.5s ease;
+}
+
+.tr-telegram-float {
+  background: #0088cc;
+  color: white;
+}
+
+.tr-whatsapp-float {
+  background: #25d366;
+  color: white;
+}
+
+.tr-float-btn:hover {
+  transform: translateX(-5px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.tr-float-icon {
+  width: 24px;
+  height: 24px;
+  fill: white;
+}
+
+.tr-float-label {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+@keyframes tr-slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+  .tr-receipt-card {
+    padding: 20px;
+  }
+  
+  .tr-receipt-title {
+    font-size: 20px;
+  }
+  
+  .tr-receipt-amount {
+    font-size: 28px;
+  }
+  
+  .tr-receipt-row {
+    font-size: 12px;
+  }
+  
+  .tr-receipt-row strong {
+    font-size: 12px;
+    max-width: 55%;
+  }
+  
+  .tr-receipt-buttons {
+    flex-direction: column;
+  }
+  
+  .tr-receipt-back-btn,
+  .tr-receipt-history-btn {
+    padding: 12px;
+  }
+  
+  .tr-zero-fee-text {
+    font-size: 11px;
+  }
+  
+  .tr-float-label {
+    display: none;
+  }
+  
+  .tr-float-btn {
+    padding: 12px;
+    border-radius: 50%;
+  }
+  
+  .tr-float-icon {
+    width: 24px;
+    height: 24px;
+  }
+}

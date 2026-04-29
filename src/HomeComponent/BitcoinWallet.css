@@ -31,18 +31,24 @@
   gap: 12px;
 }
 
+.bw-chart {
+  width: 100%;
+  height: 160px;
+  min-height: 160px;
+}
+
 .bw-back {
   font-size: 22px;
   cursor: pointer;
 }
-.btc-amount {
+
+.bw-btc-amount {
   color: black;
   display: block;
   text-align: center;
   margin-right: 30px;
   font-weight: 500;
 }
-
 
 .bw-coin {
   display: flex;
@@ -71,14 +77,17 @@
   font-size: 14px;
 }
 
-.bw-change.red { color: #ffb3b3; }
-.bw-change.green { color: #9cffb7; }
+.bw-change.bw-red { 
+  color: #ffb3b3; 
+}
+
+.bw-change.bw-green { 
+  color: #9cffb7; 
+}
 
 /* Chart */
 .bw-chart {
   background: rgba(255,255,255,0.15);
-  border-radius: 14px;
-  padding: 10px;
 }
 
 .bw-chart svg {
@@ -121,7 +130,27 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
+  font-size: 20px;
+}
+
+/* Ensures all icons inside action buttons are uniformly sized */
+.bw-action-icon img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  display: block;
+}
+
+/* Special handling for SVG icons to keep consistent 24px sizing */
+.bw-action-icon svg {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+
+.bw-icon-text {
+  font-size: 20px;
+  line-height: 1;
 }
 
 /* Transactions */
@@ -133,6 +162,15 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
+}
+
+.bw-tx.bw-clickable {
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.bw-tx.bw-clickable:hover {
+  background: rgba(255,255,255,0.25);
 }
 
 .bw-tx-left {
@@ -158,12 +196,129 @@
   color: #d9ecff;
 }
 
-.bw-tx-amount.sent { color: #ffb3b3; }
-.bw-tx-amount.received { color: #9cffb7; }
-.bw-tx-amount.pending { color: #ffe08a; }
+.bw-tx-amount.bw-sent { 
+  color: #ffb3b3; 
+}
 
-/* Responsive */
+.bw-tx-amount.bw-received { 
+  color: #9cffb7; 
+}
+
+.bw-tx-amount.bw-pending { 
+  color: #ffe08a; 
+}
+
+/* Transaction Type Colors */
+.bw-tx-type.bw-sent {
+  color: #ff4d4d;
+  display: block;
+}
+
+.bw-tx-type.bw-received {
+  color: #38d996;
+  display: block;
+}
+
+.bw-tx-type.bw-pending {
+  color: #ffd24d;
+  display: block;
+}
+
+/* Coin Image */
+.bw-coin-img {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+  border-radius: 50%;
+}
+
+/* Floating Support Buttons */
+.bw-floating-support-buttons {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  z-index: 9999;
+}
+
+.bw-float-btn {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.bw-float-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+.bw-telegram-float {
+  background: #0088cc;
+}
+
+.bw-whatsapp-float {
+  background: #25d366;
+}
+
+.bw-float-icon {
+  width: 28px;
+  height: 28px;
+  fill: white;
+}
+
+.bw-float-label {
+  position: absolute;
+  right: 70px;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.bw-float-btn:hover .bw-float-label {
+  opacity: 1;
+}
+
+/* Responsive adjustments for floating buttons + ACTION ICON FIX (swap icon uniform) */
 @media (max-width: 480px) {
+  .bw-floating-support-buttons {
+    bottom: 15px;
+    right: 15px;
+    gap: 12px;
+  }
+  
+  .bw-float-btn {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .bw-float-icon {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .bw-float-label {
+    right: 60px;
+    font-size: 11px;
+    padding: 4px 10px;
+  }
+
+  /* Card padding fine-tuning */
   .bw-card {
     padding: 20px;
   }
@@ -171,21 +326,39 @@
   .bw-balance h1 {
     font-size: 26px;
   }
+  
+  /* Action icons container size - consistent with mobile */
+  .bw-action-icon {
+    width: 46px;
+    height: 46px;
+  }
+  
+  /* Ensure every image or svg inside action-icon gets 22px for mobile */
+  .bw-action-icon img,
+  .bw-action-icon svg {
+    width: 22px;
+    height: 22px;
+  }
+  
+  .bw-tx {
+    padding: 10px;
+  }
 }
 
-.bw-tx-type.sent {
-  color: #ff4d4d; /* red */
-}
-
-.bw-tx-type.received {
-  color: #38d996; /* green */
-}
-
-.bw-tx-type.pending {
-  color: #ffd24d; /* yellow */
-}
-.bw-coin-img {
-  width: 26px;
-  height: 26px;
+/* Additional safe rule for all screen sizes: all action icons images/svgs fixed to 24px (desktop) and adjusted for mobile above */
+.bw-action-icon img,
+.bw-action-icon svg {
+  width: 24px;
+  height: 24px;
   object-fit: contain;
+}
+
+/* Remove any extra scaling that might have happened due to font-icon text fallback */
+.bw-action-icon i, 
+.bw-action-icon span.bw-icon-text {
+  font-size: 24px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }

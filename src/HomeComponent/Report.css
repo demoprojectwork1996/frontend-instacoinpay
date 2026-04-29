@@ -186,6 +186,23 @@
 }
 
 /* ========================= */
+/* 💬 Crisp Chat Bubble Position */
+/* Stacked order (bottom → top):  */
+/*   Crisp     → bottom: 20px     */
+/*   SpinWheel → bottom: 90px     */
+/* ========================= */
+.crisp-client .cc-tlyw {
+  bottom: 20px !important;
+  right: 20px !important;
+}
+
+/* Crisp open chat window — opens upward from bubble */
+.crisp-client .cc-kxkl {
+  bottom: 90px !important;
+  right: 20px !important;
+}
+
+/* ========================= */
 /* 📱 Mobile Responsive */
 /* ========================= */
 @media (max-width: 768px) {
@@ -240,10 +257,21 @@
     font-size: 15px;
     padding: 12px;
   }
+
+  /* Crisp — tighter on mobile */
+  .crisp-client .cc-tlyw {
+    bottom: 20px !important;
+    right: 15px !important;
+  }
+
+  .crisp-client .cc-kxkl {
+    bottom: 90px !important;
+    right: 15px !important;
+  }
 }
 
 /* ========================= */
-/* 📱 Small Devices (481px - 480px) */
+/* 📱 Small Devices (up to 480px) */
 /* ========================= */
 @media (max-width: 480px) {
   .report-page-wrapper {
