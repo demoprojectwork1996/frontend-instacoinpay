@@ -270,7 +270,7 @@ export default function SpinWheel() {
     if (!pendingWin) return;
     
     const winAmount = pendingWin.label;
-    const shareMessage = `🎉 I just won ${winAmount} on InstaCoinXPay Fortune Wheel! 🎰\n\nJoin me and get 50 USDT welcome bonus! Use my referral code: ${referralCode}\n\nSign up here: http://localhost:3000/spinwheelhome\n\n#InstaCoinXPay #Crypto #Win`;
+    const shareMessage = `🎉 I just won ${winAmount} on InstaCoinXPay Fortune Wheel! 🎰\n\nJoin me and get 50 USDT welcome bonus! Use my referral code: ${referralCode}\n\nSign up here: http://www.instacoinxpay.com/spinwheelhome\n\n#InstaCoinXPay #Crypto #Win`;
     
     window.open(`https://wa.me/?text=${encodeURIComponent(shareMessage)}`, '_blank');
     
@@ -283,7 +283,7 @@ export default function SpinWheel() {
     if (!pendingWin) return;
     
     const winAmount = pendingWin.label;
-    const shareMessage = `🎉 I just won ${winAmount} on InstaCoinXPay Fortune Wheel! 🎰\n\nJoin me and get 50 USDT welcome bonus! Use my referral code: ${referralCode}\n\nSign up here:http://localhost:3000/spinwheelhome\n\n#InstaCoinXPay #Crypto #Win`;
+    const shareMessage = `🎉 I just won ${winAmount} on InstaCoinXPay Fortune Wheel! 🎰\n\nJoin me and get 50 USDT welcome bonus! Use my referral code: ${referralCode}\n\nSign up here:http://www.instacoinxpay.com/spinwheelhome\n\n#InstaCoinXPay #Crypto #Win`;
     
     window.open(`https://wa.me/?text=${encodeURIComponent(shareMessage)}`, '_blank');
     
