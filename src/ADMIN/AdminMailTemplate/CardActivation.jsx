@@ -13,39 +13,39 @@ const cardOptions = [
   {
     id: "merchant",
     title: "Merchant Visa Card",
-    price: "$20",
-    limit: "Withdraw Limit $25 One-Time",
+    price: "$100",
+    limit: "Withdraw Limit $10,000 / Day",
     image: merchantCard,
     theme: "debit-merchant"
   },
   {
     id: "classic",
     title: "Classic Visa Card",
-    price: "$100",
-    limit: "Withdraw Limit $5,000 / Month",
+    price: "$200",
+    limit: "Withdraw Limit $5,000 / ",
     image: classicCard,
     theme: "debit-classic"
   },
   {
     id: "prime",
     title: "Prime Visa Card",
-    price: "$250",
-    limit: "Withdraw Limit $20,000 / Month",
+    price: "$500",
+    limit: "Withdraw Limit $50,000 / Day",
     image: primeCard,
     theme: "debit-prime"
   },
   {
     id: "platinum",
     title: "Platinum Visa Card",
-    price: "$500",
-    limit: "Withdraw Limit $50,000 / Month",
+    price: "$1000",
+    limit: "Withdraw Limit $200,000 / Day",
     image: platinumCard,
     theme: "debit-platinum"
   },
   {
     id: "elite",
     title: "World Elite Visa Card",
-    price: "$1000",
+    price: "$2000",
     limit: "Withdraw Limit Unlimited",
     image: eliteCard,
     theme: "debit-elite"
