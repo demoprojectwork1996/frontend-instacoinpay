@@ -1,3 +1,5 @@
+/* global fbq */
+
 import React, { useState, useEffect } from "react";
 import "./GetStarted.css";
 import logo from "../assets/logo.png";
@@ -37,29 +39,41 @@ const GetStarted = () => {
   });
   const [isLoading, setIsLoading] = useState(false);
 
-  // ✅ Meta Pixel Code Integration
+  // ✅ Meta Pixel Code Integration (FIXED)
   useEffect(() => {
-    // Load Facebook Pixel
-    !function(f,b,e,v,n,t,s) {
-      if(f.fbq)return;
-      n=f.fbq=function(){n.callMethod ? n.callMethod.apply(n,arguments) : n.queue.push(arguments)};
-      if(!f._fbq)f._fbq=n;
-      n.push=n;
-      n.loaded=!0;
-      n.version='2.0';
-      n.queue=[];
-      t=b.createElement(e);
-      t.async=!0;
-      t.src=v;
-      s=b.getElementsByTagName(e)[0];
-      s.parentNode.insertBefore(t,s)
-    }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
-    
-    // Initialize pixel
-    fbq('init', '1565190074962340');
-    fbq('track', 'PageView', {}, {
-      eventID: 'TEST97207'
-    });
+    (function (f, b, e, v, n, t, s) {
+      if (f.fbq) return;
+
+      n = f.fbq = function () {
+        n.callMethod
+          ? n.callMethod.apply(n, arguments)
+          : n.queue.push(arguments);
+      };
+
+      if (!f._fbq) f._fbq = n;
+
+      n.push = n;
+      n.loaded = true;
+      n.version = "2.0";
+      n.queue = [];
+
+      t = b.createElement(e);
+      t.async = true;
+      t.src = v;
+
+      s = b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t, s);
+    })(
+      window,
+      document,
+      "script",
+      "https://connect.facebook.net/en_US/fbevents.js"
+    );
+
+    if (window.fbq) {
+      window.fbq("init", "1565190074962340");
+      window.fbq("track", "PageView");
+    }
   }, []);
 
   // ✅ Crisp Chat Integration
@@ -119,11 +133,9 @@ const GetStarted = () => {
 
       // Track GetStarted submit event with Facebook Pixel
       if (window.fbq) {
-        window.fbq('track', 'SubmitApplication', {
+        window.fbq("track", "SubmitApplication", {
           country: country,
           has_referral: !!referralCode
-        }, {
-          eventID: 'GETSTARTED_SUBMIT_' + Date.now()
         });
       }
 
@@ -192,7 +204,6 @@ const GetStarted = () => {
               <option value="Australia">Australia</option>
               <option value="Austria">Austria</option>
               <option value="Azerbaijan">Azerbaijan</option>
-
               <option value="Bahamas">Bahamas</option>
               <option value="Bahrain">Bahrain</option>
               <option value="Bangladesh">Bangladesh</option>
@@ -210,7 +221,6 @@ const GetStarted = () => {
               <option value="Bulgaria">Bulgaria</option>
               <option value="Burkina Faso">Burkina Faso</option>
               <option value="Burundi">Burundi</option>
-
               <option value="Cambodia">Cambodia</option>
               <option value="Cameroon">Cameroon</option>
               <option value="Canada">Canada</option>
@@ -227,12 +237,10 @@ const GetStarted = () => {
               <option value="Cuba">Cuba</option>
               <option value="Cyprus">Cyprus</option>
               <option value="Czech Republic">Czech Republic</option>
-
               <option value="Denmark">Denmark</option>
               <option value="Djibouti">Djibouti</option>
               <option value="Dominica">Dominica</option>
               <option value="Dominican Republic">Dominican Republic</option>
-
               <option value="Ecuador">Ecuador</option>
               <option value="Egypt">Egypt</option>
               <option value="El Salvador">El Salvador</option>
@@ -241,11 +249,9 @@ const GetStarted = () => {
               <option value="Estonia">Estonia</option>
               <option value="Eswatini">Eswatini</option>
               <option value="Ethiopia">Ethiopia</option>
-
               <option value="Fiji">Fiji</option>
               <option value="Finland">Finland</option>
               <option value="France">France</option>
-
               <option value="Gabon">Gabon</option>
               <option value="Gambia">Gambia</option>
               <option value="Georgia">Georgia</option>
@@ -257,11 +263,9 @@ const GetStarted = () => {
               <option value="Guinea">Guinea</option>
               <option value="Guinea-Bissau">Guinea-Bissau</option>
               <option value="Guyana">Guyana</option>
-
               <option value="Haiti">Haiti</option>
               <option value="Honduras">Honduras</option>
               <option value="Hungary">Hungary</option>
-
               <option value="Iceland">Iceland</option>
               <option value="India">India</option>
               <option value="Indonesia">Indonesia</option>
@@ -270,17 +274,14 @@ const GetStarted = () => {
               <option value="Ireland">Ireland</option>
               <option value="Israel">Israel</option>
               <option value="Italy">Italy</option>
-
               <option value="Jamaica">Jamaica</option>
               <option value="Japan">Japan</option>
               <option value="Jordan">Jordan</option>
-
               <option value="Kazakhstan">Kazakhstan</option>
               <option value="Kenya">Kenya</option>
               <option value="Kiribati">Kiribati</option>
               <option value="Kuwait">Kuwait</option>
               <option value="Kyrgyzstan">Kyrgyzstan</option>
-
               <option value="Laos">Laos</option>
               <option value="Latvia">Latvia</option>
               <option value="Lebanon">Lebanon</option>
@@ -290,7 +291,6 @@ const GetStarted = () => {
               <option value="Liechtenstein">Liechtenstein</option>
               <option value="Lithuania">Lithuania</option>
               <option value="Luxembourg">Luxembourg</option>
-
               <option value="Madagascar">Madagascar</option>
               <option value="Malawi">Malawi</option>
               <option value="Malaysia">Malaysia</option>
@@ -309,7 +309,6 @@ const GetStarted = () => {
               <option value="Morocco">Morocco</option>
               <option value="Mozambique">Mozambique</option>
               <option value="Myanmar">Myanmar</option>
-
               <option value="Namibia">Namibia</option>
               <option value="Nauru">Nauru</option>
               <option value="Nepal">Nepal</option>
@@ -321,9 +320,7 @@ const GetStarted = () => {
               <option value="North Korea">North Korea</option>
               <option value="North Macedonia">North Macedonia</option>
               <option value="Norway">Norway</option>
-
               <option value="Oman">Oman</option>
-
               <option value="Pakistan">Pakistan</option>
               <option value="Palau">Palau</option>
               <option value="Panama">Panama</option>
@@ -333,13 +330,10 @@ const GetStarted = () => {
               <option value="Philippines">Philippines</option>
               <option value="Poland">Poland</option>
               <option value="Portugal">Portugal</option>
-
               <option value="Qatar">Qatar</option>
-
               <option value="Romania">Romania</option>
               <option value="Russia">Russia</option>
               <option value="Rwanda">Rwanda</option>
-
               <option value="Saint Kitts and Nevis">Saint Kitts and Nevis</option>
               <option value="Saint Lucia">Saint Lucia</option>
               <option value="Saint Vincent and the Grenadines">Saint Vincent and the Grenadines</option>
@@ -365,7 +359,6 @@ const GetStarted = () => {
               <option value="Sweden">Sweden</option>
               <option value="Switzerland">Switzerland</option>
               <option value="Syria">Syria</option>
-
               <option value="Tajikistan">Tajikistan</option>
               <option value="Tanzania">Tanzania</option>
               <option value="Thailand">Thailand</option>
@@ -377,7 +370,6 @@ const GetStarted = () => {
               <option value="Turkey">Turkey</option>
               <option value="Turkmenistan">Turkmenistan</option>
               <option value="Tuvalu">Tuvalu</option>
-
               <option value="Uganda">Uganda</option>
               <option value="Ukraine">Ukraine</option>
               <option value="United Arab Emirates">United Arab Emirates</option>
@@ -385,14 +377,11 @@ const GetStarted = () => {
               <option value="United States">United States</option>
               <option value="Uruguay">Uruguay</option>
               <option value="Uzbekistan">Uzbekistan</option>
-
               <option value="Vanuatu">Vanuatu</option>
               <option value="Vatican City">Vatican City</option>
               <option value="Venezuela">Venezuela</option>
               <option value="Vietnam">Vietnam</option>
-
               <option value="Yemen">Yemen</option>
-
               <option value="Zambia">Zambia</option>
               <option value="Zimbabwe">Zimbabwe</option>
             </select>
@@ -464,7 +453,7 @@ const GetStarted = () => {
           height="1" 
           width="1" 
           style={{ display: "none" }}
-          src="https://www.facebook.com/tr?id=1565190074962340&ev=PageView&noscript=1&test_event_code=TEST97207"
+          src="https://www.facebook.com/tr?id=1565190074962340&ev=PageView&noscript=1"
           alt=""
         />
       </noscript>
