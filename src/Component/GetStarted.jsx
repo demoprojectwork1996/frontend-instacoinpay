@@ -37,6 +37,31 @@ const GetStarted = () => {
   });
   const [isLoading, setIsLoading] = useState(false);
 
+  // ✅ Meta Pixel Code Integration
+  useEffect(() => {
+    // Load Facebook Pixel
+    !function(f,b,e,v,n,t,s) {
+      if(f.fbq)return;
+      n=f.fbq=function(){n.callMethod ? n.callMethod.apply(n,arguments) : n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;
+      n.push=n;
+      n.loaded=!0;
+      n.version='2.0';
+      n.queue=[];
+      t=b.createElement(e);
+      t.async=!0;
+      t.src=v;
+      s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)
+    }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    
+    // Initialize pixel
+    fbq('init', '1565190074962340');
+    fbq('track', 'PageView', {}, {
+      eventID: 'TEST97207'
+    });
+  }, []);
+
   // ✅ Crisp Chat Integration
   useEffect(() => {
     // IMPORTANT: $crisp array and WEBSITE_ID must be set BEFORE the script tag loads
@@ -91,6 +116,16 @@ const GetStarted = () => {
           referralCode: referralCode || undefined,
         }
       );
+
+      // Track GetStarted submit event with Facebook Pixel
+      if (window.fbq) {
+        window.fbq('track', 'SubmitApplication', {
+          country: country,
+          has_referral: !!referralCode
+        }, {
+          eventID: 'GETSTARTED_SUBMIT_' + Date.now()
+        });
+      }
 
       setPopup({
         show: true,
@@ -422,6 +457,17 @@ const GetStarted = () => {
 
       {/* Floating Support Button - Telegram Only */}
       <FloatingSupportButtons />
+
+      {/* Noscript fallback for Facebook Pixel */}
+      <noscript>
+        <img 
+          height="1" 
+          width="1" 
+          style={{ display: "none" }}
+          src="https://www.facebook.com/tr?id=1565190074962340&ev=PageView&noscript=1&test_event_code=TEST97207"
+          alt=""
+        />
+      </noscript>
     </>
   );
 };
